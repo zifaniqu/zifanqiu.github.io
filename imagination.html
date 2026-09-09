@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
 
 <meta charset="UTF-8">
@@ -19,18 +20,22 @@ body{
     line-height:1.9;
 }
 
+/* 标题 */
+
 h1{
     text-align:center;
     font-weight:normal;
-    color:white;
+    color:#ffffff;
 }
 
 h2{
     text-align:center;
-    color:#9aa7b8;
+    color:#9a9a9a;
     font-weight:normal;
     margin-bottom:40px;
 }
+
+/* 简介 */
 
 .intro{
     text-align:center;
@@ -38,46 +43,76 @@ h2{
     margin-bottom:50px;
 }
 
+/* 题记 */
+
 .quote{
     text-align:center;
-    color:#cfd8e6;
+    color:#c0c0c0;
     font-style:italic;
     margin:40px 0;
 }
 
-/* 随笔卡片 */
+/* 卡片 */
 
 .essay-card{
     padding:25px;
     margin:35px 0;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.35);
+    border-radius:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25);
 }
 
-/* 卡片颜色 */
+/* 黑白灰配色 */
 
-.blue{
-    background:#4a658f;
-}
-.darkblue{
-    background:#3d5a80;
-}
-.gray{
-    background:#708090;
-}
-.navy{
-background:#1f3a5f;
-}
-.white{
-    background:#b0b0b0;
-    color:#111111;
-}
-.green{
-    background:#5f7f67;
-}
+/* 墨黑 */
+
 .dark{
-    background:#46505b;
+    background:#2b2b2b;
+    color:#f5f5f5;
 }
+
+/* 石墨灰 */
+
+.graphite{
+    background:#4d4d4d;
+    color:#f5f5f5;
+}
+
+/* 深灰 */
+
+.deep{
+    background:#666666;
+    color:#f5f5f5;
+}
+
+/* 中灰 */
+
+.gray{
+    background:#8c8c8c;
+    color:#ffffff;
+}
+
+/* 银灰 */
+
+.silver{
+    background:#bdbdbd;
+    color:#222222;
+}
+
+/* 浅灰 */
+
+.light{
+    background:#d9d9d9;
+    color:#222222;
+}
+
+/* 雾白 */
+
+.mist{
+    background:#eeeeee;
+    color:#222222;
+}
+
+/* 标题 */
 
 .title{
     font-size:1.2rem;
@@ -85,21 +120,29 @@ background:#1f3a5f;
     font-weight:bold;
 }
 
+/* 简介 */
+
 .desc{
-    color:#d8d8d8;
     font-size:0.95rem;
     margin-bottom:12px;
+    opacity:0.85;
 }
+
+/* 正文 */
 
 .short{
     font-style:italic;
     white-space:pre-line;
 }
 
+/* 链接 */
+
 a{
     text-decoration:none;
-    color:white;
+    color:inherit;
 }
+
+/* 页脚 */
 
 .footer{
     text-align:center;
@@ -108,7 +151,7 @@ a{
 }
 
 .footer a{
-    color:#cfd8e6;
+    color:#d0d0d0;
 }
 
 .footer a:hover{
@@ -143,43 +186,52 @@ On fantasy, nonsense, and dark humor.
 <div class="essay-card dark">
 
     <div class="title">
-       #逃犯
-            </a>
+        #逃犯
     </div>
 
     <div class="short">
+
 就杀死蚊子的次数而言
+
 我无疑是个头号逃犯
+
 一级恐怖分子
+
 和连环凶杀案主谋
 
+
 幸好
+
 蚊子没有统治世界
+
     </div>
 
 </div>
 
 <!-- 随笔2 -->
 
-<div class="essay-card white">
+<div class="essay-card light">
 
     <div class="title">
-        #
-            夏
-        </a>
+        #夏
     </div>
 
     <div class="short">
+
 一颗夏天的净含量是200克
 
 热烈酸涩的太阳色外壳
+
 盛以沁甜果肉
 
 青柯翠叶点缀出清凉
 
+
 嘿！
 
+
 要不要来一斤夏？
+
     </div>
 
 </div>
@@ -189,26 +241,27 @@ On fantasy, nonsense, and dark humor.
 <div class="essay-card gray">
 
     <div class="title">
-        <a href="#" style="color:#111111    </div>
+        #文章标题
+    </div>
 
     <div class="desc">
         这里填写简介。
     </div>
 
     <div class="short">
+
 “所有离别都比重逢更诚实。”
+
     </div>
 
 </div>
 
 <!-- 随笔4 -->
 
-<div class="essay-card white">
+<div class="essay-card silver">
 
     <div class="title">
-        #
-            文章标题
-        </a>
+        #文章标题
     </div>
 
     <div class="desc">
@@ -216,36 +269,59 @@ On fantasy, nonsense, and dark humor.
     </div>
 
     <div class="short">
+
 “城市从不失眠，只是换了一批做梦的人。”
+
     </div>
+
 </div>
+
 <!-- 随笔5 -->
 
-<div class="essay-card darkblue">
+<div class="essay-card graphite">
 
     <div class="title">
-        #
-            文章标题
-        </a>
+        #文章标题
     </div>
 
     <div class="short">
-“城市从不失眠，只是换了一批做梦的人。”
-    </div>
-</div>
-<!-- 随笔5 -->
 
-<div class="essay-card navy">
+“城市从不失眠，只是换了一批做梦的人。”
+
+    </div>
+
+</div>
+
+<!-- 随笔6 -->
+
+<div class="essay-card deep">
 
     <div class="title">
-        #
-            文章标题
-        </a>
+        #文章标题
     </div>
 
     <div class="short">
+
 “城市从不失眠，只是换了一批做梦的人。”
+
     </div>
+
+</div>
+
+<!-- 随笔7 -->
+
+<div class="essay-card mist">
+
+    <div class="title">
+        #文章标题
+    </div>
+
+    <div class="short">
+
+荒诞是现实照镜子时留下的影子。
+
+    </div>
+
 </div>
 
 <div class="footer">
