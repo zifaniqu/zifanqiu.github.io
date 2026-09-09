@@ -11,8 +11,8 @@
 <style>
 
 body{
-    background:#111111;
-    color:#e8e8e8;
+    background:#ECEFF1;
+    color:#222222;
     max-width:900px;
     margin:auto;
     padding:60px 25px;
@@ -20,94 +20,131 @@ body{
     line-height:1.9;
 }
 
+/* 标题 */
+
 h1{
     text-align:center;
+    color:#243447;
     font-weight:normal;
-    color:white;
 }
 
 h2{
     text-align:center;
-    color:#9aa7b8;
+    color:#5B616A;
     font-weight:normal;
     margin-bottom:40px;
 }
 
+/* 简介 */
+
 .intro{
     text-align:center;
-    color:#b0b0b0;
+    color:#5B616A;
     margin-bottom:50px;
 }
 
+/* 题记 */
+
 .quote{
     text-align:center;
-    color:#cfd8e6;
+    color:#4C6177;
     font-style:italic;
     margin:40px 0;
 }
 
+/* 卡片 */
+
 .essay-card{
-    border-left:4px solid #456b9d;
-    background:#1a1a1a;
-    padding:20px;
-    margin:25px 0;
-    transition:0.3s;
+    padding:25px;
+    margin:35px 0;
+    border-radius:14px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.essay-card:hover{
-    transform:translateX(5px);
-}
-
-.blue{
-    border-color:#6fa8ff;
-}
-
-.gray{
-    border-color:#999999;
-}
-
-.white{
-    border-color:#ffffff;
-}
-
-.dark{
-    border-color:#4d5664;
-}
+/* 卡片标题 */
 
 .title{
     font-size:1.2rem;
-    margin-bottom:8px;
+    font-weight:bold;
+    margin-bottom:10px;
 }
+
+/* 简介 */
 
 .desc{
-    color:#bdbdbd;
-    font-size:0.95rem;
+    margin-bottom:12px;
 }
 
+/* 正文 */
+
 .short{
-    color:#9ebce5;
-    font-style:italic;
-    margin-top:10px;
+    white-space:pre-line;
+    line-height:1.8;
 }
+
+/* 链接 */
 
 a{
     text-decoration:none;
-    color:white;
+    color:inherit;
 }
+
+/* 页脚 */
 
 .footer{
     text-align:center;
-    margin-top:60px;
+    color:#777777;
+    margin-top:70px;
 }
 
 .footer a{
-    color:#cfcfcf;
+    color:#4C6177;
+}
+
+.footer a:hover{
+    color:#243447;
+}
+
+/* ===================== */
+/* 思想缓行地配色 */
+/* ===================== */
+
+/* 石墨灰 */
+
+.graphite{
+    background:#5B616A;
+    color:#F8FAFC;
+}
+
+/* 墨蓝 */
+
+.ink{
+    background:#3D506B;
+    color:#F8FAFC;
+}
+
+/* 深青灰 */
+
+.slate{
+    background:#64707D;
+    color:#F8FAFC;
+}
+
+/* 冷银 */
+
+.silver{
+    background:#D8DDE3;
+    color:#222222;
+}
+
+/* 暗酒红 */
+
+.accent{
+    background:#7E4551;
+    color:#F8FAFC;
 }
 
 </style>
-
-</head>
-
 <body>
 
 <h1>思想缓行地</h1>
@@ -129,7 +166,7 @@ On questions, answers, and unfinished thoughts.
 
 <!-- 随笔1 -->
 
-<div class="essay-card blue">
+<div class="essay-card silver">
 
 <div class="title">
 
