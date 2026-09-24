@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>文摘</title>
+
+<style>
+
+body{
+    background:#f5f5f5;
+    color:#2a2a2a;
+    max-width:900px;
+    margin:auto;
+    padding:60px 25px;
+    font-family:"Noto Serif SC","Times New Roman",serif;
+    line-height:1.9;
+}
+
+/* 标题 */
+
+h1{
+    text-align:center;
+    color:#222222;
+    font-weight:normal;
+}
+
+h2{
+    text-align:center;
+    color:#6d6d6d;
+    font-weight:normal;
+    margin-bottom:40px;
+}
+
+/* 简介 */
+
+.intro{
+    text-align:center;
+    color:#666666;
+    margin-bottom:50px;
+}
+
+/* 题记 */
+
+.quote{
+    text-align:center;
+    color:#808080;
+    font-style:italic;
+    margin:40px 0;
+}
+
+/* 卡片总容器 */
+
+.card-container{
+    background:#fafafa;
+    border-left:6px solid #5c5c5c;
+    border-radius:18px;
+    padding:30px;
+    margin:50px 0;
+}
+
+/* 卡片 */
+
+.excerpt-card{
+    padding:25px;
+    margin:35px 0;
+    border-radius:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* 配色 */
+
+.dark{
+    background:#2b2b2b;
+    color:#f5f5f5;
+}
+
+.graphite{
+    background:#4d4d4d;
+    color:#f5f5f5;
+}
+
+.deep{
+    background:#666666;
+    color:#f5f5f5;
+}
+
+.gray{
+    background:#8c8c8c;
+    color:#ffffff;
+}
+
+.silver{
+    background:#bdbdbd;
+    color:#222222;
+}
+
+.light{
+    background:#d9d9d9;
+    color:#222222;
+}
+
+/* 标题 */
+
+.title{
+    font-size:1.15rem;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+/* 来源 */
+
+.source{
+    font-size:0.9rem;
+    opacity:0.8;
+    margin-bottom:15px;
+}
+
+/* 内容 */
+
+.content{
+    white-space:pre-line;
+    line-height:1.8;
+}
+
+/* 链接 */
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* 页脚 */
+
+.footer{
+    text-align:center;
+    margin-top:70px;
+    color:#777777;
+}
+
+.footer a{
+    color:#666666;
+}
+
+.footer a:hover{
+    color:#222222;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>残页馆</h1>
+
+<h2>Excerpts</h2>
+
+<div class="intro">
+
+关于文字、阅读与偶然的共鸣。<br>
+On books, notes, and borrowed sparks.
+
+</div>
+
+<div class="quote">
+
+“读书如树木，不可求骤长。”
+
+</div>
+
+<div class="card-container">
+
+    <!-- 文摘 1 -->
+
+    <div class="excerpt-card dark">
+
+        <div class="title">
+            #《悉达多》
+        </div>
+
+        <div class="source">
+            Hermann Hesse
+        </div>
+
+        <div class="content">
+
+人在寻找时，
+往往只会看见自己正在寻找的东西。
+
+        </div>
+
+    </div>
+
+    <!-- 文摘 2 -->
+
+    <div class="excerpt-card graphite">
+
+        <div class="title">
+            #《小王子》
+        </div>
+
+        <div class="source">
+            Antoine de Saint-Exupéry
+        </div>
+
+        <div class="content">
+
+真正重要的东西，
+用眼睛是看不见的。
+
+        </div>
+
+    </div>
+
+    <!-- 文摘 3 -->
+
+    <div class="excerpt-card gray">
+
+        <div class="title">
+            #阅读笔记
+        </div>
+
+        <div class="source">
+            Personal Notes
+        </div>
+
+        <div class="content">
+
+有些句子不是答案。
+
+它们只是让问题变得更清晰。
+
+        </div>
+
+    </div>
+
+    <!-- 文摘 4 -->
+
+    <div class="excerpt-card silver">
+
+        <div class="title">
+            #《瓦尔登湖》
+        </div>
+
+        <div class="source">
+            Henry David Thoreau
+        </div>
+
+        <div class="content">
+
+大多数人都过着平静绝望的生活。
+
+        </div>
+
+    </div>
+
+    <!-- 文摘 5 -->
+
+    <div class="excerpt-card light">
+
+        <div class="title">
+            #摘录
+        </div>
+
+        <div class="source">
+            Waiting for More
+        </div>
+
+        <div class="content">
+
+留给未来的空白。
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="footer">
+
+    <a href="index.html">
+        返回首页<br>
+        Back Home
+    </a>
+
+</div>
+
+</body>
+
+</html>
