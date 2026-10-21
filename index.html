@@ -1,19 +1,21 @@
+d
 
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <meta name="theme-color" content="#080808">
 <meta name="description" content="Vesper 的幻想观测局。收录故事、风景、思想与未完成的念头。">
 
 <title>幻想观测局 — Vesper's Fantasy Observatory</title>
 
 <style>
-/* =========================================
-   01. GLOBAL
-========================================= */
+/* ========================================
+   01. 基础设置
+   黑 / 白 / 灰
+======================================== */
 
 :root {
     --black: #080808;
@@ -44,7 +46,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 24px;
+    scroll-padding-top: 28px;
     background: var(--black);
 }
 
@@ -73,8 +75,13 @@ a:focus-visible {
     outline-offset: 5px;
 }
 
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+img,
 svg {
-    display: block;
     max-width: 100%;
 }
 
@@ -101,9 +108,9 @@ svg {
 }
 
 
-/* =========================================
-   02. TOP NAVIGATION
-========================================= */
+/* ========================================
+   02. 顶部导航
+======================================== */
 
 .topbar {
     min-height: 76px;
@@ -143,266 +150,137 @@ svg {
     display: flex;
     align-items: center;
     gap: clamp(16px, 3vw, 38px);
-    color: var(--gray-2);
     font-size: 10px;
     letter-spacing: .16em;
+    color: var(--gray-2);
 }
 
 .top-nav a {
     padding-block: 12px;
+    transition: color .2s ease;
+}
+
+.top-nav a:hover {
+    color: var(--white);
 }
 
 
-/* =========================================
-   03. ORBITAL OBSERVATORY
-   动态空间观测装置
-========================================= */
+/* ========================================
+   03. 首屏：实验性标题排版
+======================================== */
 
-.orbit-hero {
-    position: relative;
-    isolation: isolate;
-    display: grid;
-    grid-template-columns:
-        minmax(0, .86fr)
-        minmax(0, 1.14fr);
-    align-items: center;
-    gap: clamp(20px, 3.5vw, 58px);
-
-    min-height: min(860px, calc(100svh - 76px));
-    padding: clamp(44px, 5.5vw, 82px) 0;
-
+.hero {
+    padding-top: clamp(62px, 9vw, 132px);
+    padding-bottom: clamp(62px, 8vw, 112px);
     border-bottom: 1px solid var(--line);
-    overflow: hidden;
 }
 
-/* 巨型背景文字：低对比度，不干扰阅读 */
-
-.orbit-hero::before {
-    content: "ARCHIVE";
-    position: absolute;
-    z-index: -1;
-    top: 5%;
-    right: -.06em;
-
-    color: rgba(255, 255, 255, .025);
-    font-family: Arial, sans-serif;
-    font-size: clamp(100px, 17vw, 230px);
-    font-weight: 700;
-    letter-spacing: -.09em;
-    line-height: 1;
-    white-space: nowrap;
-    pointer-events: none;
-}
-
-/* 左侧文字 */
-
-.orbit-copy {
-    position: relative;
-    z-index: 2;
-    min-width: 0;
-}
-
-.orbit-meta {
+.hero-kicker {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-
-    max-width: 440px;
-    padding-bottom: 13px;
-    margin-bottom: clamp(35px, 5vw, 65px);
-
-    border-bottom: 1px solid #393939;
+    gap: 16px;
+    margin-bottom: clamp(35px, 5vw, 72px);
     color: var(--gray-2);
-
-    font-size: 9px;
-    letter-spacing: .12em;
-    line-height: 1.8;
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
 }
 
-.orbit-title {
+.hero-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(170px, .32fr);
+    align-items: end;
+    gap: clamp(20px, 4vw, 60px);
+}
+
+.hero-title {
+    min-width: 0;
     margin: 0;
-    padding: 0;
-    text-align: left;
-
     font-family: var(--font-display);
-    font-size: clamp(66px, 8.3vw, 122px);
+    font-size: clamp(80px, 15vw, 208px);
     font-weight: 400;
-    letter-spacing: -.085em;
-    line-height: .98;
+    line-height: .86;
+    letter-spacing: -.09em;
 }
 
-.orbit-title span {
+.hero-title span {
     display: block;
     width: fit-content;
     max-width: 100%;
 }
 
-.orbit-title .outline {
-    margin-top: .12em;
-    margin-left: .2em;
-
+.hero-title .outline {
+    margin-top: .07em;
     color: transparent;
     -webkit-text-stroke: 1px var(--white);
+    text-stroke: 1px var(--white);
 }
 
-.orbit-english {
-    margin: 29px 0 0;
+.hero-side {
+    max-width: 240px;
+    justify-self: end;
+    padding: 12px 0 8px 18px;
+    border-left: 1px solid var(--gray-2);
     color: var(--gray-2);
-
-    font-family: Arial, sans-serif;
-    font-size: 9px;
-    letter-spacing: .15em;
-    line-height: 2.1;
-}
-
-.orbit-description {
-    margin: 24px 0 0;
-    color: var(--gray-1);
-
-    font-family: var(--font-display);
-    font-size: 15px;
+    font-size: 11px;
     line-height: 2;
-    letter-spacing: .04em;
+    letter-spacing: .08em;
 }
 
-/* 进入作品目录 */
+.hero-side strong {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .16em;
+}
 
-.orbit-enter {
-    display: flex;
-    justify-content: space-between;
+.hero-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: end;
+    gap: 28px;
+    margin-top: clamp(46px, 7vw, 94px);
+}
+
+.hero-description {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.5vw, 21px);
+    line-height: 1.9;
+}
+
+.hero-translation {
+    max-width: 260px;
+    margin: 0;
+    color: var(--gray-2);
+    font-size: 10px;
+    line-height: 2;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.scroll-link {
+    display: inline-flex;
     align-items: center;
-    gap: 24px;
-
-    width: min(100%, 285px);
-    padding: 13px 0;
-    margin-top: 31px;
-
-    border-top: 1px solid var(--gray-2);
-    border-bottom: 1px solid var(--line);
-
+    gap: 10px;
+    white-space: nowrap;
     color: var(--gray-1);
-    font-size: 9px;
-    letter-spacing: .14em;
+    font-size: 10px;
+    letter-spacing: .12em;
+    transition: color .2s ease;
 }
 
-.orbit-enter-arrow {
-    font-size: 21px;
-    line-height: 1;
-}
-
-
-/* =========================================
-   04. ORBITAL GRAPHIC
-========================================= */
-
-.orbit-visual {
-    position: relative;
-    width: 100%;
-    max-width: 650px;
-    aspect-ratio: 1;
-    justify-self: center;
-    min-width: 0;
-}
-
-.orbit-visual svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
-
-.orbit-line {
-    fill: none;
-    stroke: #dededc;
-    stroke-width: 1;
-    vector-effect: non-scaling-stroke;
-}
-
-.orbit-faint {
-    opacity: .12;
-}
-
-.orbit-dim {
-    opacity: .32;
-}
-
-.orbit-bright {
-    opacity: .72;
-}
-
-.orbit-dashed {
-    stroke-dasharray: 1.5 7;
-}
-
-.orbit-node {
-    fill: #f1f1ef;
-}
-
-.orbit-hollow-node {
-    fill: var(--black);
-    stroke: #e6e6e4;
-    stroke-width: 1.2;
-}
-
-.orbit-station {
-    fill: none;
-    stroke: #dededc;
-    stroke-width: 1;
-    stroke-linecap: square;
-    opacity: .78;
-    vector-effect: non-scaling-stroke;
-}
-
-.orbit-label {
-    fill: #858583;
-    font-family: Arial, sans-serif;
-    font-size: 9px;
-    letter-spacing: 2px;
-}
-
-/* 不同层独立旋转 */
-
-.orbit-layer {
-    transform-box: view-box;
-    transform-origin: 50% 50%;
-    will-change: transform;
-}
-
-.orbit-layer--outer {
-    animation: orbit-clockwise 46s linear infinite;
-}
-
-.orbit-layer--middle {
-    animation: orbit-counterclockwise 34s linear infinite;
-}
-
-.orbit-layer--inner {
-    animation: orbit-clockwise 23s linear infinite;
-}
-
-@keyframes orbit-clockwise {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes orbit-counterclockwise {
-    from {
-        transform: rotate(360deg);
-    }
-    to {
-        transform: rotate(0deg);
-    }
+.scroll-link:hover {
+    color: var(--white);
 }
 
 
-/* =========================================
-   05. COLLECTION INDEX
-========================================= */
+/* ========================================
+   04. 作品索引
+======================================== */
 
 .index-intro {
     display: flex;
@@ -417,6 +295,7 @@ svg {
     font-size: 11px;
     font-weight: 400;
     letter-spacing: .2em;
+    text-transform: uppercase;
 }
 
 .index-intro p {
@@ -501,9 +380,9 @@ svg {
 }
 
 
-/* =========================================
-   06. WORK LINKS
-========================================= */
+/* ========================================
+   05. 作品列表
+======================================== */
 
 .item-list {
     min-width: 0;
@@ -515,11 +394,9 @@ svg {
     grid-template-columns: 29px minmax(0, 1fr) 20px;
     gap: 12px;
     align-items: start;
-
     min-width: 0;
     margin-inline: -12px;
     padding: 18px 12px;
-
     border-bottom: 1px solid var(--line);
     transition:
         background-color .22s ease,
@@ -577,10 +454,12 @@ svg {
     color: var(--gray-2);
     font-size: 17px;
     line-height: 1;
-    transition: transform .22s ease;
+    transition:
+        transform .22s ease,
+        color .22s ease;
 }
 
-/* 只对真实作品链接提供鼠标反馈 */
+/* 仅在支持鼠标悬停的设备上应用整行反色 */
 
 @media (hover: hover) and (pointer: fine) {
     .item[href]:hover {
@@ -602,6 +481,8 @@ svg {
     }
 }
 
+/* 触屏设备：点击时提供反馈，不依赖悬停 */
+
 .item[href]:active {
     background: #292929;
     color: var(--white);
@@ -615,9 +496,9 @@ svg {
 }
 
 
-/* =========================================
-   07. UNPUBLISHED SECTIONS
-========================================= */
+/* ========================================
+   06. 暂未开放的栏目
+======================================== */
 
 .status-item {
     display: grid;
@@ -639,6 +520,7 @@ svg {
     padding: 4px 7px;
     border: 1px solid var(--gray-3);
     color: var(--gray-2);
+    font-family: var(--font-ui);
     font-size: 9px;
     letter-spacing: .12em;
 }
@@ -648,9 +530,9 @@ svg {
 }
 
 
-/* =========================================
-   08. FOOTER
-========================================= */
+/* ========================================
+   07. 页脚
+======================================== */
 
 .footer {
     padding-block: 28px 35px;
@@ -686,6 +568,11 @@ svg {
     color: var(--gray-1);
     font-size: 10px;
     letter-spacing: .12em;
+    transition: color .2s ease;
+}
+
+.back-top:hover {
+    color: var(--white);
 }
 
 .footer-bottom {
@@ -701,52 +588,39 @@ svg {
 }
 
 
-/* =========================================
-   09. TABLET
-========================================= */
+/* ========================================
+   08. 平板和手机
+======================================== */
 
 @media (max-width: 820px) {
     :root {
         --page-padding: 28px;
     }
 
-    .orbit-hero {
+    .hero-main {
         grid-template-columns: minmax(0, 1fr);
-        gap: 18px;
-        min-height: auto;
-        padding-block: 46px 34px;
+        gap: 28px;
     }
 
-    .orbit-hero::before {
-        top: 24%;
-        right: -.08em;
-        font-size: 25vw;
+    .hero-title {
+        font-size: clamp(76px, 16.5vw, 132px);
     }
 
-    .orbit-meta {
-        max-width: 100%;
-        margin-bottom: 36px;
+    .hero-side {
+        justify-self: start;
+        max-width: 330px;
+        padding-left: 14px;
     }
 
-    .orbit-title {
-        font-size: clamp(70px, 13vw, 104px);
+    .hero-bottom {
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
     }
 
-    .orbit-english {
-        margin-top: 22px;
-    }
-
-    .orbit-description {
-        margin-top: 17px;
-    }
-
-    .orbit-enter {
-        margin-top: 23px;
-    }
-
-    .orbit-visual {
-        width: min(88vw, 480px);
-        margin-inline: auto;
+    .scroll-link {
+        grid-column: 1 / -1;
+        justify-self: start;
+        margin-top: 12px;
     }
 
     .archive-grid {
@@ -767,9 +641,9 @@ svg {
 }
 
 
-/* =========================================
-   10. SMALL MOBILE
-========================================= */
+/* ========================================
+   09. 小屏手机
+======================================== */
 
 @media (max-width: 480px) {
     :root {
@@ -799,46 +673,51 @@ svg {
         letter-spacing: .1em;
     }
 
-    .orbit-hero {
-        padding-top: 38px;
-        padding-bottom: 26px;
-        gap: 14px;
+    .hero {
+        padding-top: 58px;
+        padding-bottom: 60px;
     }
 
-    .orbit-meta {
+    .hero-kicker {
         align-items: start;
         font-size: 8px;
-        letter-spacing: .08em;
-        margin-bottom: 34px;
+        letter-spacing: .1em;
+        margin-bottom: 40px;
     }
 
-    .orbit-title {
-        font-size: clamp(58px, 16.5vw, 82px);
+    .hero-title {
+        font-size: clamp(62px, 17.2vw, 82px);
         letter-spacing: -.09em;
-        line-height: 1;
+        line-height: .92;
     }
 
-    .orbit-title .outline {
+    .hero-title .outline {
         -webkit-text-stroke-width: .8px;
     }
 
-    .orbit-english {
-        font-size: 8px;
-        letter-spacing: .12em;
-        margin-top: 19px;
+    .hero-side {
+        font-size: 10px;
+        line-height: 1.9;
     }
 
-    .orbit-description {
-        font-size: 14px;
+    .hero-bottom {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 15px;
+        margin-top: 42px;
     }
 
-    .orbit-enter {
-        margin-top: 19px;
+    .hero-description {
+        font-size: 16px;
     }
 
-    .orbit-visual {
-        width: 100%;
-        max-width: 400px;
+    .hero-translation {
+        max-width: 260px;
+        font-size: 9px;
+    }
+
+    .scroll-link {
+        grid-column: auto;
+        margin-top: 15px;
     }
 
     .index-intro {
@@ -922,24 +801,20 @@ svg {
 }
 
 
-/* =========================================
-   11. REDUCED MOTION
-========================================= */
+/* ========================================
+   10. 减少动态效果的系统设置
+======================================== */
 
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
     }
 
-    .orbit-layer--outer,
-    .orbit-layer--middle,
-    .orbit-layer--inner {
-        animation: none;
-    }
-
     *,
     *::before,
     *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
     }
 }
@@ -952,16 +827,13 @@ svg {
 
 <div class="site-shell">
 
-    <!-- TOP NAVIGATION -->
+    <!-- 顶部导航 -->
 
     <header class="topbar">
 
-        <a class="brand" href="#top"
-           aria-label="返回幻想观测局首页顶部">
-
+        <a class="brand" href="#top" aria-label="返回幻想观测局首页顶部">
             <span class="brand-mark">V.</span>
             <span class="brand-name">VESPER / ARCHIVE</span>
-
         </a>
 
         <nav class="top-nav" aria-label="主导航">
@@ -972,383 +844,63 @@ svg {
     </header>
 
 
+    <!-- 首屏 -->
+
     <main>
 
-        <!-- =================================
-             HERO / 动态空间观测装置
-        ================================== -->
+        <section class="hero" aria-labelledby="main-title">
 
-        <section class="orbit-hero"
-                 aria-labelledby="main-title">
+            <div class="hero-kicker">
+                <span>PERSONAL ARCHIVE / VOL. 01</span>
+                <span>2026 — ONGOING</span>
+            </div>
 
-            <!-- 左侧文字 -->
+            <div class="hero-main">
 
-            <div class="orbit-copy">
-
-                <div class="orbit-meta">
-                    <span>PERSONAL ARCHIVE / VOL. 01</span>
-                    <span>2026 — ONGOING</span>
-                </div>
-
-                <h1 class="orbit-title" id="main-title">
+                <h1 class="hero-title" id="main-title">
                     <span>幻想</span>
                     <span class="outline">观测局</span>
                 </h1>
 
-                <p class="orbit-english">
-                    AN OPEN ARCHIVE<br>
-                    STORIES / LANDSCAPES / THOUGHTS<br>
+                <aside class="hero-side">
+                    <strong>AN OPEN ARCHIVE</strong>
+                    STORIES<br>
+                    LANDSCAPES<br>
+                    THOUGHTS<br>
                     UNFINISHED IDEAS
-                </p>
+                </aside>
 
-                <p class="orbit-description">
+            </div>
+
+            <div class="hero-bottom">
+
+                <p class="hero-description">
                     故事、风景、思考，<br>
                     以及尚未归档的未来。
                 </p>
 
-                <a class="orbit-enter" href="#collections">
-                    <span>EXPLORE THE ARCHIVE</span>
-                    <span class="orbit-enter-arrow"
-                          aria-hidden="true">↘</span>
+                <p class="hero-translation">
+                    A collection of stories,
+                    landscapes, thoughts,
+                    and future yet to be named.
+                </p>
+
+                <a class="scroll-link" href="#collections">
+                    EXPLORE THE ARCHIVE <span aria-hidden="true">↓</span>
                 </a>
-
-            </div>
-
-
-            <!-- 右侧轨道系统 -->
-
-            <div class="orbit-visual" aria-hidden="true">
-
-                <svg viewBox="0 0 600 600"
-                     xmlns="http://www.w3.org/2000/svg">
-
-                    <!-- 静止的参考坐标轴 -->
-
-                    <g class="orbit-line orbit-faint">
-                        <line x1="300" y1="12"
-                              x2="300" y2="588"/>
-
-                        <line x1="12" y1="300"
-                              x2="588" y2="300"/>
-
-                        <line x1="100" y1="100"
-                              x2="500" y2="500"/>
-
-                        <line x1="100" y1="500"
-                              x2="500" y2="100"/>
-
-                        <circle cx="300" cy="300" r="270"/>
-                    </g>
-
-
-                    <!-- OUTER RING
-                         外层轨道与空间站结构 -->
-
-                    <g class="orbit-layer orbit-layer--outer">
-
-                        <ellipse class="orbit-line orbit-bright"
-                                 cx="300" cy="300"
-                                 rx="247" ry="213"/>
-
-                        <ellipse class="orbit-line orbit-dashed orbit-dim"
-                                 cx="300" cy="300"
-                                 rx="266" ry="230"
-                                 transform="rotate(24 300 300)"/>
-
-                        <ellipse class="orbit-line orbit-faint"
-                                 cx="300" cy="300"
-                                 rx="230" ry="266"
-                                 transform="rotate(-17 300 300)"/>
-
-                        <path class="orbit-line orbit-dim"
-                              d="M 65 265
-                                 A 250 220 0 0 1 470 120"/>
-
-                        <path class="orbit-line orbit-bright"
-                              d="M 90 390
-                                 A 240 205 0 0 0 515 260"/>
-
-                        <circle class="orbit-node"
-                                cx="547" cy="300" r="5"/>
-
-                        <circle class="orbit-hollow-node"
-                                cx="105" cy="420" r="8"/>
-
-                        <circle class="orbit-node"
-                                cx="300" cy="87" r="4"/>
-
-                        <circle class="orbit-node"
-                                cx="180" cy="113" r="3"/>
-
-
-                        <!-- 空间站模块 A -->
-
-                        <g transform="translate(480 153) rotate(28)">
-
-                            <g class="orbit-station">
-
-                                <line x1="-34" y1="0"
-                                      x2="34" y2="0"/>
-
-                                <line x1="-28" y1="-12"
-                                      x2="-28" y2="12"/>
-
-                                <line x1="-17" y1="-25"
-                                      x2="-17" y2="25"/>
-
-                                <line x1="-5" y1="-38"
-                                      x2="-5" y2="38"/>
-
-                                <line x1="7" y1="-19"
-                                      x2="7" y2="19"/>
-
-                                <line x1="19" y1="-31"
-                                      x2="19" y2="31"/>
-
-                                <line x1="30" y1="-10"
-                                      x2="30" y2="10"/>
-
-                                <line x1="-34" y1="-15"
-                                      x2="34" y2="-15"/>
-
-                                <line x1="-34" y1="15"
-                                      x2="34" y2="15"/>
-
-                            </g>
-
-                            <circle class="orbit-hollow-node"
-                                    cx="0" cy="0" r="5"/>
-
-                        </g>
-
-
-                        <!-- 空间站模块 B -->
-
-                        <g transform="translate(118 432) rotate(-22)">
-
-                            <g class="orbit-station">
-
-                                <line x1="-30" y1="0"
-                                      x2="30" y2="0"/>
-
-                                <line x1="-22" y1="-17"
-                                      x2="-22" y2="17"/>
-
-                                <line x1="-10" y1="-32"
-                                      x2="-10" y2="32"/>
-
-                                <line x1="2" y1="-22"
-                                      x2="2" y2="22"/>
-
-                                <line x1="14" y1="-39"
-                                      x2="14" y2="39"/>
-
-                                <line x1="26" y1="-13"
-                                      x2="26" y2="13"/>
-
-                            </g>
-
-                            <circle class="orbit-hollow-node"
-                                    cx="0" cy="0" r="5"/>
-
-                        </g>
-
-
-                        <!-- 另一组不规则线束 -->
-
-                        <g transform="translate(170 180) rotate(-34)">
-
-                            <g class="orbit-station">
-
-                                <line x1="-25" y1="0"
-                                      x2="25" y2="0"/>
-
-                                <line x1="-20" y1="-10"
-                                      x2="-20" y2="10"/>
-
-                                <line x1="-8" y1="-28"
-                                      x2="-8" y2="28"/>
-
-                                <line x1="5" y1="-19"
-                                      x2="5" y2="19"/>
-
-                                <line x1="17" y1="-34"
-                                      x2="17" y2="34"/>
-
-                            </g>
-
-                        </g>
-
-                    </g>
-
-
-                    <!-- MIDDLE RING
-                         中层反向旋转 -->
-
-                    <g class="orbit-layer orbit-layer--middle">
-
-                        <ellipse class="orbit-line orbit-bright"
-                                 cx="300" cy="300"
-                                 rx="188" ry="148"
-                                 transform="rotate(-32 300 300)"/>
-
-                        <circle class="orbit-line orbit-dashed orbit-dim"
-                                cx="300" cy="300" r="176"/>
-
-                        <ellipse class="orbit-line orbit-dim"
-                                 cx="300" cy="300"
-                                 rx="140" ry="194"
-                                 transform="rotate(17 300 300)"/>
-
-                        <path class="orbit-line orbit-dim"
-                              d="M 165 210
-                                 A 170 170 0 0 1 430 230"/>
-
-                        <circle class="orbit-node"
-                                cx="300" cy="124" r="5"/>
-
-                        <circle class="orbit-node"
-                                cx="115" cy="300" r="3.5"/>
-
-                        <circle class="orbit-hollow-node"
-                                cx="430" cy="430" r="7"/>
-
-                        <circle class="orbit-node"
-                                cx="420" cy="180" r="3"/>
-
-
-                        <!-- 空间站模块 C -->
-
-                        <g transform="translate(438 188) rotate(40)">
-
-                            <g class="orbit-station">
-
-                                <line x1="-28" y1="0"
-                                      x2="28" y2="0"/>
-
-                                <line x1="-18" y1="-15"
-                                      x2="-18" y2="15"/>
-
-                                <line x1="-6" y1="-28"
-                                      x2="-6" y2="28"/>
-
-                                <line x1="6" y1="-19"
-                                      x2="6" y2="19"/>
-
-                                <line x1="18" y1="-33"
-                                      x2="18" y2="33"/>
-
-                                <line x1="28" y1="-12"
-                                      x2="28" y2="12"/>
-
-                            </g>
-
-                        </g>
-
-                    </g>
-
-
-                    <!-- INNER RING
-                         内层独立旋转 -->
-
-                    <g class="orbit-layer orbit-layer--inner">
-
-                        <circle class="orbit-line orbit-bright"
-                                cx="300" cy="300" r="112"/>
-
-                        <circle class="orbit-line orbit-dashed orbit-dim"
-                                cx="300" cy="300" r="88"/>
-
-                        <ellipse class="orbit-line orbit-dim"
-                                 cx="300" cy="300"
-                                 rx="72" ry="126"
-                                 transform="rotate(-38 300 300)"/>
-
-                        <circle class="orbit-node"
-                                cx="412" cy="300" r="4"/>
-
-                        <circle class="orbit-node"
-                                cx="300" cy="188" r="3"/>
-
-                        <circle class="orbit-hollow-node"
-                                cx="226" cy="226" r="5"/>
-
-                        <path class="orbit-line orbit-dim"
-                              d="M 225 320
-                                 A 85 85 0 0 0 360 350"/>
-
-                    </g>
-
-
-                    <!-- 固定的中心核心 -->
-
-                    <g>
-
-                        <circle class="orbit-line orbit-bright"
-                                cx="300" cy="300" r="26"/>
-
-                        <circle class="orbit-line orbit-dim"
-                                cx="300" cy="300" r="13"/>
-
-                        <circle class="orbit-node"
-                                cx="300" cy="300" r="2.5"/>
-
-                        <path class="orbit-line orbit-bright"
-                              d="M300 268 V286
-                                 M300 314 V332
-                                 M268 300 H286
-                                 M314 300 H332"/>
-
-                        <path class="orbit-line orbit-dim"
-                              d="M281 281 L292 292
-                                 M308 308 L319 319
-                                 M319 281 L308 292
-                                 M292 308 L281 319"/>
-
-                    </g>
-
-
-                    <!-- 技术标记 -->
-
-                    <g class="orbit-label">
-
-                        <text x="315" y="43">
-                            OBS / 01
-                        </text>
-
-                        <text x="442" y="553">
-                            ORBITAL ARRAY
-                        </text>
-
-                        <text x="31" y="321">
-                            FIELD
-                        </text>
-
-                    </g>
-
-                </svg>
 
             </div>
 
         </section>
 
 
-        <!-- =================================
-             COLLECTION INDEX
-             原有作品索引
-        ================================== -->
+        <!-- 作品索引 -->
 
-        <section id="collections"
-                 aria-labelledby="index-title">
+        <section id="collections" aria-labelledby="index-title">
 
             <div class="index-intro">
-
-                <h2 id="index-title">
-                    COLLECTION INDEX
-                </h2>
-
+                <h2 id="index-title">COLLECTION INDEX</h2>
                 <p>作品索引 / 持续收录中</p>
-
             </div>
 
 
@@ -1367,14 +919,11 @@ svg {
                         <div>
                             <h3 id="fiction-title">
                                 短篇人生
-                                <span class="section-en">
-                                    SHORT FICTION
-                                </span>
+                                <span class="section-en">SHORT FICTION</span>
                             </h3>
                         </div>
 
                     </header>
-
 
                     <div class="item-list">
 
@@ -1383,23 +932,18 @@ svg {
                             <span class="item-index">01</span>
 
                             <span class="item-main">
-
                                 <span class="item-title">
                                     23:17（原名：妄死鬼）
                                 </span>
-
                                 <span class="item-en">
                                     Ghost of 23:17
                                 </span>
-
                                 <span class="item-desc">
                                     关于青春、幻想、成长与陪伴。
                                 </span>
-
                             </span>
 
-                            <span class="item-arrow"
-                                  aria-hidden="true">↗</span>
+                            <span class="item-arrow" aria-hidden="true">↗</span>
 
                         </a>
 
@@ -1409,23 +953,16 @@ svg {
                             <span class="item-index">02</span>
 
                             <span class="item-main">
-
-                                <span class="item-title">
-                                    Ms.247
-                                </span>
-
+                                <span class="item-title">Ms.247</span>
                                 <span class="item-en">
                                     A Story of Attachment and Love
                                 </span>
-
                                 <span class="item-desc">
                                     关于陪伴、依恋与爱。
                                 </span>
-
                             </span>
 
-                            <span class="item-arrow"
-                                  aria-hidden="true">↗</span>
+                            <span class="item-arrow" aria-hidden="true">↗</span>
 
                         </a>
 
@@ -1435,29 +972,23 @@ svg {
                             <span class="item-index">03</span>
 
                             <span class="item-main">
-
-                                <span class="item-title">
-                                    垃圾人
-                                </span>
-
+                                <span class="item-title">垃圾人</span>
                                 <span class="item-en">
                                     The One Called Trash
                                 </span>
-
                                 <span class="item-desc">
                                     关于梦境与自我认知。
                                 </span>
-
                             </span>
 
-                            <span class="item-arrow"
-                                  aria-hidden="true">↗</span>
+                            <span class="item-arrow" aria-hidden="true">↗</span>
 
                         </a>
 
                     </div>
 
                 </section>
+
 
 
                 <!-- 02 科幻 -->
@@ -1480,13 +1011,11 @@ svg {
 
                     </header>
 
-
                     <div class="status-item">
 
                         <span class="item-index">—</span>
 
                         <div class="item-main">
-
                             <span class="item-title">
                                 未知领域
                             </span>
@@ -1502,12 +1031,12 @@ svg {
                             <span class="status-label">
                                 IN PROGRESS
                             </span>
-
                         </div>
 
                     </div>
 
                 </section>
+
 
 
                 <!-- 03 随笔 -->
@@ -1523,13 +1052,12 @@ svg {
                             <h3 id="essays-title">
                                 随笔
                                 <span class="section-en">
-                                    ESSAYS &amp; OBSERVATIONS
+                                    ESSAYS & OBSERVATIONS
                                 </span>
                             </h3>
                         </div>
 
                     </header>
-
 
                     <div class="item-list">
 
@@ -1538,23 +1066,18 @@ svg {
                             <span class="item-index">01</span>
 
                             <span class="item-main">
-
                                 <span class="item-title">
                                     漫步过世界的海
                                 </span>
-
                                 <span class="item-en">
                                     Seas Wandered Across the World
                                 </span>
-
                                 <span class="item-desc">
                                     关于窗、视觉与远方。
                                 </span>
-
                             </span>
 
-                            <span class="item-arrow"
-                                  aria-hidden="true">↗</span>
+                            <span class="item-arrow" aria-hidden="true">↗</span>
 
                         </a>
 
@@ -1564,23 +1087,18 @@ svg {
                             <span class="item-index">02</span>
 
                             <span class="item-main">
-
                                 <span class="item-title">
                                     思想缓行地
                                 </span>
-
                                 <span class="item-en">
                                     Thoughts in Transit
                                 </span>
-
                                 <span class="item-desc">
                                     关于问题、答案与未完成的思考。
                                 </span>
-
                             </span>
 
-                            <span class="item-arrow"
-                                  aria-hidden="true">↗</span>
+                            <span class="item-arrow" aria-hidden="true">↗</span>
 
                         </a>
 
@@ -1590,23 +1108,18 @@ svg {
                             <span class="item-index">03</span>
 
                             <span class="item-main">
-
                                 <span class="item-title">
                                     生活万花筒
                                 </span>
-
                                 <span class="item-en">
                                     Kaleidoscope of Life
                                 </span>
-
                                 <span class="item-desc">
                                     关于少年、日常与烟火气。
                                 </span>
-
                             </span>
 
-                            <span class="item-arrow"
-                                  aria-hidden="true">↗</span>
+                            <span class="item-arrow" aria-hidden="true">↗</span>
 
                         </a>
 
@@ -1616,29 +1129,25 @@ svg {
                             <span class="item-index">04</span>
 
                             <span class="item-main">
-
                                 <span class="item-title">
                                     靡靡呓语
                                 </span>
-
                                 <span class="item-en">
                                     Absurd Reveries
                                 </span>
-
                                 <span class="item-desc">
                                     关于幻想、胡话与灰色幽默。
                                 </span>
-
                             </span>
 
-                            <span class="item-arrow"
-                                  aria-hidden="true">↗</span>
+                            <span class="item-arrow" aria-hidden="true">↗</span>
 
                         </a>
 
                     </div>
 
                 </section>
+
 
 
                 <!-- 04 文摘 -->
@@ -1654,20 +1163,18 @@ svg {
                             <h3 id="excerpts-title">
                                 文摘
                                 <span class="section-en">
-                                    EXCERPTS &amp; READING NOTES
+                                    EXCERPTS & READING NOTES
                                 </span>
                             </h3>
                         </div>
 
                     </header>
 
-
                     <div class="status-item">
 
                         <span class="item-index">—</span>
 
                         <div class="item-main">
-
                             <span class="item-title">
                                 残页馆
                             </span>
@@ -1683,7 +1190,6 @@ svg {
                             <span class="status-label">
                                 BEING PREPARED
                             </span>
-
                         </div>
 
                     </div>
@@ -1698,14 +1204,13 @@ svg {
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- 页脚 -->
 
     <footer class="footer" id="about">
 
         <div class="footer-top">
 
             <div>
-
                 <p class="footer-name">
                     仇梓帆 · Vesper Qiu
                 </p>
@@ -1714,7 +1219,6 @@ svg {
                     这个档案仍在生长。<br>
                     The archive remains open.
                 </p>
-
             </div>
 
             <a class="back-top" href="#top">
@@ -1723,13 +1227,9 @@ svg {
 
         </div>
 
-
         <div class="footer-bottom">
-
             <span>VESPER'S FANTASY OBSERVATORY</span>
-
             <span>AN ONGOING COLLECTION OF THOUGHTS</span>
-
         </div>
 
     </footer>
