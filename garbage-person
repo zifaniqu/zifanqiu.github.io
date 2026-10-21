@@ -1,1 +1,274 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>垃圾人 | Vesper的幻想观测局</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            background: #080D16;
+            color: #DCE4EF;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 25px 45px;
+            line-height: 2;
+            font-size: 19px;
+            font-family: "Noto Serif SC", "Songti SC",
+                         "STSong", "Times New Roman", serif;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 42px;
+        }
+
+        .site-name {
+            color: #8298B5;
+            font-family: "Times New Roman", "Noto Serif SC", serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #E5ECF6;
+            font-weight: normal;
+            font-size: 2.7rem;
+            letter-spacing: 5px;
+            margin: 0 0 14px;
+        }
+
+        .meta {
+            text-align: center;
+            color: #8291A6;
+            font-size: 0.88rem;
+            letter-spacing: 1px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #30445E;
+            margin: 42px 0;
+        }
+
+        .story p {
+            text-indent: 2em;
+            margin: 0 0 1.15em;
+        }
+
+        .story .scene-start {
+            margin-top: 3.2em;
+        }
+
+        .story .pause {
+            text-indent: 0;
+            margin: 1.7em 0;
+        }
+
+        .story .ending-intro {
+            margin-top: 2.8em;
+        }
+
+        .final-line {
+            color: #C5D6EC;
+            border-left: 2px solid #526F96;
+            padding: 12px 0 12px 22px;
+            margin: 24px 0 35px;
+            font-size: 1.05rem;
+            text-indent: 0;
+        }
+
+        .end {
+            text-align: center;
+            color: #71839D;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            margin-top: 55px;
+        }
+
+        .nav {
+            text-align: center;
+            margin-top: 35px;
+            line-height: 1.8;
+        }
+
+        .nav a {
+            color: #9DB7DA;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: #E5ECF6;
+        }
+
+        footer {
+            text-align: center;
+            color: #526176;
+            font-size: 0.8rem;
+            margin-top: 65px;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 38px 21px 35px;
+                font-size: 17px;
+                line-height: 2;
+            }
+
+            h1 {
+                font-size: 2.25rem;
+            }
+
+            .story .scene-start {
+                margin-top: 2.5em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="site-name">
+            VESPER'S FANTASY OBSERVATORY
+        </div>
+
+        <h1>垃圾人</h1>
+
+        <div class="meta">
+            短篇人生 · 短篇小说
+        </div>
+    </header>
+
+    <hr>
+
+    <main class="story">
+
+        <p>
+            清晨，小区的垃圾回收站小屋里摇摇晃晃走进一个老头，衣着残破不堪，身体脏臭得像是在这垃圾站里长出来的。
+        </p>
+
+        <p>
+            那老头开始翻垃圾桶，弯腰探进大半个人高的垃圾桶里，像是在找什么宝藏，时不时找到一两个烂了半边的苹果或是没喝完的小瓶水，他就如获至宝似的用袖口擦擦，装进随身的袋子里。
+        </p>
+
+        <p>
+            天色渐亮，若不是空气中弥漫的些许困意，或许会将这副场景错认成傍晚。天空是睡眼惺忪的蓝，静谧温柔的蓝，垃圾房外是一片沉睡的世界，只剩下房中回荡的，翻垃圾的窸窣声。
+        </p>
+
+        <p class="pause">
+            声音突然停下。
+        </p>
+
+        <p>
+            老头发现了地上的一个垃圾袋。袋子有些不自然的鼓胀，像是里面有个不规则的物品，将垃圾袋撑起。
+        </p>
+
+        <p>
+            他没有多停顿，走过去。袋口没有打结。
+        </p>
+
+        <p>
+            他撑开袋口，里面露出了一个女孩苍白的脸，仿佛没有温度，她赤裸着身体，清晨的蓝色落在她身上，照出手臂皮肤下浅浅的血管。
+        </p>
+
+        <p class="scene-start">
+            她闭着眼，柔软的床垫小心翼翼地捧起她，羽绒被包裹她。她不需要知道身下的床垫要花普通人几年奋斗的积蓄，她不需要知道一床羽绒被会毁掉几只鹅的冬天。夜深了，她只是闭着眼，什么也不用看见。
+        </p>
+
+        <p>
+            床吱呀一声，她在床上坐起来。拖鞋是柔软的，地毯是柔软的，周围的一切都没有任何伤害性。她赤脚走着。黑夜，她只是闭着眼，什么也不用看见。
+        </p>
+
+        <p>
+            浴室的门被打开，花洒淅淅沥沥地喷水，在寒冷的冬天，依然毫无保留的吐露温热。一片漆黑，她只是闭着眼，什么也不用看见。
+        </p>
+
+        <p class="scene-start">
+            睡衣足够温暖，她穿着拖鞋，只有一小节脚踝裸露在外。一步又一步，她走在漆黑的路上，白日的生机都陷入死寂，像是不经意落入睡美人的王国。手里攥着一小只折叠的垃圾袋，她依然闭着眼，缓缓移动着，或许会让人想到孤魂野鬼，但又是不恰当的，她的脚步不是虚浮，像是已经重复了上千次。
+        </p>
+
+        <p>
+            不知走了多久，她在一幢破烂的小房子前停下。
+        </p>
+
+        <p>
+            推开门，腐臭味张牙舞爪地扑向外界。
+        </p>
+
+        <p>
+            她走进去，没有皱眉或是睁眼，她此时的表情，与在被香氛浸透的家里时没有区别。
+        </p>
+
+        <p>
+            打开垃圾袋，安置在地上后，她开始褪下自己的衣物，由上到下，由外到内，庄重得像是在举行一场仪式。直到最后一件衣物落在地上，她像是一只被剥去壳的虾，露出软肉。
+        </p>
+
+        <p>
+            一步一步，她挪向垃圾袋。
+        </p>
+
+        <p class="pause">
+            窸窸窣窣，她的一条腿伸了进去。
+        </p>
+
+        <p class="pause">
+            窸窸窣窣，她的大半个身体伸了进去。
+        </p>
+
+        <p class="pause">
+            窸窸窣窣，她躺下去。
+        </p>
+
+        <p>
+            双腿折叠环抱起来，她的头倚在膝盖上。
+        </p>
+
+        <p>
+            天要亮了，她只是闭着眼，什么也不用看见，垃圾袋蒙住这个世界，从此喧闹与天亮都与她无关。
+        </p>
+
+        <p class="ending-intro">
+            白紫馨反复做着同一个噩梦，梦里无限循环着一句话：
+        </p>
+
+        <p class="final-line">
+            “我怎么生出你这么个垃圾。”
+        </p>
+
+    </main>
+
+    <hr>
+
+    <div class="end">
+        End
+    </div>
+
+    <div class="nav">
+        <a href="index.html">
+            返回首页<br>
+            Back Home
+        </a>
+    </div>
+
+    <footer>
+        Vesper's Fantasy Observatory
+    </footer>
+
+</body>
+</html>
+
