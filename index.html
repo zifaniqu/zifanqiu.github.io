@@ -138,28 +138,37 @@ header {
     padding: 12px 0 22px;
 }
 
+
+/* 空心描边标题 */
 .hero-title {
     margin: 0;
     font-size: clamp(90px, 12vw, 168px);
     font-weight: 500;
     line-height: .91;
     letter-spacing: -.13em;
+
+    /* 核心：透明填充，保留文字轮廓 */
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1.2px #ededed;
 }
 
-.title-line {
-    display: block;
-    white-space: nowrap;
-}
-
+/* 第一行：保留错位 */
 .title-line:first-child {
     transform: translateX(-.08em);
 }
 
-.title-line-clip {
-    display: block;
-    width: 100%;
-    overflow: hidden;
+/* 第二行：灰色空心字，进一步制造层次 */
+.title-line:last-child {
+    width: max-content;
+    margin-top: .14em;
+    margin-left: .3em;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px #777;
+    letter-spacing: -.15em;
 }
+
 
 .title-line:last-child {
     width: max-content;
