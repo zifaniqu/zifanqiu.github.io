@@ -1,151 +1,1790 @@
 
-<div class="orbit-visual" aria-hidden="true">
+<!DOCTYPE html>
+<html lang="zh-CN">
 
-    <svg viewBox="0 0 600 600"
-         xmlns="http://www.w3.org/2000/svg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="Vesper 的个人创作档案：故事、风景、思考，以及尚未归档的未来。">
 
-        <!-- 极淡的背景参考圆 -->
+    <title>幻想观测局 — Vesper's Fantasy Observatory</title>
 
-        <circle cx="300" cy="300" r="270"
-                fill="none" stroke="#fff"
-                stroke-width=".6" opacity=".08"/>
+    <style>
+        :root {
+            --bg: #050505;
+            --fg: #ededed;
+            --muted: #999999;
+            --dim: #656565;
+            --line: #292929;
+            --line-light: #444444;
+            --white: #ffffff;
+            --shell: 1440px;
+        }
 
-        <!-- 外层轨道 -->
+        * {
+            box-sizing: border-box;
+        }
 
-        <g class="orbit-layer orbit-layer--outer">
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 30px;
+        }
 
-            <ellipse cx="300" cy="300"
-                     rx="245" ry="210"
-                     fill="none" stroke="#e8e8e8"
-                     stroke-width="1" opacity=".65"/>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: clip;
+            background: var(--bg);
+            color: var(--fg);
+            font-family:
+                "Helvetica Neue",
+                Arial,
+                "PingFang SC",
+                "Noto Sans SC",
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
 
-            <ellipse cx="300" cy="300"
-                     rx="265" ry="230"
-                     fill="none" stroke="#aaa"
-                     stroke-width=".8"
-                     stroke-dasharray="1 8"
-                     opacity=".45"/>
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(
+                    ellipse at 75% 28%,
+                    rgba(255, 255, 255, 0.035),
+                    transparent 38%
+                ),
+                linear-gradient(
+                    rgba(255, 255, 255, 0.014) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.014) 1px,
+                    transparent 1px
+                );
 
-            <ellipse cx="300" cy="300"
-                     rx="220" ry="260"
-                     fill="none" stroke="#888"
-                     stroke-width=".8" opacity=".3"/>
+            background-size:
+                auto,
+                64px 64px,
+                64px 64px;
+        }
 
-            <circle cx="300" cy="70" r="4"
-                    fill="#fff"/>
+        ::selection {
+            color: #050505;
+            background: #ededed;
+        }
 
-            <circle cx="540" cy="300" r="5"
-                    fill="#fff"/>
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-            <circle cx="100" cy="420" r="5"
-                    fill="#080808" stroke="#fff"
-                    stroke-width="1.2"/>
+        a:focus-visible {
+            outline: 1px solid var(--white);
+            outline-offset: 5px;
+        }
 
-        </g>
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .shell {
+            width: min(calc(100% - 80px), var(--shell));
+            margin-inline: auto;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .topbar {
+            min-height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 13px;
+            white-space: nowrap;
+        }
+
+        .brand-symbol {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #777;
+            border-radius: 50%;
+            font-size: 12px;
+            letter-spacing: -1px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .brand-name {
+            font-size: 12px;
+            letter-spacing: 0.19em;
+        }
+
+        .brand-sub {
+            color: var(--dim);
+            font-size: 9px;
+            letter-spacing: 0.16em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(20px, 3vw, 44px);
+        }
+
+        .nav-links a {
+            color: #a5a5a5;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            position: relative;
+            min-height: min(850px, calc(100svh - 82px));
+            display: grid;
+            grid-template-columns:
+                minmax(0, 0.88fr)
+                minmax(0, 1.12fr);
+            align-items: center;
+            gap: clamp(20px, 4vw, 65px);
+            padding: 45px 0 80px;
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 2;
+            min-width: 0;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 36px;
+            color: #a2a2a2;
+            font-size: 10px;
+            letter-spacing: 0.19em;
+            line-height: 1.8;
+        }
+
+        .eyebrow-mark {
+            width: 7px;
+            height: 7px;
+            flex: 0 0 7px;
+            border: 1px solid #bdbdbd;
+            transform: rotate(45deg);
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: clamp(76px, 9.2vw, 142px);
+            font-weight: 500;
+            line-height: 0.98;
+            letter-spacing: -0.085em;
+        }
+
+        .hero-title span {
+            display: block;
+            margin-top: 0.12em;
+            margin-left: 0.24em;
+            color: #bcbcbc;
+        }
+
+        .hero-english {
+            max-width: 390px;
+            margin: 34px 0 0;
+            color: #c0c0c0;
+            font-size: clamp(10px, 1vw, 12px);
+            line-height: 2;
+            letter-spacing: 0.19em;
+        }
+
+        .hero-description {
+            max-width: 350px;
+            margin: 28px 0 0;
+            padding-left: 17px;
+            border-left: 1px solid #5d5d5d;
+            color: #999;
+            font-size: 13px;
+            line-height: 2.1;
+        }
+
+        .hero-description-en {
+            display: block;
+            margin-top: 8px;
+            color: #686868;
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        .explore-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 39px;
+            padding-bottom: 9px;
+            border-bottom: 1px solid #686868;
+            color: #e4e4e4;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            transition: border-color 0.2s ease;
+        }
+
+        .explore-link:hover {
+            border-color: #fff;
+        }
+
+        .explore-arrow {
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        /* =========================
+           ORBITAL SYSTEM
+           SVG only: no external libraries
+        ========================= */
+
+        .hero-visual {
+            position: relative;
+            width: 100%;
+            min-width: 0;
+            max-width: 720px;
+            aspect-ratio: 1;
+            margin-left: auto;
+            isolation: isolate;
+        }
+
+        .hero-visual::before {
+            content: "";
+            position: absolute;
+            inset: 12%;
+            z-index: -1;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.035),
+                rgba(255, 255, 255, 0.008) 38%,
+                transparent 70%
+            );
+        }
+
+        .orbit-svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .orbit-ring {
+            fill: none;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .ring-bright {
+            stroke: #d7d7d7;
+            stroke-width: 0.9;
+            opacity: 0.65;
+        }
+
+        .ring-medium {
+            stroke: #9a9a9a;
+            stroke-width: 0.8;
+            opacity: 0.42;
+        }
+
+        .ring-faint {
+            stroke: #777;
+            stroke-width: 0.75;
+            opacity: 0.24;
+        }
+
+        .ring-dotted {
+            stroke: #bdbdbd;
+            stroke-width: 0.8;
+            stroke-dasharray: 1 8;
+            stroke-linecap: round;
+            opacity: 0.55;
+        }
+
+        .spin {
+            transform-box: view-box;
+            transform-origin: center;
+            will-change: transform;
+        }
+
+        .spin-outer {
+            animation: orbit-clockwise 90s linear infinite;
+        }
+
+        .spin-middle {
+            animation: orbit-counter 62s linear infinite;
+        }
+
+        .spin-inner {
+            animation: orbit-clockwise 38s linear infinite;
+        }
+
+        .satellite {
+            fill: var(--bg);
+            stroke: #e2e2e2;
+            stroke-width: 1.1;
+        }
+
+        .satellite-solid {
+            fill: #f2f2f2;
+        }
+
+        .orbit-core {
+            fill: none;
+            stroke: #e5e5e5;
+            stroke-width: 1;
+            opacity: 0.78;
+        }
+
+        .core-faint {
+            fill: none;
+            stroke: #999;
+            stroke-width: 0.8;
+            opacity: 0.48;
+        }
+
+        .orbit-caption {
+            position: absolute;
+            left: 4%;
+            bottom: 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 8px;
+            letter-spacing: 0.18em;
+            line-height: 1.8;
+            pointer-events: none;
+        }
+
+        .orbit-caption span:first-child {
+            color: #bdbdbd;
+        }
+
+        .orbit-status {
+            position: absolute;
+            right: 2%;
+            top: 12%;
+            color: #6d6d6d;
+            font-family: Arial, sans-serif;
+            font-size: 8px;
+            letter-spacing: 0.16em;
+            writing-mode: vertical-rl;
+            pointer-events: none;
+        }
+
+        @keyframes orbit-clockwise {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes orbit-counter {
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* =========================
+           ARCHIVE INTRO
+        ========================= */
+
+        .archive {
+            padding-top: 24px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 24px 0 30px;
+            border-top: 1px solid var(--line-light);
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: clamp(28px, 4vw, 47px);
+            font-weight: 400;
+            letter-spacing: -0.055em;
+        }
+
+        .section-heading .heading-en {
+            display: block;
+            margin-top: 9px;
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.19em;
+        }
+
+        .section-index {
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            line-height: 1.9;
+            letter-spacing: 0.15em;
+            text-align: right;
+        }
+
+        /* =========================
+           COLLECTION CATEGORIES
+        ========================= */
+
+        .category {
+            display: grid;
+            grid-template-columns:
+                minmax(170px, 0.7fr)
+                minmax(0, 1.8fr);
+            gap: clamp(25px, 5vw, 85px);
+            padding: 38px 0 44px;
+            border-top: 1px solid var(--line);
+        }
+
+        .category-info {
+            align-self: start;
+        }
+
+        .category-number {
+            display: block;
+            margin-bottom: 20px;
+            color: #858585;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+        }
+
+        .category-title {
+            margin: 0;
+            font-size: clamp(20px, 2vw, 27px);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .category-en {
+            margin-top: 5px;
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            line-height: 1.8;
+            letter-spacing: 0.12em;
+        }
+
+        .category-note {
+            max-width: 200px;
+            margin-top: 22px;
+            color: #696969;
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        /* =========================
+           WORK LINKS
+        ========================= */
+
+        .work-list {
+            min-width: 0;
+        }
+
+        .work-row {
+            position: relative;
+            display: grid;
+            grid-template-columns: 35px minmax(0, 1fr) 22px;
+            align-items: center;
+            gap: 10px;
+            padding: 21px 0;
+            border-bottom: 1px solid #242424;
+            transition: border-color 0.2s ease;
+        }
+
+        .work-row:first-child {
+            padding-top: 0;
+        }
+
+        .work-row:last-child {
+            border-bottom: none;
+        }
+
+        .work-row:hover {
+            border-bottom-color: #666;
+        }
+
+        .work-number {
+            align-self: start;
+            padding-top: 5px;
+            color: #6f6f6f;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+        }
+
+        .work-copy {
+            min-width: 0;
+        }
+
+        .work-cn {
+            color: #e5e5e5;
+            font-size: clamp(15px, 1.6vw, 20px);
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .work-en {
+            margin-top: 4px;
+            color: #898989;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .work-desc {
+            margin-top: 9px;
+            color: #777;
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        .work-arrow {
+            align-self: center;
+            color: #888;
+            font-size: 17px;
+            text-align: right;
+            transition:
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .work-row:hover .work-arrow {
+            color: #eee;
+            transform: translateX(3px);
+        }
+
+        /* =========================
+           EMPTY / IN PROGRESS
+        ========================= */
+
+        .empty-state {
+            padding: 28px 24px;
+            border: 1px solid #252525;
+        }
+
+        .empty-symbol {
+            margin-bottom: 17px;
+            color: #b8b8b8;
+            font-family: Arial, sans-serif;
+            font-size: 21px;
+            font-weight: 300;
+        }
+
+        .empty-title {
+            color: #d0d0d0;
+            font-size: 15px;
+        }
+
+        .empty-description {
+            margin-top: 9px;
+            color: #777;
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        .empty-status {
+            display: inline-block;
+            margin-top: 19px;
+            padding-top: 8px;
+            border-top: 1px solid #454545;
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.17em;
+        }
+
+        .work-status {
+            display: inline-block;
+            margin-left: 8px;
+            color: #858585;
+            font-family: Arial, sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            margin-top: 45px;
+            padding: 32px 0 28px;
+            border-top: 1px solid var(--line-light);
+        }
+
+        .footer-main {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .footer-name {
+            color: #d4d4d4;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+        }
+
+        .footer-message {
+            margin-top: 10px;
+            color: #777;
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        .back-top {
+            flex-shrink: 0;
+            color: #a0a0a0;
+            font-family: Arial, sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.16em;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 45px;
+            padding-top: 15px;
+            border-top: 1px solid #202020;
+            color: #555;
+            font-family: Arial, sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 1000px) {
+            .shell {
+                width: calc(100% - 56px);
+            }
+
+            .hero {
+                grid-template-columns:
+                    minmax(0, 0.9fr)
+                    minmax(0, 1.1fr);
+                gap: 20px;
+            }
+
+            .hero-title {
+                font-size: clamp(66px, 9vw, 100px);
+            }
+
+            .category {
+                grid-template-columns:
+                    minmax(140px, 0.65fr)
+                    minmax(0, 1.8fr);
+                gap: 30px;
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 680px) {
+            html {
+                scroll-padding-top: 18px;
+            }
+
+            .shell {
+                width: calc(100% - 36px);
+            }
+
+            .topbar {
+                min-height: 70px;
+                gap: 12px;
+            }
+
+            .brand {
+                gap: 9px;
+            }
+
+            .brand-symbol {
+                width: 27px;
+                height: 27px;
+                font-size: 10px;
+            }
+
+            .brand-name {
+                font-size: 10px;
+                letter-spacing: 0.13em;
+            }
+
+            .brand-sub {
+                font-size: 8px;
+                letter-spacing: 0.09em;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 9px;
+                letter-spacing: 0.1em;
+            }
+
+            .hero {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                min-height: auto;
+                padding: 14px 0 65px;
+            }
+
+            .hero-visual {
+                order: 0;
+                width: min(100%, 430px);
+                margin: 0 auto -3px;
+            }
+
+            .hero-copy {
+                order: 1;
+                margin-top: 0;
+            }
+
+            .orbit-caption {
+                left: 3%;
+                bottom: 4%;
+                font-size: 7px;
+            }
+
+            .orbit-status {
+                right: 1%;
+                top: 10%;
+                font-size: 7px;
+            }
+
+            .eyebrow {
+                margin-bottom: 25px;
+                font-size: 9px;
+            }
+
+            .hero-title {
+                font-size: clamp(67px, 16vw, 106px);
+                line-height: 0.98;
+            }
+
+            .hero-english {
+                max-width: 330px;
+                margin-top: 25px;
+                font-size: 10px;
+                letter-spacing: 0.15em;
+            }
+
+            .hero-description {
+                margin-top: 23px;
+                font-size: 12px;
+            }
+
+            .explore-link {
+                margin-top: 28px;
+            }
+
+            .archive {
+                padding-top: 5px;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+                gap: 20px;
+                padding: 22px 0 25px;
+            }
+
+            .section-heading h2 {
+                font-size: 30px;
+            }
+
+            .section-heading .heading-en {
+                font-size: 9px;
+            }
+
+            .section-index {
+                padding-top: 5px;
+                font-size: 8px;
+            }
+
+            .category {
+                display: block;
+                padding: 27px 0 30px;
+            }
+
+            .category-info {
+                display: grid;
+                grid-template-columns: 35px minmax(0, 1fr);
+                align-items: start;
+                column-gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .category-number {
+                grid-row: 1 / span 3;
+                margin: 5px 0 0;
+                font-size: 9px;
+            }
+
+            .category-title {
+                font-size: 21px;
+            }
+
+            .category-en {
+                margin-top: 2px;
+                font-size: 9px;
+            }
+
+            .category-note {
+                grid-column: 2;
+                max-width: 100%;
+                margin-top: 8px;
+                font-size: 10px;
+            }
+
+            .work-row {
+                grid-template-columns: 27px minmax(0, 1fr) 17px;
+                gap: 7px;
+                padding: 18px 0;
+            }
+
+            .work-row:first-child {
+                padding-top: 0;
+            }
+
+            .work-number {
+                padding-top: 4px;
+                font-size: 9px;
+            }
+
+            .work-cn {
+                font-size: 16px;
+            }
+
+            .work-en {
+                font-size: 10px;
+                line-height: 1.8;
+            }
+
+            .work-desc {
+                margin-top: 7px;
+                font-size: 10px;
+            }
+
+            .work-arrow {
+                font-size: 15px;
+            }
+
+            .empty-state {
+                padding: 22px 18px;
+            }
+
+            .footer {
+                margin-top: 25px;
+                padding-top: 25px;
+            }
+
+            .footer-main {
+                align-items: flex-start;
+            }
+
+            .footer-name {
+                font-size: 11px;
+            }
+
+            .footer-message {
+                font-size: 10px;
+            }
+
+            .back-top {
+                padding-top: 2px;
+                font-size: 8px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 5px;
+                margin-top: 32px;
+                font-size: 8px;
+            }
+        }
+
+        @media (max-width: 370px) {
+            .shell {
+                width: calc(100% - 28px);
+            }
+
+            .brand-name {
+                font-size: 9px;
+            }
+
+            .brand-sub {
+                font-size: 7px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 8px;
+            }
+
+            .hero-title {
+                font-size: 64px;
+            }
+        }
+
+        /* Respect reduced-motion preferences */
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .spin {
+                animation: none !important;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body id="top">
+
+    <div class="shell">
+
+        <!-- TOP NAVIGATION -->
+
+        <header class="topbar">
+
+            <a class="brand" href="#top" aria-label="返回首页顶部">
+
+                <span class="brand-symbol">V.</span>
+
+                <span class="brand-text">
+                    <span class="brand-name">VESPER / ARCHIVE</span>
+                    <span class="brand-sub">PERSONAL COLLECTION · 2026</span>
+                </span>
+
+            </a>
+
+            <nav class="nav-links" aria-label="主导航">
+                <a href="#archive">INDEX</a>
+                <a href="#about">ABOUT</a>
+            </nav>
+
+        </header>
 
 
-        <!-- 中层反向轨道 -->
+        <!-- HERO -->
 
-        <g class="orbit-layer orbit-layer--middle">
+        <main>
 
-            <ellipse cx="300" cy="300"
-                     rx="185" ry="145"
-                     transform="rotate(-32 300 300)"
-                     fill="none" stroke="#eee"
-                     stroke-width="1.2" opacity=".75"/>
+            <section class="hero" aria-labelledby="hero-title">
 
-            <circle cx="300" cy="300" r="175"
-                    fill="none" stroke="#aaa"
-                    stroke-width=".8"
-                    stroke-dasharray="2 7"
-                    opacity=".45"/>
+                <div class="hero-copy">
 
-            <ellipse cx="300" cy="300"
-                     rx="140" ry="195"
-                     transform="rotate(20 300 300)"
-                     fill="none" stroke="#aaa"
-                     stroke-width=".8" opacity=".4"/>
+                    <div class="eyebrow">
+                        <span class="eyebrow-mark"></span>
+                        PERSONAL ARCHIVE / VOL. 01
+                    </div>
 
-            <circle cx="420" cy="180" r="4"
-                    fill="#fff"/>
+                    <h1 class="hero-title" id="hero-title">
+                        幻想
+                        <span>观测局</span>
+                    </h1>
 
-            <circle cx="155" cy="350" r="3"
-                    fill="#fff"/>
+                    <p class="hero-english">
+                        AN OPEN ARCHIVE OF STORIES,
+                        LANDSCAPES, THOUGHTS
+                        AND UNFINISHED IDEAS.
+                    </p>
 
-            <circle cx="300" cy="125" r="5"
-                    fill="#080808" stroke="#fff"
-                    stroke-width="1.2"/>
+                    <p class="hero-description">
+                        故事、风景、思考，
+                        以及尚未归档的未来。
 
-        </g>
+                        <span class="hero-description-en">
+                            A collection of stories, landscapes,
+                            thoughts, and a future yet to be named.
+                        </span>
+                    </p>
 
+                    <a class="explore-link" href="#archive">
+                        <span>EXPLORE THE ARCHIVE</span>
+                        <span class="explore-arrow">↓</span>
+                    </a>
 
-        <!-- 内层轨道 -->
-
-        <g class="orbit-layer orbit-layer--inner">
-
-            <circle cx="300" cy="300" r="112"
-                    fill="none" stroke="#eee"
-                    stroke-width="1.2" opacity=".8"/>
-
-            <circle cx="300" cy="300" r="85"
-                    fill="none" stroke="#888"
-                    stroke-width=".8"
-                    stroke-dasharray="2 7"
-                    opacity=".6"/>
-
-            <ellipse cx="300" cy="300"
-                     rx="65" ry="125"
-                     transform="rotate(-38 300 300)"
-                     fill="none" stroke="#aaa"
-                     stroke-width=".8" opacity=".4"/>
-
-            <circle cx="410" cy="300" r="3.5"
-                    fill="#fff"/>
-
-            <circle cx="225" cy="225" r="4"
-                    fill="#080808" stroke="#eee"
-                    stroke-width="1"/>
-
-        </g>
+                </div>
 
 
-        <!-- 中心核心：简洁几何图形 -->
+                <!-- ROTATING ORBITAL SYSTEM -->
 
-        <g fill="none" stroke="#eee">
+                <div class="hero-visual" aria-hidden="true">
 
-            <circle cx="300" cy="300" r="28"
-                    stroke-width="1.2" opacity=".85"/>
+                    <svg
+                        class="orbit-svg"
+                        viewBox="0 0 600 600"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
 
-            <circle cx="300" cy="300" r="10"
-                    stroke-width=".8" opacity=".5"/>
+                        <defs>
 
-            <path d="M300 264 V286
-                     M300 314 V336
-                     M264 300 H286
-                     M314 300 H336"
-                  stroke-width=".8" opacity=".65"/>
+                            <radialGradient id="coreGlow">
 
-            <circle cx="300" cy="300" r="2.5"
-                    fill="#fff" stroke="none"/>
+                                <stop
+                                    offset="0%"
+                                    stop-color="#ffffff"
+                                    stop-opacity="0.08"
+                                />
 
-        </g>
+                                <stop
+                                    offset="45%"
+                                    stop-color="#ffffff"
+                                    stop-opacity="0.025"
+                                />
+
+                                <stop
+                                    offset="100%"
+                                    stop-color="#ffffff"
+                                    stop-opacity="0"
+                                />
+
+                            </radialGradient>
+
+                        </defs>
 
 
-        <!-- 极简技术标记 -->
+                        <!-- CENTRAL DARK FIELD -->
 
-        <g fill="#858583"
-           font-family="Arial, sans-serif"
-           font-size="9"
-           letter-spacing="2">
+                        <circle
+                            cx="300"
+                            cy="300"
+                            r="150"
+                            fill="url(#coreGlow)"
+                        />
 
-            <text x="315" y="43">OBS / 01</text>
 
-            <text x="405" y="555">ORBITAL ARRAY</text>
+                        <!-- OUTER ORBITS -->
 
-            <text x="32" y="320">FIELD</text>
+                        <g class="spin spin-outer">
 
-        </g>
+                            <ellipse
+                                class="orbit-ring ring-bright"
+                                cx="300"
+                                cy="300"
+                                rx="247"
+                                ry="211"
+                            />
 
-    </svg>
+                            <ellipse
+                                class="orbit-ring ring-medium"
+                                cx="300"
+                                cy="300"
+                                rx="269"
+                                ry="177"
+                                transform="rotate(-28 300 300)"
+                            />
 
-</div>
+                            <circle
+                                class="orbit-ring ring-dotted"
+                                cx="300"
+                                cy="300"
+                                r="248"
+                            />
+
+                            <ellipse
+                                class="orbit-ring ring-faint"
+                                cx="300"
+                                cy="300"
+                                rx="225"
+                                ry="260"
+                                transform="rotate(19 300 300)"
+                            />
+
+                            <circle
+                                class="satellite-solid"
+                                cx="300"
+                                cy="52"
+                                r="4.5"
+                            />
+
+                            <circle
+                                class="satellite-solid"
+                                cx="546"
+                                cy="310"
+                                r="4"
+                            />
+
+                            <circle
+                                class="satellite"
+                                cx="102"
+                                cy="418"
+                                r="5"
+                            />
+
+                            <circle
+                                class="satellite-solid"
+                                cx="440"
+                                cy="507"
+                                r="3.5"
+                            />
+
+                        </g>
+
+
+                        <!-- MIDDLE ORBITS: OPPOSITE DIRECTION -->
+
+                        <g class="spin spin-middle">
+
+                            <ellipse
+                                class="orbit-ring ring-bright"
+                                cx="300"
+                                cy="300"
+                                rx="186"
+                                ry="145"
+                                transform="rotate(31 300 300)"
+                            />
+
+                            <ellipse
+                                class="orbit-ring ring-medium"
+                                cx="300"
+                                cy="300"
+                                rx="153"
+                                ry="199"
+                                transform="rotate(-24 300 300)"
+                            />
+
+                            <circle
+                                class="orbit-ring ring-dotted"
+                                cx="300"
+                                cy="300"
+                                r="178"
+                            />
+
+                            <ellipse
+                                class="orbit-ring ring-faint"
+                                cx="300"
+                                cy="300"
+                                rx="205"
+                                ry="116"
+                                transform="rotate(-12 300 300)"
+                            />
+
+                            <circle
+                                class="satellite-solid"
+                                cx="300"
+                                cy="122"
+                                r="4"
+                            />
+
+                            <circle
+                                class="satellite"
+                                cx="440"
+                                cy="365"
+                                r="4.5"
+                            />
+
+                            <circle
+                                class="satellite-solid"
+                                cx="160"
+                                cy="250"
+                                r="3.5"
+                            />
+
+                        </g>
+
+
+                        <!-- INNER ORBITS -->
+
+                        <g class="spin spin-inner">
+
+                            <circle
+                                class="orbit-ring ring-bright"
+                                cx="300"
+                                cy="300"
+                                r="111"
+                            />
+
+                            <ellipse
+                                class="orbit-ring ring-medium"
+                                cx="300"
+                                cy="300"
+                                rx="86"
+                                ry="128"
+                                transform="rotate(35 300 300)"
+                            />
+
+                            <circle
+                                class="orbit-ring ring-dotted"
+                                cx="300"
+                                cy="300"
+                                r="82"
+                            />
+
+                            <ellipse
+                                class="orbit-ring ring-faint"
+                                cx="300"
+                                cy="300"
+                                rx="129"
+                                ry="66"
+                                transform="rotate(-22 300 300)"
+                            />
+
+                            <circle
+                                class="satellite-solid"
+                                cx="411"
+                                cy="300"
+                                r="4"
+                            />
+
+                            <circle
+                                class="satellite"
+                                cx="226"
+                                cy="224"
+                                r="4.5"
+                            />
+
+                            <circle
+                                class="satellite-solid"
+                                cx="274"
+                                cy="410"
+                                r="3"
+                            />
+
+                        </g>
+
+
+                        <!-- STATION CORE: STATIC -->
+
+                        <g>
+
+                            <circle
+                                class="orbit-core"
+                                cx="300"
+                                cy="300"
+                                r="29"
+                            />
+
+                            <circle
+                                class="core-faint"
+                                cx="300"
+                                cy="300"
+                                r="12"
+                            />
+
+                            <circle
+                                cx="300"
+                                cy="300"
+                                r="2.5"
+                                fill="#ffffff"
+                            />
+
+                            <circle
+                                class="orbit-ring ring-faint"
+                                cx="300"
+                                cy="300"
+                                r="43"
+                            />
+
+                            <!-- Short alignment marks only -->
+
+                            <path
+                                d="
+                                    M300 263 V278
+                                    M300 322 V337
+                                    M263 300 H278
+                                    M322 300 H337
+                                "
+                                fill="none"
+                                stroke="#bdbdbd"
+                                stroke-width="0.8"
+                                opacity="0.55"
+                            />
+
+                        </g>
+
+                    </svg>
+
+
+                    <div class="orbit-caption">
+                        <span>FIG. 001 — ORBITAL STUDY</span>
+                        <span>THREE SYSTEMS / DIFFERENT VELOCITIES</span>
+                    </div>
+
+                    <div class="orbit-status">
+                        OBSERVATION SYSTEM / ACTIVE
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- COLLECTION INDEX -->
+
+            <section class="archive" id="archive">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>作品索引</h2>
+                        <span class="heading-en">
+                            COLLECTION INDEX / CONTINUOUSLY EXPANDING
+                        </span>
+                    </div>
+
+                    <div class="section-index">
+                        ARCHIVE<br>
+                        01 — 04
+                    </div>
+
+                </div>
+
+
+                <!-- 01 SHORT FICTION -->
+
+                <section class="category" aria-labelledby="fiction-title">
+
+                    <div class="category-info">
+
+                        <span class="category-number">01 / FICTION</span>
+
+                        <h3 class="category-title" id="fiction-title">
+                            短篇人生
+                        </h3>
+
+                        <div class="category-en">
+                            SHORT FICTION
+                        </div>
+
+                        <p class="category-note">
+                            人物、命运与故事。
+                            一些尚未结束的想象。
+                        </p>
+
+                    </div>
+
+
+                    <div class="work-list">
+
+                        <a class="work-row" href="wangsigui1.html">
+
+                            <span class="work-number">01</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    23:17（原名：妄死鬼）
+                                </span>
+
+                                <span class="work-en">
+                                    Ghost of 23:17
+                                </span>
+
+                                <span class="work-desc">
+                                    关于青春、幻想、成长与陪伴。
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+
+                        <a class="work-row" href="ms247.html">
+
+                            <span class="work-number">02</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    Ms.247
+                                </span>
+
+                                <span class="work-en">
+                                    A Story of Attachment and Love
+                                </span>
+
+                                <span class="work-desc">
+                                    关于陪伴、依恋与爱。
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+
+                        <a class="work-row" href="garbage-person.html">
+
+                            <span class="work-number">03</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    垃圾人
+                                </span>
+
+                                <span class="work-en">
+                                    The One Called Trash
+                                </span>
+
+                                <span class="work-desc">
+                                    关于梦境与自我认知。
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 02 SCIENCE FICTION -->
+
+                <section class="category" aria-labelledby="scifi-title">
+
+                    <div class="category-info">
+
+                        <span class="category-number">02 / UNKNOWN</span>
+
+                        <h3 class="category-title" id="scifi-title">
+                            科幻
+                        </h3>
+
+                        <div class="category-en">
+                            SCIENCE FICTION
+                        </div>
+
+                        <p class="category-note">
+                            尚未抵达的领域。
+                            留给未来的故事。
+                        </p>
+
+                    </div>
+
+
+                    <div class="empty-state">
+
+                        <div class="empty-symbol">—</div>
+
+                        <div class="empty-title">
+                            未知领域
+                        </div>
+
+                        <div class="empty-description">
+                            暂无收录作品。<br>
+                            这里留给未来的故事。
+                        </div>
+
+                        <span class="empty-status">
+                            IN PROGRESS
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 03 ESSAYS -->
+
+                <section class="category" aria-labelledby="essays-title">
+
+                    <div class="category-info">
+
+                        <span class="category-number">03 / OBSERVATIONS</span>
+
+                        <h3 class="category-title" id="essays-title">
+                            随笔
+                        </h3>
+
+                        <div class="category-en">
+                            ESSAYS &amp; OBSERVATIONS
+                        </div>
+
+                        <p class="category-note">
+                            日常、观察与未完成的思考。
+                        </p>
+
+                    </div>
+
+
+                    <div class="work-list">
+
+                        <a class="work-row" href="world.html">
+
+                            <span class="work-number">01</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    漫步过世界的海
+                                </span>
+
+                                <span class="work-en">
+                                    Seas Wandered Across the World
+                                </span>
+
+                                <span class="work-desc">
+                                    关于窗、视觉与远方。
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+
+                        <a class="work-row" href="thought.html">
+
+                            <span class="work-number">02</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    思想缓行地
+                                </span>
+
+                                <span class="work-en">
+                                    Thoughts in Transit
+                                </span>
+
+                                <span class="work-desc">
+                                    关于问题、答案与未完成的思考。
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+
+                        <a class="work-row" href="life.html">
+
+                            <span class="work-number">03</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    生活万花筒
+                                </span>
+
+                                <span class="work-en">
+                                    Kaleidoscope of Life
+                                </span>
+
+                                <span class="work-desc">
+                                    关于少年、日常与烟火气。
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+
+                        <a class="work-row" href="imagination.html">
+
+                            <span class="work-number">04</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    靡靡呓语
+                                </span>
+
+                                <span class="work-en">
+                                    Absurd Reveries
+                                </span>
+
+                                <span class="work-desc">
+                                    关于幻想、胡话与灰色幽默。
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+                <!-- 04 EXCERPTS -->
+
+                <section class="category" aria-labelledby="excerpts-title">
+
+                    <div class="category-info">
+
+                        <span class="category-number">04 / FRAGMENTS</span>
+
+                        <h3 class="category-title" id="excerpts-title">
+                            残页馆
+                        </h3>
+
+                        <div class="category-en">
+                            EXCERPTS &amp; READING NOTES
+                        </div>
+
+                        <p class="category-note">
+                            关于文字、阅读与偶然的共鸣。
+                        </p>
+
+                    </div>
+
+
+                    <div class="work-list">
+
+                        <a class="work-row" href="excerpts.html">
+
+                            <span class="work-number">01</span>
+
+                            <span class="work-copy">
+
+                                <span class="work-cn">
+                                    残页馆（文摘）
+                                    <span class="work-status">
+                                        IN PROGRESS
+                                    </span>
+                                </span>
+
+                                <span class="work-en">
+                                    The Fragment Archive / Excerpts
+                                </span>
+
+                                <span class="work-desc">
+                                    On books, notes, and borrowed sparks.
+                                </span>
+
+                            </span>
+
+                            <span class="work-arrow">↗</span>
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer" id="about">
+
+            <div class="footer-main">
+
+                <div>
+
+                    <div class="footer-name">
+                        仇梓帆 · Vesper Qiu
+                    </div>
+
+                    <div class="footer-message">
+                        这个档案仍在生长。<br>
+                        The archive remains open.
+                    </div>
+
+                </div>
+
+                <a class="back-top" href="#top">
+                    BACK TO TOP ↑
+                </a>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <span>
+                    VESPER'S FANTASY OBSERVATORY
+                </span>
+
+                <span>
+                    AN ONGOING COLLECTION OF THOUGHTS
+                </span>
+
+            </div>
+
+        </footer>
+
+    </div>
+
+</body>
+</html>
