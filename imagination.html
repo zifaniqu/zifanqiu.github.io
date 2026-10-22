@@ -1,238 +1,671 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>靡靡呓语</title>
+<meta name="theme-color" content="#05060a">
+<title>靡靡呓语 — VESPER / ARCHIVE</title>
 
 <style>
-
-body{
-    background:#111111;
-    color:#e8e8e8;
-    max-width:900px;
-    margin:auto;
-    padding:60px 25px;
-    font-family:"Noto Serif SC","Times New Roman",serif;
-    line-height:1.9;
+:root {
+    --bg: #05060a;
+    --text: #f4f4fb;
+    --muted: #858797;
+    --line: rgba(194, 205, 232, .17);
+    --cyan: #00eaff;
+    --pink: #ff2caa;
+    --serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", sans-serif;
+    --display: "Arial Black", "Helvetica Neue", "PingFang SC", sans-serif;
+    --gutter: clamp(22px, 6vw, 82px);
 }
 
-/* 标题 */
+* { box-sizing: border-box; }
 
-h1{
-    text-align:center;
-    font-weight:normal;
-    color:#ffffff;
+html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+    scroll-padding-top: 30px;
 }
 
-h2{
-    text-align:center;
-    color:#9a9a9a;
-    font-weight:normal;
-    margin-bottom:40px;
+body {
+    margin: 0;
+    min-width: 320px;
+    overflow-x: hidden;
+    color: var(--text);
+    background:
+        radial-gradient(ellipse at 50% 20%, rgba(49, 47, 87, .16), transparent 42%),
+        radial-gradient(ellipse at 85% 55%, rgba(0, 234, 255, .045), transparent 30%),
+        var(--bg);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
 }
 
-/* 简介 */
-
-.intro{
-    text-align:center;
-    color:#b0b0b0;
-    margin-bottom:50px;
+/* 极轻的屏幕纹理 */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: .13;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 4px,
+        rgba(190, 210, 255, .075) 5px
+    );
 }
 
-/* 题记 */
+::selection { background: var(--pink); color: white; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 1px solid var(--cyan); outline-offset: 4px; }
 
-.quote{
-    text-align:center;
-    color:#c0c0c0;
-    font-style:italic;
-    margin:40px 0;
+.shell {
+    position: relative;
+    z-index: 1;
+    width: min(1120px, calc(100% - var(--gutter) * 2));
+    margin-inline: auto;
 }
 
-/* 卡片 */
+/* 顶部 */
 
-.essay-card{
-    padding:25px;
-    margin:35px 0;
-    border-radius:16px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.25);
+.topbar {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--sans);
 }
 
-/* 黑白灰配色 */
-
-/* 墨黑 */
-
-.dark{
-    background:#2b2b2b;
-    color:#f5f5f5;
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: .16em;
+    white-space: nowrap;
 }
 
-/* 石墨灰 */
-
-.graphite{
-    background:#4d4d4d;
-    color:#f5f5f5;
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(0, 234, 255, .55);
+    color: var(--cyan);
+    font-family: Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 0;
 }
 
-/* 深灰 */
+.brand-slash { color: var(--pink); }
 
-.deep{
-    background:#666666;
-    color:#f5f5f5;
+.top-links {
+    display: flex;
+    gap: 24px;
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: .12em;
 }
 
-/* 中灰 */
+.top-links a { transition: color .2s ease; }
+.top-links a:hover { color: var(--cyan); }
 
-.gray{
-    background:#8c8c8c;
-    color:#ffffff;
+/* 主标题 */
+
+.hero {
+    padding: clamp(80px, 13vw, 150px) 0 64px;
+    border-bottom: 1px solid var(--line);
 }
 
-/* 银灰 */
-
-.silver{
-    background:#bdbdbd;
-    color:#222222;
+.hero-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .17em;
 }
 
-/* 浅灰 */
-
-.light{
-    background:#d9d9d9;
-    color:#222222;
+.signal-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #a4a5b5;
 }
 
-/* 雾白 */
-
-.mist{
-    background:#eeeeee;
-    color:#222222;
+.signal-status::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px rgba(0, 234, 255, .7);
 }
 
-/* 标题 */
-
-.title{
-    font-size:1.2rem;
-    margin-bottom:10px;
-    font-weight:bold;
+.title-stage {
+    position: relative;
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: clamp(42px, 7vw, 78px) 0 0;
+    isolation: isolate;
 }
 
-/* 简介 */
+/* 白色主标题，青粉色字形错位 */
 
-.desc{
-    font-size:0.95rem;
-    margin-bottom:12px;
-    opacity:0.85;
+.big-title {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    font-family: var(--display);
+    font-size: clamp(76px, 13vw, 154px);
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -.085em;
+    white-space: nowrap;
+    text-shadow: 0 0 12px rgba(255, 255, 255, .08);
 }
 
-/* 正文 */
-
-.short{
-    font-style:italic;
-    white-space:pre-line;
+.big-title::before,
+.big-title::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: max-content;
+    max-width: calc(100vw - 48px);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    -webkit-text-fill-color: currentColor;
 }
 
-/* 链接 */
+.big-title::before {
+    z-index: -1;
+    color: rgba(0, 234, 255, .68);
+    transform: translateX(-5px);
+    mix-blend-mode: screen;
+}
 
-a{
-    text-decoration:none;
-    color:inherit;
+.big-title::after {
+    z-index: -2;
+    color: rgba(255, 44, 170, .72);
+    transform: translateX(6px);
+    mix-blend-mode: screen;
+}
+
+/* 英文副标题 */
+
+.eyebrow {
+    position: relative;
+    display: inline-block;
+    margin-top: 22px;
+    color: #dedee9;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .26em;
+    line-height: 1.8;
+}
+
+.hero-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-top: clamp(46px, 7vw, 78px);
+}
+
+.intro-copy {
+    margin: 0;
+    color: #d4d3df;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.intro-copy small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .025em;
+}
+
+.hero-quote {
+    max-width: 390px;
+    margin: 0;
+    color: #a8a6b6;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.9;
+    text-align: right;
+}
+
+/* 只有主标题和英文副标题随机失真 */
+
+.glitch-target {
+    position: relative;
+    isolation: isolate;
+}
+
+.glitch-target.glitching {
+    animation: signal-cut .38s steps(1, end) both;
+}
+
+.big-title.glitching::before {
+    animation: cyan-cut .38s steps(1, end) both;
+}
+
+.big-title.glitching::after {
+    animation: pink-cut .38s steps(1, end) both;
+}
+
+.eyebrow.glitching {
+    animation: signal-cut .38s steps(1, end) both;
+}
+
+@keyframes signal-cut {
+    0%, 100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: none;
+        clip-path: inset(0);
+    }
+    12% {
+        opacity: .18;
+        transform: translateX(4px);
+        filter: blur(.8px);
+        clip-path: inset(12% 0 65% 0);
+    }
+    25% {
+        opacity: 1;
+        transform: translateX(-2px);
+        clip-path: inset(0);
+    }
+    42% {
+        opacity: .42;
+        transform: translateX(2px);
+        clip-path: inset(60% 0 12% 0);
+    }
+    57% {
+        opacity: 1;
+        transform: translateX(0);
+        clip-path: inset(0);
+    }
+}
+
+@keyframes cyan-cut {
+    0%, 100% { transform: translateX(-5px); opacity: .68; }
+    23% { transform: translateX(-13px); opacity: 1; }
+    46% { transform: translateX(4px); opacity: .35; }
+}
+
+@keyframes pink-cut {
+    0%, 100% { transform: translateX(6px); opacity: .72; }
+    20% { transform: translateX(15px); opacity: 1; }
+    44% { transform: translateX(-4px); opacity: .45; }
+}
+
+/* 故障时短暂出现的电光 */
+
+.spark {
+    position: absolute;
+    z-index: 8;
+    overflow: visible;
+    pointer-events: none;
+    animation: spark-burst .34s steps(2, end) forwards;
+}
+
+.spark-glow {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 6;
+    opacity: .72;
+    filter: blur(3px);
+}
+
+.spark-pink {
+    fill: none;
+    stroke: var(--pink);
+    stroke-width: 2.5;
+    opacity: .95;
+}
+
+.spark-core {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 1.2;
+}
+
+@keyframes spark-burst {
+    0% { opacity: 0; transform: scale(.6) rotate(var(--angle)); }
+    18% { opacity: 1; transform: scale(1) rotate(var(--angle)); }
+    52% { opacity: .95; transform: scale(1.04) rotate(var(--angle)); }
+    100% { opacity: 0; transform: scale(.92) rotate(var(--angle)); }
+}
+
+/* 正文：一直显示，不需要点击 */
+
+.essays { padding-top: 18px; }
+
+.essay {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 70px);
+    padding: 52px 0 62px;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 28px;
+}
+
+.essay-index {
+    padding-top: 9px;
+    color: #858797;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .14em;
+}
+
+.essay-index span {
+    display: block;
+    margin-top: 15px;
+    color: #555766;
+    font-size: 9px;
+    letter-spacing: .1em;
+}
+
+.essay-content { min-width: 0; }
+
+/* 文章标题纯白，不参与赛博故障 */
+
+.essay-title {
+    display: inline-block;
+    margin: 0 0 22px;
+    color: #f3f2f8;
+    font-family: var(--display);
+    font-size: clamp(30px, 4.2vw, 49px);
+    font-weight: 800;
+    letter-spacing: -.055em;
+    line-height: 1.35;
+}
+
+.essay-text {
+    max-width: 720px;
+    margin: 0;
+    color: #c9c8d3;
+    font-size: 15px;
+    line-height: 2.15;
+    letter-spacing: .025em;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.essay:nth-child(even) .essay-content {
+    padding-left: clamp(0px, 2vw, 26px);
+}
+
+.essay:nth-child(3) .essay-text { max-width: 760px; }
+
+.essay:nth-child(4) .essay-content {
+    padding-left: clamp(0px, 4vw, 52px);
 }
 
 /* 页脚 */
 
-.footer{
-    text-align:center;
-    margin-top:60px;
-    color:#999;
+.end-mark {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 70px;
+    color: #656777;
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .18em;
 }
 
-.footer a{
-    color:#d0d0d0;
+.end-mark::before,
+.end-mark::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--line);
 }
 
-.footer a:hover{
-    color:white;
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 30px 0 42px;
+    font-family: var(--sans);
 }
 
+.back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.back-home:hover { color: var(--cyan); }
+.back-home .arrow { color: var(--pink); font-size: 20px; }
+
+.back-home small,
+.footer-meta {
+    color: var(--muted);
+    font-size: 8px;
+    letter-spacing: .12em;
+    line-height: 1.9;
+}
+
+.footer-meta { text-align: right; }
+
+/* 手机端 */
+
+@media (max-width: 700px) {
+    :root { --gutter: 22px; }
+
+    .topbar { min-height: 66px; }
+
+    .brand {
+        gap: 7px;
+        font-size: 9px;
+        letter-spacing: .1em;
+    }
+
+    .brand-mark {
+        width: 25px;
+        height: 25px;
+    }
+
+    .top-links {
+        gap: 12px;
+        font-size: 8px;
+    }
+
+    .hero {
+        padding-top: 86px;
+        padding-bottom: 46px;
+    }
+
+    .hero-meta {
+        font-size: 8px;
+        letter-spacing: .1em;
+    }
+
+    .title-stage { margin-top: 50px; }
+
+    .big-title {
+        font-size: clamp(49px, 14.4vw, 92px);
+        letter-spacing: -.09em;
+    }
+
+    .eyebrow {
+        margin-top: 17px;
+        font-size: 9px;
+        letter-spacing: .18em;
+    }
+
+    .hero-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 22px;
+        margin-top: 43px;
+    }
+
+    .hero-quote {
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .essay {
+        grid-template-columns: 43px minmax(0, 1fr);
+        gap: 14px;
+        padding: 38px 0 45px;
+    }
+
+    .essay-index {
+        font-size: 9px;
+        letter-spacing: .05em;
+        overflow-wrap: anywhere;
+    }
+
+    .essay-index span {
+        margin-top: 10px;
+        font-size: 8px;
+    }
+
+    .essay-title {
+        margin-bottom: 17px;
+        font-size: clamp(28px, 8vw, 39px);
+    }
+
+    .essay-text {
+        font-size: 14px;
+        line-height: 2.08;
+    }
+
+    .essay:nth-child(even) .essay-content,
+    .essay:nth-child(4) .essay-content {
+        padding-left: 0;
+    }
+
+    .end-mark {
+        margin-top: 54px;
+        font-size: 8px;
+    }
+
+    .footer {
+        align-items: flex-start;
+        padding-bottom: 30px;
+    }
+}
+
+@media (max-width: 380px) {
+    .big-title { font-size: 46px; }
+    .top-links { gap: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+
+    .glitch-target.glitching,
+    .glitch-target.glitching::before,
+    .glitch-target.glitching::after,
+    .spark {
+        animation: none !important;
+    }
+}
 </style>
-
 </head>
 
-<body>
+<body id="top">
+<div class="shell">
 
-<h1>靡靡呓语</h1>
+<header class="topbar">
+    <a class="brand" href="index.html" aria-label="返回首页">
+        <span class="brand-mark">V.</span>
+        <span>VESPER <span class="brand-slash">/</span> ARCHIVE</span>
+    </a>
 
-<h2>Absurd Reveries</h2>
+    <nav class="top-links" aria-label="页面导航">
+        <a href="#essays">FRAGMENTS</a>
+        <a href="index.html">← ARCHIVE</a>
+    </nav>
+</header>
 
-<div class="intro">
+<main>
+    <section class="hero" aria-labelledby="page-title">
+        <div class="hero-meta">
+            <span>04 / ESSAYS &amp; OBSERVATIONS</span>
+            <span class="signal-status">SIGNAL UNSTABLE</span>
+        </div>
 
-关于幻想，胡话，灰色幽默。<br>
-On fantasy, nonsense, and dark humor.
+        <div class="title-stage">
+            <h1 class="big-title glitch-target"
+                id="page-title"
+                data-text="靡靡呓语">靡靡呓语</h1>
+        </div>
 
-</div>
+        <div class="eyebrow glitch-target"
+             data-text="ABSURD REVERIES">ABSURD REVERIES</div>
 
-<div class="quote">
+        <div class="hero-bottom">
+            <p class="intro-copy">
+                关于幻想，胡话，灰色幽默。<br>
+                <small>On fantasy, nonsense, and dark humor.</small>
+            </p>
 
-“醉后不知天在水，满船清梦压星河。”
+            <blockquote class="hero-quote">
+                “醉后不知天在水，满船清梦压星河。”
+            </blockquote>
+        </div>
+    </section>
 
-</div>
+    <section class="essays" id="essays" aria-label="随笔正文">
 
-<!-- 随笔1 -->
-
-<div class="essay-card dark">
-
-    <div class="title">
-        #逃犯
-    </div>
-
-    <div class="short">
-
-就杀死蚊子的次数而言
+        <article class="essay" id="taofan">
+            <div class="essay-index">CUT / 01<span>TEXT FILE</span></div>
+            <div class="essay-content">
+                <h2 class="essay-title">#逃犯</h2>
+                <p class="essay-text">就杀死蚊子的次数而言
 我无疑是个头号逃犯
 一级恐怖分子
 和连环凶杀案主谋
 幸好
-蚊子没有统治世界
+蚊子没有统治世界</p>
+            </div>
+        </article>
 
-    </div>
-
-</div>
-
-<!-- 随笔2 -->
-
-<div class="essay-card light">
-
-    <div class="title">
-        #夏
-    </div>
-
-    <div class="short">
-
-一颗夏天的净含量是200克
+        <article class="essay" id="summer">
+            <div class="essay-index">CUT / 02<span>TEXT FILE</span></div>
+            <div class="essay-content">
+                <h2 class="essay-title">#夏</h2>
+                <p class="essay-text">一颗夏天的净含量是200克
 热烈酸涩的太阳色外壳
 盛以沁甜果肉
 青柯翠叶点缀出清凉
 嘿！
-要不要来一斤夏？
+要不要来一斤夏？</p>
+            </div>
+        </article>
 
-    </div>
-
-</div>
-
-<!-- 随笔3 -->
-
-<div class="essay-card mist">
-
-    <div class="title">
-        #屈原
-        </div>
-    <div class="short">
-
-郢都破了
+        <article class="essay" id="quyuan">
+            <div class="essay-index">CUT / 03<span>TEXT FILE</span></div>
+            <div class="essay-content">
+                <h2 class="essay-title">#屈原</h2>
+                <p class="essay-text">郢都破了
 看远
 硝烟
 那是你爱的百姓
@@ -243,7 +676,6 @@ On fantasy, nonsense, and dark humor.
 你是否会想起
 楚的天子
 已成他乡一缕冤魂
-
 
 汨罗江的江水浊啊
 染脏了一位白衣行吟者
@@ -258,95 +690,171 @@ On fantasy, nonsense, and dark humor.
 无人来， 无人唤
 带着他的孤高流转千年
 
-
 水抱屈原，是你
 屈，是你的人生
 不屈，是你的底色
 白，是你的本真
-独白，是你的无奈
+独白，是你的无奈</p>
+            </div>
+        </article>
 
-    </div>
-
-</div>
-
-<!-- 随笔4 -->
-
-<div class="essay-card silver">
-
-    <div class="title">
-        #文字雨
-    </div>
-    <div class="short">
-我的世界在下一场盛大的文字雨，
+        <article class="essay" id="wenziyu">
+            <div class="essay-index">CUT / 04<span>TEXT FILE</span></div>
+            <div class="essay-content">
+                <h2 class="essay-title">#文字雨</h2>
+                <p class="essay-text">我的世界在下一场盛大的文字雨，
 绵密，温良，沉默。
 一滴雨杀不死我，
 一场雨能将我温和地湮没，
 带走我，
 带我览遍这一生不曾相见的山河，
 带我去经历另一个人的春夏秋冬，
-带我去笑，去悲，去爱，去恨。
+带我去笑，去悲，去爱，去恨。</p>
+            </div>
+        </article>
 
-    </div>
+    </section>
 
-</div>
+    <div class="end-mark">END OF FRAGMENTS</div>
+</main>
 
-<!-- 随笔5 -->
-
-<div class="essay-card graphite">
-
-    <div class="title">
-        #文章标题
-    </div>
-
-    <div class="short">
-
-“城市从不失眠，只是换了一批做梦的人。”
-
-    </div>
-
-</div>
-
-<!-- 随笔6 -->
-
-<div class="essay-card deep">
-
-    <div class="title">
-        #文章标题
-    </div>
-
-    <div class="short">
-
-“城市从不失眠，只是换了一批做梦的人。”
-
-    </div>
-
-</div>
-
-<!-- 随笔7 -->
-
-<div class="essay-card grey">
-
-    <div class="title">
-        #文章标题
-    </div>
-
-    <div class="short">
-
-荒诞是现实照镜子时留下的影子。
-
-    </div>
-
-</div>
-
-<div class="footer">
-
-    <a href="index.html">
-        返回首页<br>
-        Back Home
+<footer class="footer">
+    <a class="back-home" href="index.html">
+        <span class="arrow">←</span>
+        <span>返回首页<br><small>BACK TO ARCHIVE</small></span>
     </a>
+    <div class="footer-meta">VESPER / ARCHIVE<br>ABSURD REVERIES</div>
+</footer>
 
 </div>
+
+<script>
+(() => {
+    const targets = [...document.querySelectorAll('.glitch-target')];
+    const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+    );
+
+    let lastTarget = null;
+    let active = false;
+
+    /* 随机生成短促电弧 */
+    function createSparks(target) {
+        const count = 1 + Math.floor(Math.random() * 3);
+
+        for (let i = 0; i < count; i++) {
+            const svg = document.createElementNS(
+                'http://www.w3.org/2000/svg',
+                'svg'
+            );
+
+            svg.setAttribute('viewBox', '0 0 100 50');
+            svg.setAttribute('aria-hidden', 'true');
+            svg.classList.add('spark');
+
+            svg.style.width = `${48 + Math.random() * 68}px`;
+            svg.style.height = `${24 + Math.random() * 34}px`;
+            svg.style.left = `${Math.random() * 88}%`;
+            svg.style.top = `${-16 + Math.random() * 94}%`;
+            svg.style.setProperty(
+                '--angle',
+                `${-28 + Math.random() * 56}deg`
+            );
+
+            const points = [];
+
+            for (let p = 0; p < 7; p++) {
+                const x = p * (100 / 6);
+                const y = (p === 0 || p === 6)
+                    ? 25 + (Math.random() * 6 - 3)
+                    : 25 + (Math.random() * 34 - 17);
+
+                points.push(`${x},${y}`);
+            }
+
+            const pointString = points.join(' ');
+
+            for (const className of [
+                'spark-glow',
+                'spark-pink',
+                'spark-core'
+            ]) {
+                const line = document.createElementNS(
+                    'http://www.w3.org/2000/svg',
+                    'polyline'
+                );
+
+                line.setAttribute('points', pointString);
+                line.classList.add(className);
+                svg.appendChild(line);
+            }
+
+            target.appendChild(svg);
+
+            window.setTimeout(() => svg.remove(), 420);
+        }
+    }
+
+    function visibleTargets() {
+        return targets.filter((target) => {
+            const rect = target.getBoundingClientRect();
+
+            return rect.width > 0 &&
+                rect.height > 0 &&
+                rect.bottom > 0 &&
+                rect.top < window.innerHeight;
+        });
+    }
+
+    /* 每次只让一个标题故障，结束后才安排下一次 */
+    function scheduleNext() {
+        if (reducedMotion.matches) return;
+
+        window.setTimeout(() => {
+            if (document.hidden || active) {
+                scheduleNext();
+                return;
+            }
+
+            const visible = visibleTargets();
+            const alternatives = visible.filter(
+                target => target !== lastTarget
+            );
+
+            const pool = alternatives.length ? alternatives : visible;
+
+            if (!pool.length) {
+                scheduleNext();
+                return;
+            }
+
+            const target = pool[
+                Math.floor(Math.random() * pool.length)
+            ];
+
+            lastTarget = target;
+            active = true;
+
+            target.classList.add('glitching');
+            createSparks(target);
+
+            window.setTimeout(() => {
+                target.classList.remove('glitching');
+                active = false;
+                scheduleNext();
+            }, 460);
+
+        }, 4200 + Math.random() * 7800);
+    }
+
+    if (!reducedMotion.matches) {
+        window.setTimeout(
+            scheduleNext,
+            3200 + Math.random() * 2600
+        );
+    }
+})();
+</script>
 
 </body>
-
 </html>
