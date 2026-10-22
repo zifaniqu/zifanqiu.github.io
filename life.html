@@ -4,79 +4,888 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#eae7df">
+<meta name="theme-color" content="#e9e5dc">
 <title>生活万花筒 — Vesper / Archive</title>
 
 <style>
+:root {
+    --paper: #e9e5dc;
+    --yellow: #d8c77c;
+    --red: #a95e49;
+    --blue: #879fa8;
+    --ink: #34322d;
+    --muted: #77736a;
+    --line: #c9c3b8;
 
-/* 图片统一处理：降低饱和度与对比度 */
-.hero-photo,
-.essay-image {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-    background: #d5d0c5;
+    --serif: "Songti SC", "Noto Serif SC",
+             "Source Han Serif SC", "STSong", serif;
+    --sans: -apple-system, BlinkMacSystemFont,
+            "Helvetica Neue", "PingFang SC", sans-serif;
 }
 
-/* 统一压低照片的色彩 */
-.hero-photo img,
-.essay-image img {
-    filter: grayscale(0.78)
-            sepia(0.12)
-            saturate(0.7)
-            contrast(0.9)
-            brightness(1.02);
-    transition: filter 0.3s ease;
+* {
+    box-sizing: border-box;
 }
 
-/* 只保留很淡的色调，不覆盖照片细节 */
-.hero-photo {
-    --photo-tint: #d8c77c;
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 25px;
+    background: var(--paper);
 }
 
-.essay-sleep .essay-image {
-    --photo-tint: #91a8b1;
+body {
+    margin: 0;
+    min-width: 320px;
+    overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
 }
 
-.motivation-image {
-    --photo-tint: #cbc6ba;
+::selection {
+    background: var(--yellow);
+    color: var(--ink);
 }
 
-.mp3-image {
-    --photo-tint: #b7654d;
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
-/* 让图片自然融入对应色块 */
-.hero-photo::after,
-.essay-image::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: var(--photo-tint);
-    opacity: 0.18;
-    mix-blend-mode: color;
+a:focus-visible {
+    outline: 1px solid var(--red);
+    outline-offset: 4px;
+}
+
+.shell {
+    width: min(1120px, calc(100% - 88px));
+    margin-inline: auto;
+}
+
+.progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 2px;
+    width: 0;
+    background: var(--red);
     pointer-events: none;
 }
 
-/* 不再放大图片，也不添加额外动效 */
-.hero-photo:hover img,
-.essay-image:hover img {
-    transform: none;
-    filter: grayscale(0.78)
-            sepia(0.12)
-            saturate(0.7)
-            contrast(0.9)
-            brightness(1.02);
+/* 顶部导航 */
+
+.topbar {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--sans);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .hero-photo img,
-    .essay-image img {
-        transition: none;
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.brand-mark {
+    width: 29px;
+    height: 29px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--muted);
+    font-family: Georgia, serif;
+    font-size: 12px;
+}
+
+.brand-name {
+    font-size: 10px;
+    letter-spacing: .13em;
+}
+
+.top-links {
+    display: flex;
+    gap: 24px;
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: .1em;
+}
+
+.top-links a,
+.index-list a,
+.back-home {
+    transition: color .2s ease;
+}
+
+.top-links a:hover,
+.index-list a:hover,
+.back-home:hover {
+    color: var(--red);
+}
+
+/* 首屏 */
+
+.hero {
+    padding: 30px 0 48px;
+    border-bottom: 1px solid var(--line);
+}
+
+.hero-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .12em;
+}
+
+.hero-title {
+    margin: 65px 0 38px;
+    font-size: clamp(78px, 13vw, 150px);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -.09em;
+}
+
+.hero-title span {
+    display: block;
+}
+
+.hero-title span:last-child {
+    margin-left: .62em;
+}
+
+.hero-bottom {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.hero-description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.hero-description small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    line-height: 1.8;
+}
+
+.scroll-link {
+    flex-shrink: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--ink);
+    font-family: var(--sans);
+    font-size: 9px;
+}
+
+/* 目录：纯文字，不做彩色卡片 */
+
+.index {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 60px;
+    padding: 54px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.section-label {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .14em;
+}
+
+.index h2 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.index-intro {
+    max-width: 300px;
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 2;
+}
+
+.index-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    column-gap: 28px;
+}
+
+.index-list a {
+    display: flex;
+    align-items: baseline;
+    gap: 13px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.index-num {
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+}
+
+.index-name {
+    font-size: 12px;
+}
+
+/* 文章统一基础样式 */
+
+.essay {
+    scroll-margin-top: 28px;
+    min-width: 0;
+}
+
+.essay-number,
+.essay-tag {
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .12em;
+}
+
+.essay-title {
+    margin: 0;
+    font-size: clamp(32px, 4.5vw, 48px);
+    font-weight: 400;
+    letter-spacing: -.055em;
+}
+
+.essay-text {
+    margin: 0;
+    white-space: pre-line;
+    font-size: 13px;
+    line-height: 2.15;
+    letter-spacing: .025em;
+}
+
+/* ==================================================
+   01 未命名的日常
+
+   唯一色块：左上方的褪色黄标题块。
+   正文、编号、其他区域全部保持暖灰底色。
+================================================== */
+
+.essay-daily {
+    padding-top: 48px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--line);
+}
+
+.daily-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 55px;
+    align-items: start;
+}
+
+.daily-left {
+    min-width: 0;
+}
+
+.daily-number {
+    margin-bottom: 27px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .13em;
+}
+
+/* 01 唯一的彩色矩形 */
+
+.daily-title-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 410px;
+    min-height: 195px;
+    padding: 23px 27px;
+    background: var(--yellow);
+}
+
+.daily-title-block .essay-title {
+    margin-top: 35px;
+    font-size: clamp(34px, 4.5vw, 49px);
+}
+
+.daily-title-block .essay-tag {
+    font-size: 8px;
+}
+
+.daily-side-note {
+    margin-top: 23px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .08em;
+}
+
+.daily-body {
+    padding-top: 60px;
+}
+
+.daily-body .essay-text {
+    max-width: 390px;
+}
+
+/* ==================================================
+   02 失眠
+
+   唯一色块：标题上方的小型灰蓝编号矩形。
+   文章标题与正文不铺色。
+================================================== */
+
+.essay-sleep {
+    padding: 65px 0 75px;
+    border-bottom: 1px solid var(--line);
+}
+
+.sleep-layout {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 65px;
+    align-items: start;
+}
+
+.sleep-label {
+    width: 100%;
+    max-width: 150px;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 17px;
+    background: var(--blue);
+}
+
+.sleep-label .essay-number {
+    font-size: 8px;
+}
+
+.sleep-label .sleep-big-number {
+    font-family: Georgia, serif;
+    font-size: 45px;
+    line-height: 1;
+}
+
+.sleep-body {
+    max-width: 570px;
+}
+
+.sleep-body .essay-title {
+    margin: 0 0 26px;
+}
+
+.sleep-body .essay-text {
+    max-width: 470px;
+}
+
+/* ==================================================
+   03 动机
+
+   唯一色块：右上方的砖红标题矩形。
+   正文维持暖灰底色。
+================================================== */
+
+.essay-motivation {
+    padding: 65px 0 75px;
+    border-bottom: 1px solid var(--line);
+}
+
+.motivation-layout {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 65px;
+    align-items: start;
+}
+
+.motivation-body {
+    padding-top: 8px;
+}
+
+.motivation-body .essay-number {
+    display: block;
+    margin-bottom: 28px;
+    color: var(--muted);
+}
+
+.motivation-body .essay-text {
+    max-width: 480px;
+}
+
+.motivation-title-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.motivation-title-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 330px;
+    min-height: 155px;
+    padding: 20px 24px;
+    background: var(--red);
+    color: var(--paper);
+}
+
+.motivation-title-block .essay-title {
+    margin-top: 25px;
+    font-size: 47px;
+}
+
+.motivation-caption {
+    margin-top: 18px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    line-height: 1.9;
+    letter-spacing: .06em;
+}
+
+/* ==================================================
+   04 MP3
+
+   唯一色块：右侧偏上的褪色黄标题矩形。
+   正文不铺色，和其他文章保持一致。
+================================================== */
+
+.essay-mp3 {
+    padding: 65px 0 80px;
+}
+
+.mp3-layout {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 65px;
+    align-items: start;
+}
+
+.mp3-number {
+    padding-top: 8px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .12em;
+}
+
+.mp3-content {
+    max-width: 600px;
+}
+
+.mp3-title-block {
+    width: 100%;
+    max-width: 330px;
+    min-height: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 25px;
+    background: var(--yellow);
+}
+
+.mp3-title-block .essay-title {
+    font-family: Georgia, serif;
+    font-size: 63px;
+    letter-spacing: -.07em;
+}
+
+.mp3-title-block .essay-tag {
+    font-size: 8px;
+    line-height: 1.8;
+}
+
+.mp3-body {
+    margin-top: 30px;
+}
+
+.mp3-body .essay-text {
+    font-size: 14px;
+}
+
+/* 页脚 */
+
+.end-mark {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 25px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: .14em;
+}
+
+.end-mark::before,
+.end-mark::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--line);
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 35px 0 40px;
+}
+
+.back-home {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.back-home .arrow {
+    font-family: var(--sans);
+    font-size: 19px;
+}
+
+.back-home small {
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 8px;
+    letter-spacing: .1em;
+}
+
+.footer-meta {
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 8px;
+    line-height: 1.9;
+    letter-spacing: .1em;
+    text-align: right;
+}
+
+/* 平板 */
+
+@media (max-width: 760px) {
+    .shell {
+        width: calc(100% - 48px);
+    }
+
+    .hero-title {
+        font-size: clamp(80px, 14vw, 112px);
+    }
+
+    .index {
+        gap: 30px;
+    }
+
+    .daily-layout,
+    .motivation-layout {
+        gap: 32px;
+    }
+
+    .sleep-layout,
+    .mp3-layout {
+        grid-template-columns: 145px 1fr;
+        gap: 35px;
+    }
+
+    .daily-title-block {
+        min-height: 170px;
     }
 }
 
+/* 手机 */
+
+@media (max-width: 520px) {
+    .shell {
+        width: calc(100% - 36px);
+    }
+
+    .topbar {
+        min-height: 62px;
+    }
+
+    .brand {
+        gap: 8px;
+    }
+
+    .brand-mark {
+        width: 26px;
+        height: 26px;
+    }
+
+    .brand-name {
+        font-size: 8px;
+        letter-spacing: .07em;
+    }
+
+    .top-links {
+        gap: 12px;
+        font-size: 8px;
+    }
+
+    .hero {
+        padding: 25px 0 30px;
+    }
+
+    .hero-meta {
+        font-size: 8px;
+        letter-spacing: .05em;
+    }
+
+    .hero-title {
+        margin: 58px 0 35px;
+        font-size: clamp(78px, 19vw, 100px);
+    }
+
+    .hero-title span:last-child {
+        margin-left: .32em;
+    }
+
+    .hero-description {
+        font-size: 12px;
+    }
+
+    .hero-description small {
+        max-width: 225px;
+        font-size: 8px;
+    }
+
+    .hero-bottom {
+        align-items: end;
+        gap: 12px;
+    }
+
+    .scroll-link {
+        font-size: 8px;
+        white-space: nowrap;
+    }
+
+    .index {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding: 40px 0;
+    }
+
+    .index h2 {
+        font-size: 30px;
+    }
+
+    .index-intro {
+        font-size: 11px;
+    }
+
+    .index-list {
+        gap: 0 18px;
+    }
+
+    .index-list a {
+        gap: 9px;
+        padding: 13px 0;
+    }
+
+    .index-name {
+        font-size: 11px;
+    }
+
+    /* 01：色块只占标题区 */
+
+    .essay-daily {
+        padding-top: 35px;
+        padding-bottom: 42px;
+    }
+
+    .daily-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .daily-number {
+        margin-bottom: 17px;
+    }
+
+    .daily-title-block {
+        max-width: 330px;
+        min-height: 145px;
+        padding: 17px 19px;
+    }
+
+    .daily-title-block .essay-title {
+        margin-top: 22px;
+        font-size: 36px;
+    }
+
+    .daily-side-note {
+        margin-top: 12px;
+    }
+
+    .daily-body {
+        padding-top: 28px;
+    }
+
+    .daily-body .essay-text {
+        font-size: 12px;
+        line-height: 2.1;
+    }
+
+    /* 02：小型灰蓝编号块 */
+
+    .essay-sleep {
+        padding: 42px 0 48px;
+    }
+
+    .sleep-layout {
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .sleep-label {
+        min-height: 105px;
+        padding: 10px;
+    }
+
+    .sleep-label .essay-number {
+        font-size: 7px;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .sleep-label .sleep-big-number {
+        font-size: 38px;
+    }
+
+    .sleep-body .essay-title {
+        font-size: 34px;
+        margin-bottom: 20px;
+    }
+
+    .sleep-body .essay-text {
+        font-size: 11px;
+        line-height: 2.05;
+        letter-spacing: 0;
+    }
+
+    /* 03：砖红色只在标题块 */
+
+    .essay-motivation {
+        padding: 42px 0 48px;
+    }
+
+    .motivation-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .motivation-body {
+        grid-row: 2;
+    }
+
+    .motivation-body .essay-number {
+        margin-bottom: 17px;
+    }
+
+    .motivation-body .essay-text {
+        font-size: 12px;
+        line-height: 2.1;
+    }
+
+    .motivation-title-block {
+        max-width: 270px;
+        min-height: 125px;
+        padding: 17px 20px;
+    }
+
+    .motivation-title-block .essay-title {
+        margin-top: 17px;
+        font-size: 39px;
+    }
+
+    .motivation-caption {
+        margin-top: 10px;
+    }
+
+    /* 04：黄色标题块，正文仍然无底色 */
+
+    .essay-mp3 {
+        padding: 42px 0 48px;
+    }
+
+    .mp3-layout {
+        grid-template-columns: 65px minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .mp3-number {
+        font-size: 8px;
+        letter-spacing: .04em;
+        overflow-wrap: anywhere;
+    }
+
+    .mp3-title-block {
+        min-height: 100px;
+        padding: 15px;
+        gap: 8px;
+    }
+
+    .mp3-title-block .essay-title {
+        font-size: 48px;
+    }
+
+    .mp3-title-block .essay-tag {
+        font-size: 7px;
+        letter-spacing: .03em;
+    }
+
+    .mp3-body {
+        margin-top: 25px;
+    }
+
+    .mp3-body .essay-text {
+        font-size: 12px;
+        line-height: 2.1;
+    }
+
+    .end-mark {
+        margin-top: 20px;
+        font-size: 8px;
+    }
+
+    .footer {
+        align-items: flex-start;
+        padding: 30px 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+}
 </style>
 </head>
 
@@ -100,50 +909,29 @@
 
 <main>
 
-    <!-- 首屏 -->
-
     <section class="hero">
+        <div class="hero-meta">
+            <span>03 / ESSAYS & OBSERVATIONS</span>
+            <span>EVERYDAY, IN FRAGMENTS</span>
+        </div>
 
-        <div class="hero-copy">
+        <h1 class="hero-title">
+            <span>生活</span>
+            <span>万花筒</span>
+        </h1>
 
-            <div class="eyebrow">
-                03 / ESSAYS & OBSERVATIONS
-            </div>
-
-            <h1>
-                <span>生活</span>
-                <span>万花筒</span>
-            </h1>
-
+        <div class="hero-bottom">
             <p class="hero-description">
                 关于少年、日常与烟火气。
                 <small>
                     On youth, ordinary days, and the warmth of life's little moments.
                 </small>
             </p>
-
-            <div class="hero-bottom">
-                <span>SMALL THINGS, REAL LIFE</span>
-                <a class="scroll-link" href="#index">向下阅读 ↓</a>
-            </div>
-
+            <a class="scroll-link" href="#index">EXPLORE ↓</a>
         </div>
-
-        <div class="hero-photo">
-            <img
-                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1100&q=85"
-                alt="桌面上的书页与日常物件"
-                fetchpriority="high"
-            >
-            <span class="photo-caption">A DESK, AN ORDINARY DAY</span>
-        </div>
-
     </section>
 
-    <!-- 目录 -->
-
     <section class="index" id="index">
-
         <div>
             <p class="section-label">A SMALL COLLECTION / 01—04</p>
             <h2>日常碎片</h2>
@@ -158,44 +946,43 @@
                 <span class="index-num">01</span>
                 <span class="index-name">未命名的日常</span>
             </a>
-
             <a href="#sleep">
                 <span class="index-num">02</span>
                 <span class="index-name">失眠</span>
             </a>
-
             <a href="#motivation">
                 <span class="index-num">03</span>
                 <span class="index-name">动机</span>
             </a>
-
             <a href="#mp3">
                 <span class="index-num">04</span>
                 <span class="index-name">MP3</span>
             </a>
         </nav>
-
     </section>
 
     <section class="notes" id="notes" aria-label="随笔正文">
 
-        <!-- 01：保留原有便笺式设计 -->
+        <!-- 01 未命名的日常 -->
 
         <article class="essay essay-daily" id="daily">
+            <div class="daily-layout">
 
-            <div class="daily-aside">
-                <div>
-                    <div class="essay-number">FRAGMENT / 01</div>
-                    <div class="daily-number">25.</div>
+                <div class="daily-left">
+                    <div class="daily-number">FRAGMENT / 01</div>
+
+                    <div class="daily-title-block">
+                        <span class="essay-tag">A MEMORY OF YOUTH</span>
+                        <h2 class="essay-title">未命名的日常</h2>
+                    </div>
+
+                    <div class="daily-side-note">
+                        EVERYDAY NOTES / 2025
+                    </div>
                 </div>
-                <span class="daily-stamp">FIELD NOTES</span>
-            </div>
 
-            <div class="daily-body">
-                <div class="essay-tag">A MEMORY OF YOUTH</div>
-                <h2 class="essay-title">未命名的日常</h2>
-
-                <p class="essay-text">乱七八糟的教室
+                <div class="daily-body">
+                    <p class="essay-text">乱七八糟的教室
 晃眼的白炽灯
 闹腾腾的朋友
 臭烘烘的汗味和辣条味交叠在一起
@@ -204,27 +991,25 @@
 大概就是我青春的缩影吧
 好像也没有那么热血沸腾
 ——2025</p>
-            </div>
+                </div>
 
+            </div>
         </article>
 
-        <!-- 02：灰蓝与书页照片 -->
+        <!-- 02 失眠 -->
 
         <article class="essay essay-sleep" id="sleep">
+            <div class="sleep-layout">
 
-            <div class="essay-image">
-                <img
-                    src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1000&q=85"
-                    alt="书本与阅读的日常"
-                    loading="lazy"
-                >
-            </div>
+                <div class="sleep-label">
+                    <span class="essay-number">FRAGMENT / 02</span>
+                    <span class="sleep-big-number">02.</span>
+                </div>
 
-            <div class="sleep-body">
-                <div class="essay-tag">FRAGMENT / 02</div>
-                <h2 class="essay-title">失眠</h2>
+                <div class="sleep-body">
+                    <h2 class="essay-title">失眠</h2>
 
-                <p class="essay-text">学生时代的关键词是“困”。
+                    <p class="essay-text">学生时代的关键词是“困”。
 昨天晚上看的《悉达多》
 像一杯黑咖啡
 放凉了一整夜
@@ -237,19 +1022,31 @@
 织成一层保鲜膜。
 里层
 困倦鲜活地跳动。</p>
-            </div>
+                </div>
 
+            </div>
         </article>
 
-        <!-- 03：暖灰与生活照片 -->
+        <!-- 03 动机 -->
 
         <article class="essay essay-motivation" id="motivation">
+            <div class="motivation-layout">
 
-            <div class="motivation-body">
-                <div class="essay-tag">FRAGMENT / 03</div>
-                <h2 class="essay-title">动机</h2>
+                <div class="motivation-title-area">
+                    <div class="motivation-title-block">
+                        <span class="essay-tag">FRAGMENT / 03</span>
+                        <h2 class="essay-title">动机</h2>
+                    </div>
 
-                <p class="essay-text">我曾无数次恍惚自己活着的动机。
+                    <div class="motivation-caption">
+                        PERSONAL NOTES / VESPER
+                    </div>
+                </div>
+
+                <div class="motivation-body">
+                    <span class="essay-number">03 / ESSAYS</span>
+
+                    <p class="essay-text">我曾无数次恍惚自己活着的动机。
 也许
 是门口甜品店的芝士面包太香软；
 书桌上搁置的青春文学
@@ -262,40 +1059,35 @@
 还有太多梦。
 下坠的重力
 抵不过丰厚的人生。</p>
-            </div>
+                </div>
 
-            <div class="essay-image motivation-image">
-                <img
-                    src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1000&q=85"
-                    alt="日常中的花与自然光线"
-                    loading="lazy"
-                >
             </div>
-
         </article>
 
-        <!-- 04：砖红与耳机照片 -->
+        <!-- 04 MP3 -->
 
         <article class="essay essay-mp3" id="mp3">
+            <div class="mp3-layout">
 
-            <div class="essay-image mp3-image">
-                <img
-                    src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=85"
-                    alt="耳机与听音乐的日常"
-                    loading="lazy"
-                >
-            </div>
+                <div class="mp3-number">
+                    FRAGMENT / 04
+                </div>
 
-            <div class="mp3-body">
-                <div class="essay-tag">FRAGMENT / 04</div>
-                <h2 class="essay-title">MP3</h2>
+                <div class="mp3-content">
+                    <div class="mp3-title-block">
+                        <span class="essay-tag">SCHOOL NIGHT</span>
+                        <h2 class="essay-title">MP3</h2>
+                    </div>
 
-                <p class="essay-text">晚自习的寂静更显悲苦。
+                    <div class="mp3-body">
+                        <p class="essay-text">晚自习的寂静更显悲苦。
 耳机通向输液瓶。
 MP3里
 满灌名为幸福感的药水。</p>
-            </div>
+                    </div>
+                </div>
 
+            </div>
         </article>
 
     </section>
@@ -305,7 +1097,6 @@ MP3里
 </main>
 
 <footer class="footer">
-
     <a class="back-home" href="index.html">
         <span class="arrow">←</span>
         <span>
@@ -318,7 +1109,6 @@ MP3里
         VESPER / ARCHIVE<br>
         LIFE IN FRAGMENTS
     </div>
-
 </footer>
 
 </div>
@@ -331,7 +1121,7 @@ function updateProgress() {
         document.documentElement.scrollHeight - window.innerHeight;
 
     const value = total > 0
-        ? (window.scrollY / total) * 100
+        ? window.scrollY / total * 100
         : 0;
 
     progress.style.width =
