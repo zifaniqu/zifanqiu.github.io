@@ -1,271 +1,499 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="思想缓行地 — Thoughts in Transit">
+    <title>思想缓行地 — VESPER / ARCHIVE</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #191918;
+            --secondary: #777671;
+            --line: #e7e6e2;
+            --accent: #8b3939;
 
-<title>思想缓行地</title>
+            --serif:
+                "Noto Serif SC",
+                "Songti SC",
+                "STSong",
+                "SimSun",
+                serif;
 
-<style>
+            --sans:
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
 
-body{
-    background:#f5f5f5;
-    color:#2a2a2a;
-    max-width:900px;
-    margin:auto;
-    padding:60px 25px;
-    font-family:"Noto Serif SC","Times New Roman",serif;
-    line-height:1.9;
-}
+            --gutter: clamp(22px, 6vw, 88px);
+            --width: 1160px;
+        }
 
-/* 标题 */
+        * {
+            box-sizing: border-box;
+        }
 
-h1{
-    text-align:center;
-    color:#222222;
-    font-weight:normal;
-}
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 30px;
+            background: var(--bg);
+        }
 
-h2{
-    text-align:center;
-    color:#6d6d6d;
-    font-weight:normal;
-    margin-bottom:40px;
-}
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
 
-/* 简介 */
+        ::selection {
+            background: var(--text);
+            color: var(--bg);
+        }
 
-.intro{
-    text-align:center;
-    color:#666666;
-    margin-bottom:50px;
-}
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-/* 题记 */
+        a:focus-visible,
+        summary:focus-visible {
+            outline: 1px solid var(--accent);
+            outline-offset: 5px;
+        }
 
-.quote{
-    text-align:center;
-    color:#808080;
-    font-style:italic;
-    margin:40px 0;
-}
+        a,
+        summary {
+            -webkit-tap-highlight-color: transparent;
+        }
 
-/* 文章总容器 */
+        .shell {
+            width: min(
+                calc(100% - var(--gutter) * 2),
+                var(--width)
+            );
+            margin-inline: auto;
+        }
 
-.card-container{
-    background:#fafafa;
-    border-left:6px solid #5c5c5c;
-    border-radius:18px;
-    padding:30px;
-    margin:50px 0;
-}
+        /* 顶部标识 */
 
-/* 卡片 */
+        .topbar {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid var(--line);
+        }
 
-.essay-card{
-    padding:25px;
-    margin:35px 0;
-    border-radius:16px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
+        .brand {
+            font-size: 11px;
+            letter-spacing: .15em;
+            white-space: nowrap;
+        }
 
-/* 标题 */
+        .brand-slash {
+            color: var(--accent);
+            padding-inline: 4px;
+        }
 
-.title{
-    font-size:1.2rem;
-    font-weight:bold;
-    margin-bottom:12px;
-}
+        .brand-archive {
+            color: var(--secondary);
+        }
 
-/* 正文 */
+        .back-link {
+            color: var(--secondary);
+            font-size: 10px;
+            letter-spacing: .12em;
+            transition: color .2s ease;
+        }
 
-.short{
-    white-space:pre-line;
-    line-height:1.8;
-}
+        .back-link:hover {
+            color: var(--text);
+        }
 
-/* 链接 */
+        /* 标题 */
 
-a{
-    text-decoration:none;
-    color:inherit;
-}
+        .hero {
+            display: grid;
+            grid-template-columns: 76px minmax(0, 1fr);
+            gap: clamp(18px, 3vw, 42px);
+            padding-top: clamp(90px, 14vw, 174px);
+            padding-bottom: clamp(78px, 11vw, 132px);
+        }
 
-/* 页脚 */
+        .page-number {
+            padding-top: 13px;
+            color: var(--accent);
+            font-family: var(--sans);
+            font-size: 12px;
+            letter-spacing: .12em;
+        }
 
-.footer{
-    text-align:center;
-    color:#7a7a7a;
-    margin-top:70px;
-}
+        .hero-title {
+            margin: 0;
+            color: var(--text);
+            font-family: var(--serif);
+            font-size: clamp(46px, 7.2vw, 100px);
+            font-weight: 400;
+            letter-spacing: -.065em;
+            line-height: 1.18;
+        }
 
-.footer a{
-    color:#666666;
-}
+        .hero-en {
+            margin-top: 23px;
+            color: var(--secondary);
+            font-size: 10px;
+            letter-spacing: .23em;
+            line-height: 1.8;
+        }
 
-.footer a:hover{
-    color:#222222;
-}
+        /* 文章索引 */
 
-/* ===================== */
-/* 黑白灰卡片配色 */
-/* ===================== */
+        .entries {
+            border-top: 1px solid var(--line);
+        }
 
-/* 墨黑 */
+        .entry {
+            border-bottom: 1px solid var(--line);
+        }
 
-.ink{
-    background:#2f2f2f;
-    color:#f5f5f5;
-}
+        .entry summary {
+            display: grid;
+            grid-template-columns: 76px minmax(0, 1fr) 24px;
+            align-items: center;
+            gap: clamp(18px, 3vw, 42px);
+            min-height: 112px;
+            padding: 24px 0;
+            cursor: pointer;
+            list-style: none;
+        }
 
-/* 石墨灰 */
+        .entry summary::-webkit-details-marker {
+            display: none;
+        }
 
-.graphite{
-    background:#575757;
-    color:#f5f5f5;
-}
+        .entry-number {
+            color: #999891;
+            font-size: 11px;
+            letter-spacing: .08em;
+            transition: color .2s ease;
+        }
 
-/* 深灰 */
+        .entry-title {
+            margin: 0;
+            color: var(--text);
+            font-family: var(--serif);
+            font-size: clamp(26px, 3.1vw, 40px);
+            font-weight: 400;
+            letter-spacing: -.045em;
+            line-height: 1.5;
+            transition: color .2s ease;
+        }
 
-.slate{
-    background:#777777;
-    color:#ffffff;
-}
+        .entry-mark {
+            color: var(--accent);
+            font-family: var(--sans);
+            font-size: 19px;
+            font-weight: 300;
+            text-align: right;
+            line-height: 1;
+        }
 
-/* 银灰 */
+        .entry-mark::before {
+            content: "+";
+        }
 
-.silver{
-    background:#d7d7d7;
-    color:#222222;
-}
+        .entry[open] .entry-mark::before {
+            content: "−";
+        }
 
-/* 云灰 */
+        .entry[open] .entry-number {
+            color: var(--accent);
+        }
 
-.accent{
-    background:#b6b6b6;
-    color:#222222;
-}
+        .entry summary:hover .entry-title {
+            color: #77716e;
+        }
 
-</style>
+        .entry summary:hover .entry-number {
+            color: var(--accent);
+        }
 
+        /* 正文 */
+
+        .entry-content {
+            display: grid;
+            grid-template-columns: 76px minmax(0, 1fr) 24px;
+            gap: clamp(18px, 3vw, 42px);
+            padding-bottom: 52px;
+            animation: reveal .3s ease both;
+        }
+
+        .body-text {
+            grid-column: 2;
+            max-width: 700px;
+            margin: 0;
+            color: #383733;
+            font-family: var(--serif);
+            font-size: clamp(16px, 1.35vw, 19px);
+            font-weight: 400;
+            line-height: 2.15;
+            overflow-wrap: anywhere;
+        }
+
+        .body-text.poem {
+            white-space: pre-line;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 页脚 */
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 27px;
+            padding-bottom: 34px;
+        }
+
+        .footer-brand {
+            color: var(--secondary);
+            font-size: 10px;
+            letter-spacing: .13em;
+        }
+
+        .footer-back {
+            color: var(--secondary);
+            font-size: 10px;
+            letter-spacing: .1em;
+            transition: color .2s ease;
+        }
+
+        .footer-back:hover {
+            color: var(--text);
+        }
+
+        /* 手机端 */
+
+        @media (max-width: 600px) {
+            :root {
+                --gutter: 22px;
+            }
+
+            .topbar {
+                min-height: 66px;
+            }
+
+            .brand {
+                font-size: 10px;
+                letter-spacing: .11em;
+            }
+
+            .back-link {
+                font-size: 9px;
+                letter-spacing: .06em;
+            }
+
+            .hero {
+                grid-template-columns: 28px minmax(0, 1fr);
+                gap: 14px;
+                padding-top: 92px;
+                padding-bottom: 76px;
+            }
+
+            .page-number {
+                padding-top: 8px;
+                font-size: 10px;
+            }
+
+            .hero-title {
+                font-size: clamp(42px, 10.8vw, 62px);
+                letter-spacing: -.07em;
+                line-height: 1.3;
+            }
+
+            .hero-en {
+                margin-top: 19px;
+                font-size: 9px;
+                letter-spacing: .15em;
+            }
+
+            .entry summary {
+                grid-template-columns: 28px minmax(0, 1fr) 18px;
+                gap: 14px;
+                min-height: 88px;
+                padding: 21px 0;
+            }
+
+            .entry-number {
+                font-size: 10px;
+            }
+
+            .entry-title {
+                font-size: 27px;
+            }
+
+            .entry-mark {
+                font-size: 17px;
+            }
+
+            .entry-content {
+                grid-template-columns: 28px minmax(0, 1fr);
+                gap: 14px;
+                padding-bottom: 37px;
+            }
+
+            .body-text {
+                grid-column: 2;
+                font-size: 16px;
+                line-height: 2.05;
+            }
+
+            .footer {
+                padding-top: 23px;
+                padding-bottom: 28px;
+            }
+
+            .footer-brand,
+            .footer-back {
+                font-size: 9px;
+                letter-spacing: .06em;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="shell">
 
-<h1>思想缓行地</h1>
+        <header class="topbar">
+            <a class="brand" href="index.html"
+               aria-label="返回 Vesper Archive 首页">
+                VESPER<span class="brand-slash">/</span><span class="brand-archive">ARCHIVE</span>
+            </a>
 
-<h2>Thoughts in Transit</h2>
+            <a class="back-link" href="index.html">
+                ← BACK TO INDEX
+            </a>
+        </header>
 
-<div class="intro">
+        <main>
+            <section class="hero" aria-labelledby="page-title">
+                <div class="page-number">02</div>
 
-关于问题、答案与未完成的思考。<br>
-On questions, answers, and unfinished thoughts.
+                <div>
+                    <h1 class="hero-title" id="page-title">思想缓行地</h1>
+                    <div class="hero-en">THOUGHTS IN TRANSIT</div>
+                </div>
+            </section>
 
-</div>
+            <section class="entries" aria-label="文章索引">
 
-<div class="quote">
+                <details class="entry">
+                    <summary>
+                        <span class="entry-number">01</span>
+                        <h2 class="entry-title">三字经</h2>
+                        <span class="entry-mark" aria-hidden="true"></span>
+                    </summary>
 
-“路漫漫其修远兮，吾将上下而求索。”
+                    <div class="entry-content">
+                        <p class="body-text poem">孩子哭闹
+咳嗽
+红着眼背诵
+在文字中溺死
+炸裂
+嘶吼
+破开和平的夜
+互相折磨
+谅解
+再是新一场轮回</p>
+                    </div>
+                </details>
 
-</div>
+                <details class="entry">
+                    <summary>
+                        <span class="entry-number">02</span>
+                        <h2 class="entry-title">冷漠</h2>
+                        <span class="entry-mark" aria-hidden="true"></span>
+                    </summary>
 
-<div class="card-container">
+                    <div class="entry-content">
+                        <p class="body-text">学校女厕所第一间的粪便凝固了。人们愤怒地询问，为什么没人在发现它的时候将其冲掉。现在，它糊满了整个便器。没有人知道罪魁祸首是谁。厕所里，臭味将嫌恶放大一万倍。每个人都更加冷漠，更加事不关己。</p>
+                    </div>
+                </details>
 
-    <!-- 随笔1 -->
+                <details class="entry">
+                    <summary>
+                        <span class="entry-number">03</span>
+                        <h2 class="entry-title">城市</h2>
+                        <span class="entry-mark" aria-hidden="true"></span>
+                    </summary>
 
-    <div class="essay-card ink">
+                    <div class="entry-content">
+                        <p class="body-text poem">城市从不失眠，
+只是换了一批做梦的人。</p>
+                    </div>
+                </details>
 
-        <div class="title">
-            #三字经
-        </div>
+            </section>
+        </main>
 
-        <div class="short">
-            孩子哭闹
-            咳嗽
-            红着眼背诵
-            在文字中溺死
-            炸裂
-            嘶吼
-            破开和平的夜
-            互相折磨
-            谅解
-            再是新一场轮回
-            
+        <footer class="footer">
+            <span class="footer-brand">VESPER / ARCHIVE</span>
 
-        </div>
-
-    </div>
-
-    <!-- 随笔2 -->
-
-    <div class="essay-card graphite">
-
-        <div class="title">
-            #冷漠
-        </div>
-
-        <div class="short">
-
-学校女厕所第一间的粪便凝固了。
-人们愤怒地询问，
-为什么没人在发现它的时候将其冲掉。
-现在，
-它糊满了整个便器。
-没有人知道罪魁祸首是谁。
-厕所里，
-臭味将嫌恶放大一万倍。
-每个人都更加冷漠，
-更加事不关己。
-
-        </div>
-
-    </div>
-
-    <!-- 随笔3 -->
-
-    <div class="essay-card accent">
-
-        <div class="title">
-            #昙花
-        </div>
-
-        <div class="short">
-小时候一篇课文讲到昙花，
-现在依然印象深刻
-我讨厌昙花
-或者说，它让我的灵魂为之悲哀
-就像是一本总会读完的书
-故事越精彩纷呈
-结束后便越失落
-就像是一个夏令营认识的朋友
-坐上离开夏令营的大巴
-于是此生再不相见
-没有倒计时
-便是每时每刻都走向终点
-于是我会在面对一本即将读完的书前止步
-于是我会小心翼翼地控制我对那些朋友的依恋
-告诉我，亲爱的
-我要怎样欣赏一只以生命为燃料的花
-
-
-        </div>
+            <a class="footer-back" href="index.html">
+                ← RETURN TO ARCHIVE
+            </a>
+        </footer>
 
     </div>
 
-</div>
+    <script>
+        // 同一时间只展开一篇文章。
+        const entries = document.querySelectorAll(".entry");
 
-<div class="footer">
+        entries.forEach((entry) => {
+            entry.addEventListener("toggle", () => {
+                if (!entry.open) return;
 
-    <a href="index.html">
-        返回首页<br>
-        Back Home
-    </a>
-
-</div>
-
+                entries.forEach((other) => {
+                    if (other !== entry && other.open) {
+                        other.open = false;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>
-``
