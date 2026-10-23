@@ -195,14 +195,14 @@ h1 {
 .story p { margin: 0 0 1.35em; text-indent: 2em; }
 .story .plain { text-indent: 0; }
 .embedded-letter {
+    --writing-leading: 2.05em;
     position: relative;
     margin: 3.5em -18px 3.2em;
     padding: 34px clamp(24px, 5vw, 56px) 40px clamp(48px, 7vw, 78px);
     border: 1px solid #d9d0bf;
     background-color: var(--paper-light);
-    background-image:
-        linear-gradient(to right, transparent 0, transparent 31px, rgba(164,95,80,.42) 31px, rgba(164,95,80,.42) 32px, transparent 32px),
-        repeating-linear-gradient(to bottom, transparent 0, transparent calc(2.05em - 1px), rgba(113,145,151,.27) calc(2.05em - 1px), rgba(113,145,151,.27) 2.05em);
+    /* 左侧红色页边距独立于横线，避免横线从信头处开始而错位 */
+    background-image: linear-gradient(to right, transparent 0, transparent 31px, rgba(164,95,80,.42) 31px, rgba(164,95,80,.42) 32px, transparent 32px);
     box-shadow: 0 18px 42px rgba(65,61,50,.10), 0 2px 4px rgba(65,61,50,.06);
     color: #344e59;
     transform: rotate(-.25deg);
@@ -249,10 +249,25 @@ h1 {
     transform: rotate(4deg);
 }
 .letter-stamp strong { font-family: var(--font-display); font-size: 17px; font-weight: 400; }
-.embedded-letter p { text-indent: 0; margin-bottom: 1.05em; }
-.embedded-letter .salutation { margin-bottom: .3em; }
-.embedded-letter .signature { margin-top: 1.8em; margin-bottom: .25em; text-align: right; }
-.embedded-letter .date { color: #8a7770; font-size: .9em; text-align: right; }
+.letter-writing {
+    position: relative;
+    display: flow-root;
+    line-height: var(--writing-leading);
+    /* 横线只铺在正文区域，并与每一行的行高对应 */
+    background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent calc(var(--writing-leading) - 6px),
+        rgba(113,145,151,.30) calc(var(--writing-leading) - 6px),
+        rgba(113,145,151,.30) calc(var(--writing-leading) - 5px),
+        transparent calc(var(--writing-leading) - 5px),
+        transparent var(--writing-leading)
+    );
+}
+.letter-writing p { text-indent: 0; margin: 0 0 var(--writing-leading); }
+.letter-writing .salutation { margin-bottom: var(--writing-leading); }
+.letter-writing .signature { margin-top: var(--writing-leading); margin-bottom: 0; text-align: right; }
+.letter-writing .date { margin-bottom: 0; color: #8a7770; font-size: .9em; text-align: right; }
 .ending { margin-top: 2.4em !important; }
 .footer {
     padding: 26px 0 34px;
@@ -309,15 +324,16 @@ h1 {
     .embedded-letter {
         margin: 2.5em -5px 2.6em;
         padding: 28px 17px 32px 39px;
-        background-image:
-            linear-gradient(to right, transparent 0, transparent 24px, rgba(164,95,80,.42) 24px, rgba(164,95,80,.42) 25px, transparent 25px),
-            repeating-linear-gradient(to bottom, transparent 0, transparent calc(2em - 1px), rgba(113,145,151,.27) calc(2em - 1px), rgba(113,145,151,.27) 2em);
+        --writing-leading: 2em;
+        background-image: linear-gradient(to right, transparent 0, transparent 24px, rgba(164,95,80,.42) 24px, rgba(164,95,80,.42) 25px, transparent 25px);
     }
+    .letter-writing { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--writing-leading) - 6px), rgba(113,145,151,.30) calc(var(--writing-leading) - 6px), rgba(113,145,151,.30) calc(var(--writing-leading) - 5px), transparent calc(var(--writing-leading) - 5px), transparent var(--writing-leading)); }
+    .letter-writing p { margin-bottom: var(--writing-leading); }
+    .letter-writing .signature { margin-top: var(--writing-leading); margin-bottom: 0; }
     .letter-head { margin-bottom: 20px; gap: 10px; }
     .letter-mark { font-size: 8px; letter-spacing: .12em; }
     .letter-stamp { width: 53px; min-height: 46px; font-size: 6px; }
     .letter-stamp strong { font-size: 15px; }
-    .embedded-letter p { margin-bottom: .9em; }
     .footer-top { gap: 14px; }
     .footer-name { font-size: 16px; }
     .footer-bottom { flex-direction: column; gap: 6px; margin-top: 26px; }
@@ -395,23 +411,25 @@ h1 {
                         <span class="letter-mark">PERSONAL LETTER<br>私人信件 · 请勿遗失</span>
                         <span class="letter-stamp"><span>RETURN MAIL</span><strong>15</strong><span>YEARS LATE</span></span>
                     </div>
-                    <p class="salutation">致十五年前的我：</p>
-                    <p class="salutation">展信佳，</p>
+                    <div class="letter-writing">
+                        <p class="salutation">致十五年前的我：</p>
+                        <p class="salutation">展信佳，</p>
 
-                    <p>发现这封信时我已迟到五年，好在我没有缺席。很抱歉，十五年后的你已不负责任地把这封信忘了，但也许这也会让再次发现它变得更有意义。虽然你大概率看不到这封信，但我还是想说，将时空胶囊藏进存钱罐这个想法烂透了。为什么用“大概率”呢？因为我想给上帝一个机会，也是给我这么蠢的行为（写信给十五年前的自己——你）一个借口，说不定你就看到了呢。</p>
+                        <p>发现这封信时我已迟到五年，好在我没有缺席。很抱歉，十五年后的你已不负责任地把这封信忘了，但也许这也会让再次发现它变得更有意义。虽然你大概率看不到这封信，但我还是想说，将时空胶囊藏进存钱罐这个想法烂透了。为什么用“大概率”呢？因为我想给上帝一个机会，也是给我这么蠢的行为（写信给十五年前的自己——你）一个借口，说不定你就看到了呢。</p>
 
-                    <p>我没有成为一个画师，我甚至已经好久没画过画了，再次抱歉。现在我还没有工作，实际上我打算当个数字游民，也许你没听过这个名词，我的意思是，我要一边工作一边环游世界。</p>
+                        <p>我没有成为一个画师，我甚至已经好久没画过画了，再次抱歉。现在我还没有工作，实际上我打算当个数字游民，也许你没听过这个名词，我的意思是，我要一边工作一边环游世界。</p>
 
-                    <p>天哪，你居然想去交通大学？我又不是上海人（划掉），我就算是上海人也考不进去吧，这怪不了我，谁叫你没有一种名为勤奋的天赋。我现在身边没有很多朋友，高中的朋友都去大城市了，大学的人也是，有些回老家了。宝，我和你的好闺蜜欣欣已经很久没聊天了，她大概换号了，我也不知道她现在有没有开成她的咖啡店。我们从前高中就没联系过了。没关系，相信我，未来你会遇到很多个和欣欣一样好的人。</p>
+                        <p>天哪，你居然想去交通大学？我又不是上海人（划掉），我就算是上海人也考不进去吧，这怪不了我，谁叫你没有一种名为勤奋的天赋。我现在身边没有很多朋友，高中的朋友都去大城市了，大学的人也是，有些回老家了。宝，我和你的好闺蜜欣欣已经很久没聊天了，她大概换号了，我也不知道她现在有没有开成她的咖啡店。我们从前高中就没联系过了。没关系，相信我，未来你会遇到很多个和欣欣一样好的人。</p>
 
-                    <p>中文当然没有变成官方语言了，英语还会成为你未来特牛的科目。我倒是建议你现在多背几个单词，别想什么有的没的。</p>
+                        <p>中文当然没有变成官方语言了，英语还会成为你未来特牛的科目。我倒是建议你现在多背几个单词，别想什么有的没的。</p>
 
-                    <p>每隔半年记得叫妈去做个体检，别舍不得钱，做全面点的，也别嫌周末时间不够。闹离家出走也得让她去体检！还有啊，别什么都往存钱罐里放，我哪稀罕你那些纸币，现在堂食、外卖、用券全用手机支付了好不好，给自己多买点辣条，实在不行搞些压岁钱买金子啊，对，一定得是黄金。</p>
+                        <p>每隔半年记得叫妈去做个体检，别舍不得钱，做全面点的，也别嫌周末时间不够。闹离家出走也得让她去体检！还有啊，别什么都往存钱罐里放，我哪稀罕你那些纸币，现在堂食、外卖、用券全用手机支付了好不好，给自己多买点辣条，实在不行搞些压岁钱买金子啊，对，一定得是黄金。</p>
 
-                    <p>一时间又不知道说什么了，照例信的末尾我该问点什么……那我问你们点课后思考题吧：人生的意义是什么？好了，就祝你天天开心，永不失眠，小学最后几年，且玩且珍惜吧。</p>
+                        <p>一时间又不知道说什么了，照例信的末尾我该问点什么……那我问你们点课后思考题吧：人生的意义是什么？好了，就祝你天天开心，永不失眠，小学最后几年，且玩且珍惜吧。</p>
 
-                    <p class="signature">江逐忆</p>
-                    <p class="date">2026.5.9</p>
+                        <p class="signature">江逐忆</p>
+                        <p class="date">2026.5.9</p>
+                    </div>
                 </section>
 
                 <p>停笔，不觉间四周已一片昏暗，灯没亮，江逐忆瘫在椅背上，盯着纸页，好像已没有力气去开一旁的台灯。</p>
@@ -439,10 +457,9 @@ h1 {
         </div>
         <div class="footer-bottom">
             <span>VESPER'S FANTASY OBSERVATORY</span>
-            <span>SHORT FICTION / NO. 001</span>
+            <span>SHORT FICTION / NO. 004</span>
         </div>
     </footer>
 </div>
 </body>
 </html>
-
