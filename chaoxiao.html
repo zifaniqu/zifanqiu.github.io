@@ -1,1 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e8e5dc">
+<title>潮笑</title>
+
+<style>
+:root {
+    --paper: #e8e5dc;
+    --ink: #292b26;
+    --muted: #77796f;
+    --rule: rgba(60, 60, 50, .25);
+    --accent: #9d554b;
+    --selection-bg: #9d554b;
+    --selection-fg: #fff4ee;
+}
+
+/* 整个页面一起换色，不使用渐变 */
+body.theme-paper {
+    --page-bg: #e8e5dc;
+    --page-ink: #292b26;
+    --muted: #77796f;
+    --rule: rgba(60, 60, 50, .25);
+    --accent: #9d554b;
+    --selection-bg: #9d554b;
+    --selection-fg: #fff4ee;
+}
+
+body.theme-grey {
+    --page-bg: #aaa39e;
+    --page-ink: #302d2b;
+    --muted: #625b57;
+    --rule: rgba(48, 45, 43, .28);
+    --accent: #75454a;
+    --selection-bg: #75454a;
+    --selection-fg: #f5e9e5;
+}
+
+body.theme-wine {
+    --page-bg: #49070d;
+    --page-ink: #f0e6e1;
+    --muted: #c49a95;
+    --rule: rgba(230, 190, 183, .25);
+    --accent: #d7aaa4;
+    --selection-bg: #d7aaa4;
+    --selection-fg: #49070d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background-color: var(--page-bg, var(--paper));
+    color: var(--page-ink, var(--ink));
+    font-family: "Songti SC", "Noto Serif CJK SC", "STSong", "SimSun", serif;
+    line-height: 2.15;
+    overflow-x: clip;
+    transition: background-color .85s ease, color .85s ease;
+}
+
+::selection {
+    background: var(--selection-bg);
+    color: var(--selection-fg);
+}
+
+/* 阅读进度 */
+.progress-track {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 2px;
+    pointer-events: none;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--accent);
+    transition: background-color .85s ease;
+}
+
+/* 顶部档案信息 */
+.site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 27px clamp(22px, 5vw, 76px);
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: .13em;
+    color: var(--muted);
+    transition: color .85s ease;
+}
+
+/* 页面与正文容器 */
+.chapter {
+    position: relative;
+    isolation: isolate;
+    padding: 100px 0 150px;
+    background: transparent;
+}
+
+.chapter--one {
+    padding-bottom: 180px;
+}
+
+.chapter-inner {
+    width: min(1100px, calc(100% - 48px));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 150px minmax(0, 680px);
+    column-gap: clamp(35px, 8vw, 120px);
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* 首屏标题 */
+.hero {
+    grid-column: 1 / -1;
+    min-height: min(680px, 88svh);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0 90px;
+    position: relative;
+}
+
+.hero-meta {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--muted);
+    margin-bottom: 35px;
+    transition: color .85s ease;
+}
+
+.hero-title {
+    margin: 0 0 24px -.07em;
+    font-size: clamp(100px, 19vw, 230px);
+    line-height: .94;
+    font-weight: 400;
+    letter-spacing: -.09em;
+}
+
+.hero-subtitle {
+    font-size: 14px;
+    letter-spacing: .18em;
+    color: var(--muted);
+    transition: color .85s ease;
+}
+
+.hero-bottom {
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--rule);
+    padding-top: 15px;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: .1em;
+    transition: color .85s ease, border-color .85s ease;
+}
+
+.hero-arrow {
+    font-size: 18px;
+    animation: arrow-float 2.5s ease-in-out infinite;
+}
+
+@keyframes arrow-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+
+/* 左侧时间 */
+.chapter-aside {
+    align-self: start;
+    position: sticky;
+    top: 24vh;
+    padding-top: 10px;
+    font-family: Arial, sans-serif;
+    line-height: 1.7;
+    color: var(--page-ink);
+    transition: color .85s ease;
+}
+
+.chapter-time {
+    font-size: 36px;
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -.045em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.chapter-en {
+    margin-top: 12px;
+    font-size: 9px;
+    letter-spacing: .12em;
+    line-height: 1.8;
+    color: var(--muted);
+    transition: color .85s ease;
+}
+
+.aside-line {
+    margin-top: 22px;
+    width: 30px;
+    height: 1px;
+    background: var(--rule);
+    transition: background-color .85s ease;
+}
+
+/* 正文 */
+.story {
+    min-width: 0;
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 2.25;
+    letter-spacing: .025em;
+    overflow-wrap: anywhere;
+}
+
+.story p {
+    margin: 0 0 1.5em;
+}
+
+.story p:last-child {
+    margin-bottom: 0;
+}
+
+/* 中段区域更长，让灰色状态不会一滑就跳过 */
+.chapter--two {
+    min-height: 145svh;
+    padding-top: 120px;
+    padding-bottom: 250px;
+}
+
+.chapter--two .story p {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* 最后一场只保留克制的局部排版 */
+.gaze {
+    margin-top: 2.2em !important;
+    margin-bottom: 2.2em !important;
+    margin-left: 0;
+    padding-left: 18px;
+    border-left: 1px solid var(--rule);
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    transition: border-color .85s ease;
+}
+
+.bloodline {
+    color: var(--accent);
+    transition: color .85s ease;
+}
+
+.fracture {
+    display: block;
+    margin-top: 2em !important;
+    margin-bottom: 2em !important;
+    padding-left: 8%;
+}
+
+/* 结尾不放大 */
+.ending {
+    margin-top: 1.5em !important;
+    margin-bottom: 0 !important;
+    padding: 0;
+    border: 0;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+}
+
+/* 页脚也随整个页面一起变色 */
+.site-footer {
+    position: relative;
+    z-index: 2;
+    padding: 35px clamp(24px, 5vw, 75px) 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid var(--rule);
+    background: transparent;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: .1em;
+    transition: color .85s ease, border-color .85s ease;
+}
+
+.site-footer a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 4px;
+    transition: color .2s ease, border-color .85s ease;
+}
+
+.site-footer a:hover {
+    color: var(--page-ink);
+}
+
+/* 正文轻微显现，不扭曲文字 */
+.reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .65s ease, transform .65s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 移动端 */
+@media (max-width: 700px) {
+    .site-header {
+        padding: 20px 22px;
+        font-size: 9px;
+    }
+
+    .chapter {
+        padding-top: 85px;
+        padding-bottom: 95px;
+    }
+
+    .chapter-inner {
+        width: calc(100% - 44px);
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .hero {
+        min-height: 76svh;
+        padding: 45px 0 85px;
+    }
+
+    .hero-title {
+        font-size: clamp(88px, 27vw, 150px);
+        letter-spacing: -.1em;
+    }
+
+    .hero-meta {
+        font-size: 9px;
+    }
+
+    .hero-subtitle {
+        font-size: 12px;
+    }
+
+    .chapter-aside {
+        position: static;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: 15px;
+        align-items: center;
+        padding: 0 0 18px;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .chapter-time {
+        grid-row: span 2;
+        font-size: 32px;
+    }
+
+    .chapter-en {
+        margin-top: 0;
+        font-size: 8px;
+    }
+
+    .aside-line {
+        display: none;
+    }
+
+    .story {
+        font-size: 15px;
+        line-height: 2.15;
+        letter-spacing: .015em;
+    }
+
+    .chapter--two {
+        min-height: 145svh;
+        padding-top: 85px;
+        padding-bottom: 180px;
+    }
+
+    .chapter--three {
+        padding-top: 95px;
+        padding-bottom: 90px;
+    }
+
+    .gaze {
+        padding-left: 14px;
+    }
+
+    .fracture {
+        padding-left: 4%;
+    }
+
+    .site-footer {
+        padding: 25px 22px 32px;
+        font-size: 9px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition-duration: .01ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+</style>
+</head>
+
+<body class="theme-paper">
+
+<div class="progress-track" aria-hidden="true">
+    <div class="progress-fill"></div>
+</div>
+
+<header class="site-header">
+    <span>FICTION ARCHIVE</span>
+    <span>CLASS 9 · MONDAY</span>
+</header>
+
+<main>
+
+    <!-- 6:55 -->
+    <section class="chapter chapter--one" data-theme="paper">
+        <div class="chapter-inner">
+
+            <header class="hero">
+                <div class="hero-meta">A STORY ABOUT AN ORDINARY MONDAY</div>
+                <h1 class="hero-title">潮笑</h1>
+                <div class="hero-subtitle">短篇小说 / 校园 / 荒诞</div>
+                <div class="hero-bottom">
+                    <span>06:55 — 10:21</span>
+                    <span class="hero-arrow" aria-hidden="true">↓</span>
+                </div>
+            </header>
+
+            <aside class="chapter-aside">
+                <div class="chapter-time">6:55</div>
+                <div>
+                    <div class="chapter-en">THE FIRST LAUGH</div>
+                    <div class="aside-line"></div>
+                </div>
+            </aside>
+
+            <article class="story">
+                <p>这是某个学校初三九班的故事，讲的是一个名叫黄谬、平平无奇的学生度过的普通而麻木的周一。</p>
+
+                <p>“数学试卷要交吗？”黄谬走到座位上，放下书包，转头问他的后桌。</p>
+
+                <p>雷新叶看也不看他：“不知道。”</p>
+
+                <p>黄谬四处又问了问，无果。前桌在抄答案，旁边的白航在发呆。他觉得自讨没趣，便去找课代表了。</p>
+
+                <p>不一会儿，班里突然爆发出一阵笑声。雷新叶抬起头，指向黄谬的前桌，眼睛眯成一条缝。白航不发呆了，在一旁可劲儿地鼓掌，露着牙，作秀似的。</p>
+
+                <p>“咋了？”黄谬发蒙地问了句。</p>
+
+                <p>“凯浩抄作业被抓了。”</p>
+
+                <p>“看门口，齐亮在门口，看到没？”旁边几人兴奋地七嘴八舌。他们个个眼中焕发着光彩，像是中了举的书生，前途无量。</p>
+
+                <p>“齐亮等会儿要把他抓到办公室去，谁想去偷听？”</p>
+
+                <p>“我跟定了！”</p>
+
+                <p>“一起啊。”</p>
+
+                <p>“数学课代表义不容辞！”</p>
+
+                <p>人群中依旧哄笑一片。有人四处打听，笑声又叠加起来，长江后浪推前浪，薪火相传。</p>
+
+                <p>“凯浩被拉走了。”这句话像石子落下，激起涟漪。他的身影从门口消失，教室里仍是一片鸟语花香。</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- 9:37 -->
+    <section class="chapter chapter--two" data-theme="grey">
+        <div class="chapter-inner">
+            <aside class="chapter-aside">
+                <div class="chapter-time">9:37</div>
+                <div>
+                    <div class="chapter-en">CONTAGION</div>
+                    <div class="aside-line"></div>
+                </div>
+            </aside>
+
+            <article class="story">
+                <p class="reveal">升旗仪式上，三九班的人有气无力地唱着国歌。突然，纪律委员笑了一声，歌声也跟着走了调。</p>
+
+                <p class="reveal">这一声就如一颗老鼠屎，搅乱了周围的歌声。全班兴高采烈地大笑着，继续走调地唱着，笑得上气不接下气。</p>
+
+                <p class="reveal">有人憋红了脸，有人露出那空荡荡的牙缝，鼻孔大张；也有人和着歌声，捂住肚子，蹲在地上大笑，嘴里的歌词碎成片段。</p>
+
+                <p class="reveal">一曲结束，余音绕梁，笑声仍时不时蹦出来。</p>
+
+                <p class="reveal">黄谬问纪委：“咋了？你笑啥呢？”</p>
+
+                <p class="reveal">纪委指了指地面：“我踩到一只蜗牛。”</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- 10:21 -->
+    <section class="chapter chapter--three" data-theme="wine">
+        <div class="chapter-inner">
+            <aside class="chapter-aside">
+                <div class="chapter-time">10:21</div>
+                <div>
+                    <div class="chapter-en">THE TARGET</div>
+                    <div class="aside-line"></div>
+                </div>
+            </aside>
+
+            <article class="story">
+                <p class="reveal">语文课上，陈老师叫黄谬站起来发表意见：“众人对孔乙己的笑体现了什么？”</p>
+
+                <p class="reveal">黄谬站起身，停顿了一会儿：“这个……笑体现出当时社会的麻木不仁，也说明……”</p>
+
+                <p class="reveal">台下突然有两个人笑起来。</p>
+
+                <p class="reveal">“咋了？”</p>
+
+                <p class="fracture reveal">“黄谬两个鼻孔不对称！”裘雨皓大声发表自己的独特见解。</p>
+
+                <p class="reveal">众人看向黄谬。无数目光落到他身上，盯着他，刺破他，戏谑地打量着他。</p>
+
+                <p class="reveal">一两秒后，黄谬的耳膜被笑声戳穿，直达听神经。笑声像喷泉一样，从每个人的身体里喷涌出来。</p>
+
+                <p class="reveal">有人笑得口水都流了出来，也有人狂敲桌子。所有人从四面八方以不同的角度扭过头来，正对着他，咧开形态各异的嘴。眼前交织着一片 <span class="bloodline">肉色与血红</span>。</p>
+
+                <p class="gaze reveal">他看见无数个鼻孔在看他——高的、扁的、圆的、方的……</p>
+
+                <p class="reveal">黄谬已经无法思考了。他的嘴被一股无形的力量牵拉起来，肌肉颤抖着，逐渐升温、融化。</p>
+
+                <p class="fracture reveal">他张开嘴，像是快要淹死。</p>
+
+                <p class="ending reveal">他大笑起来，上气不接下气。</p>
+            </article>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <span>潮笑 / END OF RECORD</span>
+    <a href="index.html#collections">返回作品集 ↗</a>
+</footer>
+
+<script>
+/* 随着阅读位置改变整张页面的底色与文字颜色 */
+const chapters = document.querySelectorAll(".chapter[data-theme]");
+
+if ("IntersectionObserver" in window) {
+    const themeObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                document.body.classList.remove("theme-paper", "theme-grey", "theme-wine");
+                document.body.classList.add("theme-" + entry.target.dataset.theme);
+            }
+        });
+    }, {
+        /* 以视口中部作为判断区域，第二段加长后不容易被快速滑过 */
+        rootMargin: "-38% 0px -42% 0px",
+        threshold: 0
+    });
+
+    chapters.forEach((chapter) => themeObserver.observe(chapter));
+}
+
+/* 阅读进度 */
+const progressFill = document.querySelector(".progress-fill");
+
+function updateProgress() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    progressFill.style.width = Math.min(100, Math.max(0, progress)) + "%";
+}
+
+window.addEventListener("scroll", updateProgress, { passive: true });
+window.addEventListener("resize", updateProgress);
+updateProgress();
+
+/* 正文逐渐显现 */
+const revealElements = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.08,
+        rootMargin: "0px 0px -25px 0px"
+    });
+
+    revealElements.forEach((element) => revealObserver.observe(element));
+} else {
+    revealElements.forEach((element) => element.classList.add("visible"));
+}
+</script>
+
+</body>
+</html>
 
