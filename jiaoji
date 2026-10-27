@@ -1,0 +1,590 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f4f7f8">
+<title>交集｜Vesper 的幻想观测局</title>
+<style>
+:root {
+    --paper: #f4f7f8;
+    --ink: #26343b;
+    --muted: #73858e;
+    --blue: #6e8fa1;
+    --blue-light: #b9cbd3;
+    --sun: #d8bd68;
+    --sun-light: #eee2b8;
+    --line: rgba(60, 83, 95, .2);
+    --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+    background: var(--paper);
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--paper);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.topbar {
+    width: min(1120px, calc(100% - 56px));
+    margin: 0 auto;
+    padding: 25px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--sans);
+    color: #637680;
+    font-size: 10px;
+    letter-spacing: .15em;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #8096a1;
+    border-radius: 50%;
+    color: #334b57;
+    font-family: Georgia, serif;
+    font-size: 12px;
+    letter-spacing: -.04em;
+}
+
+.top-link {
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(99, 118, 128, .45);
+    transition: color .2s ease, border-color .2s ease;
+}
+
+.top-link:hover { color: #243b47; border-color: #243b47; }
+
+.hero {
+    width: min(1120px, calc(100% - 56px));
+    margin: 0 auto;
+    padding: clamp(70px, 11vw, 138px) 0 clamp(62px, 8vw, 100px);
+    position: relative;
+}
+
+.hero-kicker {
+    margin-bottom: 26px;
+    color: #71858f;
+    font: 10px/1.6 var(--sans);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    margin: 0 0 22px -5px;
+    color: #263944;
+    font-size: clamp(78px, 13vw, 150px);
+    font-weight: 400;
+    line-height: .98;
+    letter-spacing: .12em;
+}
+
+.hero-subtitle {
+    max-width: 600px;
+    margin: 0;
+    color: #5c707b;
+    font-size: clamp(16px, 2vw, 21px);
+    line-height: 2;
+    letter-spacing: .09em;
+}
+
+.hero-bottom {
+    margin-top: clamp(44px, 7vw, 78px);
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid var(--line);
+    color: #81919a;
+    font: 9px/1.8 var(--sans);
+    letter-spacing: .16em;
+}
+
+.hero-bottom span:last-child { text-align: right; }
+
+.manuscript {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* 两条交织的线：贯穿正文，保持细、淡，不与文字争抢 */
+.thread-ribbon {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: max(12px, calc((100% - 1040px) / 2 + 24px));
+    width: 56px;
+    height: 100%;
+    pointer-events: none;
+    opacity: .72;
+}
+
+.thread-ribbon path {
+    fill: none;
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.thread-a { stroke: #7899aa; }
+.thread-b { stroke: #b6c8cf; }
+
+.story-section {
+    position: relative;
+    z-index: 0;
+}
+
+.story-one { background: #f5f8fa; }
+
+.story-two {
+    background: #f5f2e7;
+}
+
+.story-two::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    width: clamp(150px, 24vw, 300px);
+    aspect-ratio: 1;
+    top: 36px;
+    right: max(20px, calc((100% - 1040px) / 2 + 10px));
+    border-radius: 50%;
+    background: #e6ce7f;
+    opacity: .17;
+    pointer-events: none;
+}
+
+.section-inner {
+    position: relative;
+    z-index: 2;
+    width: min(1040px, 100%);
+    margin: 0 auto;
+    padding: clamp(66px, 8vw, 105px) 30px clamp(78px, 9vw, 112px) 112px;
+}
+
+.section-heading {
+    position: relative;
+    margin-bottom: 48px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--line);
+}
+
+.section-index {
+    display: block;
+    margin-bottom: 15px;
+    color: #8a9ba3;
+    font: 10px/1.5 var(--sans);
+    letter-spacing: .2em;
+}
+
+.section-title {
+    margin: 0;
+    color: #2c414c;
+    font-size: clamp(35px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: .08em;
+}
+
+.story-two .section-title { color: #354c56; }
+
+.section-english {
+    display: block;
+    margin-top: 11px;
+    color: #84949b;
+    font: 10px/1.6 var(--sans);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+
+.story-copy {
+    max-width: 690px;
+    color: #344149;
+    font-size: clamp(15px, 1.45vw, 17px);
+    line-height: 2.28;
+    letter-spacing: .025em;
+}
+
+.story-copy p {
+    margin: 0 0 1.32em;
+    text-indent: 2em;
+}
+
+.story-copy p:last-child { margin-bottom: 0; }
+
+.story-one .story-copy { color: #34434b; }
+.story-two .story-copy { color: #3c4140; }
+
+.story-two .section-index { color: #9a8a5b; }
+.story-two .section-english { color: #92875f; }
+
+.time-gap {
+    min-height: clamp(145px, 20vw, 245px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 20px 0 27px;
+    color: #8398a3;
+}
+
+.time-gap::before,
+.time-gap::after {
+    content: "";
+    width: clamp(35px, 8vw, 100px);
+    height: 1px;
+    background: currentColor;
+    opacity: .42;
+}
+
+.time-gap-symbol {
+    padding: 0 22px;
+    font-family: Georgia, serif;
+    font-size: 14px;
+    letter-spacing: .45em;
+    white-space: nowrap;
+}
+
+.story-two .time-gap { color: #b4a05c; }
+
+.afterword {
+    position: relative;
+    z-index: 0;
+    background: #e9eff1;
+}
+
+.afterword .section-inner {
+    padding-top: clamp(66px, 8vw, 100px);
+    padding-bottom: clamp(78px, 10vw, 125px);
+}
+
+.afterword .section-heading {
+    max-width: 690px;
+    margin-bottom: 32px;
+}
+
+.afterword .section-title { font-size: clamp(30px, 4vw, 43px); }
+
+.afterword .story-copy {
+    max-width: 690px;
+    color: #52646c;
+    font-size: 15px;
+    line-height: 2.35;
+}
+
+.afterword .story-copy p { margin-bottom: 1.2em; }
+
+.end-mark {
+    margin-top: 72px;
+    padding-top: 17px;
+    border-top: 1px solid rgba(78, 101, 112, .22);
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: #81929a;
+    font: 9px/1.8 var(--sans);
+    letter-spacing: .15em;
+}
+
+.footer {
+    width: min(1120px, calc(100% - 56px));
+    margin: 0 auto;
+    padding: 24px 0 32px;
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    color: #83929a;
+    font: 9px/1.8 var(--sans);
+    letter-spacing: .12em;
+}
+
+@media (max-width: 640px) {
+    .topbar,
+    .hero,
+    .footer {
+        width: calc(100% - 36px);
+    }
+
+    .topbar { padding-top: 18px; }
+    .brand-name { font-size: 9px; }
+    .top-link { font-size: 9px; }
+
+    .hero {
+        padding-top: 78px;
+        padding-bottom: 56px;
+    }
+
+    .hero-title {
+        margin-left: -3px;
+        font-size: clamp(76px, 20vw, 112px);
+    }
+
+    .hero-subtitle {
+        font-size: 15px;
+        letter-spacing: .04em;
+    }
+
+    .hero-bottom {
+        align-items: flex-start;
+        font-size: 8px;
+        letter-spacing: .1em;
+    }
+
+    .thread-ribbon {
+        left: 9px;
+        width: 43px;
+        opacity: .55;
+    }
+
+    .section-inner {
+        padding: 62px 22px 78px 76px;
+    }
+
+    .section-heading {
+        margin-bottom: 34px;
+        padding-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: clamp(32px, 9vw, 43px);
+        letter-spacing: .04em;
+    }
+
+    .section-english {
+        font-size: 8px;
+        letter-spacing: .12em;
+    }
+
+    .story-copy {
+        font-size: 15px;
+        line-height: 2.18;
+        letter-spacing: 0;
+    }
+
+    .story-copy p { text-indent: 2em; }
+
+    .time-gap {
+        min-height: 155px;
+        margin: 16px 0 18px;
+    }
+
+    .time-gap-symbol {
+        padding: 0 12px;
+        font-size: 12px;
+        letter-spacing: .25em;
+    }
+
+    .story-two::before {
+        width: 145px;
+        top: 28px;
+        right: -30px;
+    }
+
+    .afterword .section-inner {
+        padding-top: 62px;
+        padding-bottom: 76px;
+    }
+
+    .afterword .story-copy { font-size: 14px; }
+
+    .end-mark,
+    .footer {
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .end-mark { margin-top: 52px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body id="top">
+
+<header class="topbar">
+    <a class="brand" href="#top" aria-label="返回文章顶部">
+        <span class="brand-mark">V.</span>
+        <span class="brand-name">VESPER / FICTION ARCHIVE</span>
+    </a>
+    <a class="top-link" href="index.html#collections">↖ 返回作品索引</a>
+</header>
+
+<section class="hero" aria-labelledby="page-title">
+    <div class="hero-kicker">SHORT FICTION / MEMORY & DISTANCE</div>
+    <h1 class="hero-title" id="page-title">交集</h1>
+    <p class="hero-subtitle">她们相识于溪流，最终涌入茫茫人海。</p>
+    <div class="hero-bottom">
+        <span>VESPER / SHORT FICTION</span>
+        <span>TWO STORIES · YEARS APART</span>
+    </div>
+</section>
+
+<main class="manuscript">
+    <svg class="thread-ribbon" viewBox="0 0 56 2200" preserveAspectRatio="none" aria-hidden="true">
+        <path class="thread-a" d="M17 0 C55 75 55 125 17 200 S-21 325 17 400 S55 525 17 600 S-21 725 17 800 S55 925 17 1000 S-21 1125 17 1200 S55 1325 17 1400 S-21 1525 17 1600 S55 1725 17 1800 S-21 1925 17 2000 S55 2125 17 2200"/>
+        <path class="thread-b" d="M39 0 C1 75 1 125 39 200 S77 325 39 400 S1 525 39 600 S77 725 39 800 S1 925 39 1000 S77 1125 39 1200 S1 1325 39 1400 S77 1525 39 1600 S1 1725 39 1800 S77 1925 39 2000 S1 2125 39 2200"/>
+    </svg>
+
+    <section class="story-section story-one" aria-labelledby="story-one-title">
+        <div class="section-inner">
+            <header class="section-heading">
+                <span class="section-index">01 / MEMORY IN COOL LIGHT</span>
+                <h2 class="section-title" id="story-one-title">补习班同学</h2>
+                <span class="section-english">A CLASSMATE FROM TUTORING SCHOOL</span>
+            </header>
+
+            <article class="story-copy">
+                <p>“你也看这个漫画啊！”程小凤一脸高兴地看向补习班自习室新来的女生，指着她笔袋上的挂件说道。</p>
+
+                <p>陆枫林的脸上闪过一抹惊讶，转而成了含蓄的微笑：“你也看过啊。”</p>
+
+                <p>“我家里有全套的实体漫画哦！”高山流水觅知音，同是小众漫画的读者竟能在如此陋室相遇，程小凤的眼睛眨了眨。</p>
+
+                <p>几天后，在程小凤的实体书诱惑与社牛属性加持下，陆枫林的矜持与她的暑假计划一同化为泡影。自习室没有人管，她们便打牌，下棋，谈天说地，猖狂地打闹，对手机上的帅哥一起露出姨母笑。</p>
+
+                <p>上课铃响起，她们才依依不舍地走向各自的教室，那场面如牛郎织女在鹊桥分别。</p>
+
+                <p>几个学期流水般飞逝，老师换了一批又一批，学生调来调去，每到学期初没剩几个面熟的，而陆枫林，程小凤总默契地在中午于自习室相遇。</p>
+
+                <p>但陆枫林比程小凤大一岁。她要中考了。八升九那个暑假第一天，程小凤坐在偌大的自习室里，发了一下午的呆。</p>
+            </article>
+
+            <div class="time-gap" aria-label="时间流逝">
+                <span class="time-gap-symbol">✦　✦　✦</span>
+            </div>
+
+            <article class="story-copy">
+                <p>今年，程小凤二十九岁。她在下班路上刷着视频，手指一划，下一条视频的标题是：陆枫林女士研发的AKC系统打开情绪调节器的全新赛道，成为世界瞩目的成就！</p>
+
+                <p>程小凤的目光在这个标题上停顿了一下。“陆枫林”这个名字有点耳熟……她似乎在哪里听过。</p>
+
+                <p>是哪呢？她打了个哈欠。</p>
+
+                <p>程小凤刷到的下一条视频是给一只可爱的小猫洗澡。</p>
+
+                <p>少年的热忱像一碟鲜美的火锅蘸料，越蘸越稀。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="story-section story-two" aria-labelledby="story-two-title">
+        <div class="section-inner">
+            <header class="section-heading">
+                <span class="section-index">02 / UNDER THE AFTERNOON SUN</span>
+                <h2 class="section-title" id="story-two-title">Best Friend</h2>
+                <span class="section-english">A PROMISE MADE IN THE SUNLIGHT</span>
+            </header>
+
+            <article class="story-copy">
+                <p>宋欣叉着腰站在陆枫林身侧。</p>
+
+                <p>操场上人影跃动。风凉丝丝的，吹散了炽热的阳光，沉下午后的安宁。</p>
+
+                <p>她们有一搭没一搭地聊着天。</p>
+
+                <p>“枫林，你以后想干什么？”</p>
+
+                <p>“我想去搞科研。”</p>
+
+                <p>“好高级的样子哦！我嘛，可不像你那么崇高，我想开个电玩撸猫馆，在这小县城窝着。”宋欣搭上陆枫林的肩：“等你飞黄腾达了，可别忘了你的欣欣北鼻哦～”</p>
+
+                <p>陆枫林咧嘴笑，那张素白的脸叫人神清气爽：“我要是赚了很多钱”，就来投资你的撸猫馆，做大做强，开到全球各地！你要是不想干了，我还能包养你哦！“</p>
+
+                <p>风在飘荡。</p>
+
+                <p>她们的影子在阳光下重叠。</p>
+
+                <p>时间过得很快，中考倒计时的数字在回忆中像秒针般划过，割开了名为集体的茧，他们在尽头各奔东西。</p>
+
+                <p>高中，宋欣和陆枫林不在同一座城市上学，寒假一到，陆枫林就去找了宋欣玩。</p>
+
+                <p>再后来，她们在老家的商场里偶遇过一次，两人寒暄许久。</p>
+            </article>
+
+            <div class="time-gap" aria-label="时间流逝">
+                <span class="time-gap-symbol">✦　✦　✦</span>
+            </div>
+
+            <article class="story-copy">
+                <p>宋欣今年三十一。她坐在家里，舒舒服服地靠在垫子上，左手撸着猫，右手划着手机。窗子开着。一则新闻映入她的眼帘。</p>
+
+                <p>“陆枫林”这个尘封许久的名字让她猛地一惊。照片上，那张长开了的脸在聚光灯下自信的微笑。</p>
+
+                <p>某一刻，宋欣垂下眼，关上手机，双手捂住脸时，她才发现手已变得冰凉。</p>
+
+                <p>风摇摇欲坠。</p>
+
+                <p>她的影子在发抖。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="afterword" aria-labelledby="afterword-title">
+        <div class="section-inner">
+            <header class="section-heading">
+                <span class="section-index">AFTERWORD / A NOTE TO THE FUTURE</span>
+                <h2 class="section-title" id="afterword-title">后记</h2>
+            </header>
+
+            <article class="story-copy">
+                <p>一篇对于未来的我们的思考。</p>
+
+                <p>快要初中毕业了，之前上了两年的补习班也不去了，其实我对那些认识了两年的补习班朋友很怀念。</p>
+
+                <p>同学录上总堆砌着真挚的话语，但想想小学的同学，现在都不联系了，走在路上相遇时也不交流，虎头蛇尾的关系，明明我们曾如此亲密。</p>
+
+                <p>如果未来注定要将一切淡忘了，就请现在的我为这样的结局提前默哀吧。</p>
+            </article>
+
+            <div class="end-mark">
+                <span>END OF THIS INTERSECTION</span>
+                <span>THE ARCHIVE REMAINS OPEN</span>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <span>仇梓帆 · Vesper Qiu</span>
+    <span><a href="#top">BACK TO TOP ↑</a></span>
+</footer>
+
+</body>
+</html>
+'''
+
+path = Path("/mnt/data/jiaji.html")
+path.write_text(html, encoding="utf-8")
+print(f"已生成：{path}")
+print(f"文件大小：{path.stat().st_size:,} bytes")
