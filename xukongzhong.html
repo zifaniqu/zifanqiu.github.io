@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#111214">
-  <meta name="description" content="《虚空中》——一篇关于地球、孤独与存在的短篇小说。">
   <title>虚空中｜仇梓帆 · Vesper Qiu</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #111214;
+      --background: #111214;
       --text: #d2d2d0;
       --muted: #777b7d;
       --line: #303235;
@@ -20,13 +19,13 @@
     * { box-sizing: border-box; }
 
     html {
+      background: var(--background);
       scroll-behavior: smooth;
-      background: var(--bg);
     }
 
     body {
       margin: 0;
-      background: var(--bg);
+      background: var(--background);
       color: var(--text);
       font-family: var(--serif);
       -webkit-font-smoothing: antialiased;
@@ -35,12 +34,12 @@
 
     a { color: inherit; text-decoration: none; }
 
+    /* 地球固定在浏览器视口中，不属于正文流。 */
     .earth-fixed {
       position: fixed;
       top: 50%;
       right: clamp(18px, 4vw, 64px);
       transform: translateY(-50%);
-      display: block;
       width: clamp(170px, 21vw, 286px);
       height: auto;
       z-index: 0;
@@ -56,7 +55,6 @@
       margin: 0 auto;
     }
 
-    /* 与站点其他短篇页面一致的顶部导航 */
     .topbar {
       min-height: 76px;
       display: flex;
@@ -71,7 +69,7 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
+      color: #c8c8c5;
       font-size: 11px;
       letter-spacing: .14em;
       text-transform: uppercase;
@@ -90,8 +88,6 @@
       flex: 0 0 auto;
     }
 
-    .brand-name { color: #c8c8c5; }
-
     .back-link {
       color: var(--muted);
       font-size: 10px;
@@ -99,11 +95,9 @@
       white-space: nowrap;
     }
 
-    .back-link:hover,
-    .footer-link:hover { color: #ededeb; }
+    .back-link:hover, .footer-link:hover { color: #ededeb; }
 
     .masthead {
-      position: relative;
       padding: 82px 0 52px;
       border-bottom: 1px solid var(--line);
     }
@@ -152,6 +146,7 @@
       overflow-wrap: break-word;
     }
 
+    /* 这四句仍使用正文的字体、字号和颜色，只让段间距逐渐变大。 */
     .fracture-lines {
       margin: 0 0 1.55em;
     }
@@ -161,22 +156,6 @@
     .fracture-lines p:nth-child(2) { margin-bottom: .7em; }
     .fracture-lines p:nth-child(3) { margin-bottom: 1.1em; }
     .fracture-lines p:nth-child(4) { margin-bottom: 1.75em; }
-
-    .siren-fixed {
-      position: fixed;
-      right: 26px;
-      bottom: 22px;
-      z-index: 100;
-      margin: 0;
-      padding: 0;
-      color: #aeb4b4;
-      font: 13px/1.6 var(--serif);
-      letter-spacing: .08em;
-      text-indent: 0;
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
-    }
 
     .afterword {
       width: min(100%, 620px);
@@ -217,13 +196,6 @@
 
     .footer-link { color: #aeb4b4; }
 
-    .load-error {
-      padding: 30px 0;
-      color: #b8a6a6;
-      font: 13px/1.8 var(--sans);
-      text-align: center;
-    }
-
     @media (max-width: 1100px) {
       .earth-fixed {
         width: 150px;
@@ -238,33 +210,23 @@
       .brand { gap: 8px; font-size: 9px; letter-spacing: .09em; }
       .brand-mark { width: 28px; height: 28px; font-size: 14px; }
       .back-link { max-width: 132px; text-align: right; font-size: 8px; letter-spacing: .08em; }
-
       .masthead { padding: 52px 0 38px; }
       .masthead-meta { font-size: 8px; letter-spacing: .14em; }
-      h1 {
-        margin-top: 48px;
-        font-size: clamp(48px, 16vw, 72px);
-      }
-
+      h1 { margin-top: 48px; font-size: clamp(48px, 16vw, 72px); }
       .reading { padding: 48px 0 72px; }
-
       .story p {
         font-size: 16px;
         line-height: 2.02;
         letter-spacing: .01em;
         text-align: left;
       }
-
       .fracture-lines p { text-align: left; }
-
       .earth-fixed {
         width: 92px;
         right: -10px;
         top: 34%;
         opacity: .24;
       }
-
-      .siren-fixed { right: 13px; bottom: 12px; font-size: 11px; }
       .afterword { padding: 34px 0 52px; }
       .afterword p { font-size: 13px; line-height: 1.95; }
       .site-footer { align-items: flex-start; flex-direction: column; gap: 10px; }
@@ -290,22 +252,83 @@
     <header class="masthead">
       <div class="masthead-meta">
         <span>VESPER QIU</span>
-        <span>SHORT FICTION / NO. 007</span>
+        <span>SHORT FICTION</span>
       </div>
       <h1>虚空中</h1>
       <div class="title-rule"></div>
     </header>
 
     <main class="reading">
-      <article class="story" id="story-content" aria-label="虚空中正文"></article>
-
-      <aside class="afterword" id="afterword-content" hidden>
-        <h2>后记</h2>
-      </aside>
-
-      <div class="load-error" id="load-error" hidden>
-        正文暂时无法加载。请确认仓库中存在 file/xukongzhong.txt。
+      <article class="story">
+      <p>“肯瑞里·安德，你在中心广场裸奔，并在标志性建筑佛格喷泉中游泳，严重破坏公共环境，情节恶劣，你有什么想说的吗？”</p>
+      <p>肯瑞里摊在审讯室中央的椅子上，空荡荡的房间内，卡瑟警官毫不掩饰他的打量，严肃且厌恶的目光打压着肯瑞里身周的空荡，使他成为房间的中心，摄像十字瞄准的焦点，蜘蛛网间动弹不得的飞虫。</p>
+      <p>几件单薄的衣服被临时胡乱套到他的身上，衣领可笑地歪向一边。他十指交叠搭在审讯椅的板桌上，眼神涣散，保持着沉默。</p>
+      <p>“作为公司的优秀员工，家中没有任何变故，儿女双全且平日素质良好的公民，你为什么突然在下班时间做出此等恶劣行为？”卡瑟不带任何感情的冰冷问话响彻房间。</p>
+      <p>肯瑞里打了个哈欠，卡瑟甚至能看清他的嗓子缝。肯瑞里非常清楚自己身后电子钟的数字在不断跃动，扣合的手松开，缓慢而小幅度地敲着秒的间奏。</p>
+      <p>“是你参加了什么邪教？”卡瑟不断地问：“妻子出轨？”</p>
+      <p>肯瑞里对此不为所动。</p>
+      <p>“如果你有什么难处，可以说说看，警方不会置之不理的。但如果你一直是这个态度，想想你的家人吧，他们会因为你的过错受尽嘲讽，也许你的女儿会在学校被人称作疯子的种。”</p>
+      <p>他敲击桌面的手顿了一下，好像一个音出错，整首曲子都崩坏了，那只手摊在桌上，指上的婚戒卡得很紧。</p>
+      <p>肯瑞里缓缓地看向警察，这或许是他第一次直视卡瑟。</p>
+      <p>他张开嘴。</p>
+      <p>虚空中。</p>
+      <p>一个淡蓝色的球体悬浮在虚空中，占据了大半视野，四周是黑暗。</p>
+      <p>他花了半分钟意识到一件恐怖的事情，那是地球。那个球体不依托任何力量，在虚空中沉默，僵持。</p>
+      <p>没有太阳，没有月球或别的物体存在了，他低下头甚至看不到自己的身体，仅仅是一片虚空。</p>
+      <p>一开始他惊奇地观察着四周，仔细凝视那一颗星球，深蓝与土绿色混杂在一起，过渡的边界凌乱不堪。</p>
+      <p>某一瞬，肯瑞里发觉自己回不去了，他在黑暗的太空里漂浮，从十米，到一千米、一万米，乃至几万公里，目之所及没有一个活物。只有眼前那个名叫地球的怪物。</p>
+      <p>孤独，与世隔绝的孤独，未知的孤独，没有期限的孤独，让他的心脏猛一缩紧，在真空中绝望又无力地跳动着。</p>
+      <p>他试图移动，却发现自己动不了，或者说他根本不清楚自己是否移动了。他所谓的参照物，那个庞大的怪物，根本不会因为他的移动而放大或缩小，像一个悬在空中的贴图。</p>
+      <p>恐惧，成百上千倍地扩张，挤压，填满他目之所及的真空。</p>
+      <p>混乱的想法，往事，压缩包似的争先恐后挤进他的大脑。</p>
+      <p>他猛然间惊醒。半夜，屋内一片漆黑，窗帘透过一线淡淡的亮光，不知是月光还是路灯。</p>
+      <p>强烈的不真实感袭来。刚才发生的一切，在他的脑子里安了个滚筒洗衣机似的一片混乱。</p>
+      <p>泡沫浮起，涌出，炸裂开，水被排尽，剩下实体的恐惧赤裸裸地亮出来。虚汗黏在他的后背，灯被他打开，妻子被这番动静吵醒：“怎么了？”</p>
+      <p>她睡眼惺忪地看了眼丈夫：“你怎么哭了？”</p>
+      <p>肯瑞里猛地揉了揉眼睛，湿的。</p>
+      <p>妻子有些慌忙地挽住他的手。</p>
+      <p>他靠在床头，妻子的触碰将他拉回现实，但仿佛还有半个自己卡在梦境里，愣神。</p>
+      <p>那个地球，那片虚空成了半透明的质地，留在他的视网膜上，虚空中可怖的沉默好像也粘滞在他的耳膜。</p>
+      <p>“究竟怎么了？”妻子搭上他的后背，眼神清醒过来。</p>
+      <p>肯瑞里摇摇头。手指微微泛白，带着止不住的颤动。</p>
+      <p>那颗球，荧蓝色的球在他面前悬浮，晃不掉，甩不开，像一个禁忌的，幽怨的诅咒。</p>
+      <p>夜还长，他失眠了。</p>
+      <p>肯瑞里靠在床头，妻子无法将他从深深的情绪中唤醒，灯光的打开无法使他的瞳孔产生放大或缩小。</p>
+      <div class="fracture-lines">
+        <p>他看着蓝星。</p>
+        <p>黑暗看着他。</p>
+        <p>黑暗看着他！</p>
+        <p>黑暗看见了他！！！</p>
       </div>
+      <p>他从床上一跃而下，呼吸急促且凌乱，脚步粗重地打开卧室门，室内因开门那一下气压骤然的变化而产生细微的气音，连带着墙壁一同颤动。妻子呆了几秒，掀开被子正欲下床，门口传来一阵撞击声，她慌忙出卧室去看，屋内几堆书全部被推倒，杂七杂八在地上躺着，地上还有一只碎裂的相框，照片上，肯瑞里和妻子亲密地搂着他们的女儿，三个人的脸上是相框玻璃的碎渣。</p>
+      <p>肯瑞里正出手要打翻一只花瓶。</p>
+      <p>妻子眼睁睁看着那花瓶从桌角落下，歪斜着砸向地面，音画不同步地，它碎作一团，发出刺耳的破碎声，而安德太太眼里只有伸出去的那只手。地板不知会不会砸出洞，水淌出，从花瓶碎片中，水渍肉眼可见地生长，断裂，凝缩。</p>
+      <p>她迅速红了眼，泪水在她的嗓子上糊了一层歇斯底里：“你究竟怎么了？肯瑞里！你要逼死我吗？”</p>
+      <p>肯瑞里直勾勾地看向她，那双眼睛陌生得让她害怕，失声，像是见到了一个恶魔。她扶住门框，避开肯瑞里的视线。</p>
+      <p>肯瑞里脚步缓慢地走过，大门吱呀呀开了，他消失在屋外的漆黑里。</p>
+      <p>大街上，他行尸走肉般缓慢地走，一排店铺望过去一片黑洞洞，路灯长久地亮，落在他指上那枚婚戒，反射出银光。路上没有一个行人或是一辆匆匆闪过的车。</p>
+      <p>他只是行走，像是要走向眼前那虚幻又无可摆脱的星球，漫无目的，不理会马路的红绿灯，不理会脚下身旁的街景。</p>
+      <p>恐惧在这样死气沉沉中离开了他。</p>
+      <p>他满脑子只剩下荒唐与绝望。</p>
+      <p>不是觉得自己荒唐，也不是觉得自己甩不开的这个幻象疯狂，他只是觉得，这个世界是荒诞的，他的存在是荒诞的，人类的存在是荒诞的。</p>
+      <p>部落，国家相互厮杀，反侵略的伟大史诗，新思想的热烈觉醒，儿女情长，理想抱负，救济苍生，不过一群寄生虫的自我感动！</p>
+      <p>地球亘古不变，人类的历史不过它的一个小憩，伟大精神与崇高抱负，个人的自我实现，生存与存在，难道不是美味的自我感动？难道不是是茫茫宇宙里的一个笑话？！！</p>
+      <p>哦，人类在地球的土地上，渺小且毫无意义，存在于宇宙间，全部的人类文明会有一个小小的氢原子来的长久吗？我们构建出大厦，城市，飞机和我们的理想，精密得像苍蝇的上百只复眼与内脏，在地球的血肉中高傲自得地喧闹。</p>
+      <p>而我，肯瑞里，我的妻儿，父母，事业，成就，地球上的八十亿人，全部在我眼前这颗悬浮的蓝星上，在宇宙的深远中危险又孤独，可有可无。</p>
+      <p>我所拥有的一切都在宇宙中找不到支点，稀薄得像宇宙的密度，在地球四周的黑暗中如过眼云烟随时要散开去。</p>
+      <p>现在是下午五点。肯瑞里脚步麻木，眼神晦暗。</p>
+      <p>他的胡子刮得干干净净，胡渣都没冒出头。可他此时的头发却凌乱地打卷。</p>
+      <p>也许他走了十七个小时？或许更多，他一概不知。他抬起头，眼前是优雅的喷泉，背景里人来人往的市中心，人群的嘈杂，他恍若未闻，像是全宇宙只有他一个清醒着，孤独且平静。</p>
+      <p>他全身赤裸，却觉得自己比之前三十多年的每一刻都更清醒。</p>
+      <p>警笛声响起。</p>
+      </article>
+
+      <aside class="afterword">
+        <h2>后记</h2>
+      <p>听说宇航员在亲眼看见地球的全貌后，往往会产生强烈的感触。回到地球后，有些人可能会经历认知上的动摇，陷入对生活意义的怀疑（总观效应）。</p>
+      <p>以此为切口，衍生出对这篇小说的想象。</p>
+      <p>文中肯瑞里的思想与经历不代表作者本人的价值观。</p>
+      </aside>
     </main>
 
     <footer class="site-footer">
@@ -313,74 +336,5 @@
       <a class="footer-link" href="index.html#collections">↖ 返回作品索引</a>
     </footer>
   </div>
-
-  <script>
-    const storyRoot = document.getElementById("story-content");
-    const afterwordRoot = document.getElementById("afterword-content");
-    const loadError = document.getElementById("load-error");
-
-    const fractureLines = [
-      "他看着蓝星。",
-      "黑暗看着他。",
-      "黑暗看着他！",
-      "黑暗看见了他！！！"
-    ];
-
-    function addParagraph(parent, text) {
-      const p = document.createElement("p");
-      p.textContent = text;
-      parent.appendChild(p);
-    }
-
-    fetch("./file/xukongzhong.txt")
-      .then(response => {
-        if (!response.ok) throw new Error("Text file not found");
-        return response.text();
-      })
-      .then(rawText => {
-        const blocks = rawText
-          .replace(/^\uFEFF/, "")
-          .replace(/\r\n?/g, "\n")
-          .trim()
-          .split(/\n\s*\n/)
-          .map(block => block.trim())
-          .filter(Boolean);
-
-        let inAfterword = false;
-
-        for (let i = 0; i < blocks.length; i++) {
-          const block = blocks[i];
-
-          if (block === "后记") {
-            inAfterword = true;
-            afterwordRoot.hidden = false;
-            continue;
-          }
-
-          if (block === "警笛声响起。") {
-            const siren = document.createElement("div");
-            siren.className = "siren-fixed";
-            siren.textContent = block;
-            storyRoot.appendChild(siren);
-            continue;
-          }
-
-          if (!inAfterword &&
-              fractureLines.every((line, offset) => blocks[i + offset] === line)) {
-            const group = document.createElement("div");
-            group.className = "fracture-lines";
-            fractureLines.forEach(line => addParagraph(group, line));
-            storyRoot.appendChild(group);
-            i += fractureLines.length - 1;
-            continue;
-          }
-
-          addParagraph(inAfterword ? afterwordRoot : storyRoot, block);
-        }
-      })
-      .catch(() => {
-        loadError.hidden = false;
-      });
-  </script>
 </body>
 </html>
